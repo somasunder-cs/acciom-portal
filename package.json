@@ -1,7 +1,7 @@
 {
-    "name": "react-bolt",
+    "name": "Acciom",
     "version": "1.0.0",
-    "description": "⚡ The most simple & robust boilerplate for your React projects.",
+    "description": "Acciom",
     "main": "src/index.js",
     "scripts": {
         "start": "cross-env NODE_ENV=development webpack-dev-server --open",
@@ -23,16 +23,8 @@
         "starter",
         "boilerplate"
     ],
-    "author": "Leonardo Maldonado <leonardomso11@gmail.com>",
+    "author": "Somasunder CS",
     "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/leonardomso/react-bolt.git"
-    },
-    "bugs": {
-        "url": "https://github.com/leonardomso/react-bolt/issues"
-    },
-    "homepage": "https://github.com/leonardomso/react-bolt#readme",
     "devDependencies": {
         "@babel/cli": "^7.4.3",
         "@babel/core": "^7.4.3",
