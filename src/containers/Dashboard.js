@@ -3,6 +3,7 @@ import { connect  } from 'react-redux';
 import ReactDOM from 'react-dom';
 import CardContainer from './CardContainers';
 import TimeLineComponent from './Timeline';
+import DQIContainer from './DQIContainer'
 import { getOrgDataQuality } from '../middleware';
 
 const loadDashBoardData = (props) => {
@@ -21,6 +22,7 @@ class Dashboard extends React.Component {
 			<div>
 				<CardContainer />
 				<TimeLineComponent />
+				< DQIContainer />
 			</div>
 		)
 	}
