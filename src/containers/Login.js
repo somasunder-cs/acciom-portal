@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { Row, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
-// import { isEmail, isEmpty, isLength, isContainWhiteSpace } from '../shared/validator';
+import { isEmail, isEmpty, isLength, isContainWhiteSpace } from '../shared/validator';
  
-import './login.scss';
 import styled from 'styled-components';
 
-// import { loginToPortal } from '../middleware';
+import { loginToPortal } from '../middleware';
 
 // const FormContainer = styled.div`
-
 // `;
 
 class Login extends Component {
@@ -23,6 +21,13 @@ class Login extends Component {
 			formSubmitted: false, // Indicates submit status of login form 
 			loading: false // Indicates in progress state of login form
 		}
+	}
+
+	static getDerivedStateFromProps = (nextProps) => {
+		if (nextProps.loginData.uid) {
+			nextProps.history.push('./startup');
+		}
+		return null;
 	}
 
 	handleInputChange = ({target}) => {
@@ -50,28 +55,25 @@ class Login extends Component {
 
 		if (isEmpty(formData.password)) {
 			errors.password = "Password can't be blank";
-		}  else if (isContainWhiteSpace(formData.password)) {
+		} else if (isContainWhiteSpace(formData.password)) {
 			errors.password = "Password should not contain white spaces";
 		} else if (!isLength(formData.password, { gte: 6, lte: 16, trim: true })) {
 			errors.password = "Password's length must between 6 to 16";
 		}
 
 		if (isEmpty(errors)) {
-			console.log(this.props);
-			this.props.loginToPortal({})
 			return true;
 		} else {
 			return errors;
-		}    
+		}
 	}
 
 	login = (e) => {		
 		e.preventDefault();
 		const errors = this.validateLoginForm();
 
-		if(errors === true){
-			// alert("You are successfully signed in...");
-			window.location.reload();
+		if (errors === true){
+			this.props.loginToPortal(this.state.formData);
 		} else {
 			this.setState({
 				errors,
@@ -85,7 +87,7 @@ class Login extends Component {
 		const { errors, formSubmitted } = this.state;
 
 		return (
-			<div className="Login">
+			<div className="loginForm">
 				<Row>
 					Login form 
 					<form onSubmit={this.login}>
@@ -111,15 +113,12 @@ class Login extends Component {
 	}
 }
 
-// const mapStateToProps = function (state) {
-// 	console.log("Login.state", state);
-// 	return {
-// 		loginData: state.`loginData`
-// 	}
-// };
+const mapStateToProps = (state) => {
+	return {
+		loginData: state.testSuites.loginData
+	};
+};
 
-// export default connect(mapStateToProps, {
-// 	loginToPortal
-//   })(Login);
-
-export default Login;
+export default connect(mapStateToProps, {
+	loginToPortal
+})(Login);

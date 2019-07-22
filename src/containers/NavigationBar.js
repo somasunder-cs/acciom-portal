@@ -82,6 +82,12 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  loginbtn : {
+	position: 'absolute',
+	right: '20px',
+	color: 'white',
+    fontSize: '16px'
+  }
 }));
 
 function HomeIcon(props) {
@@ -129,6 +135,7 @@ function NavigationBar() {
 					<Typography variant="h6" noWrap>
 						Acciom
 					</Typography>
+					<Link to={`/login`} className={classes.loginbtn}>Login</Link>
 					</Toolbar>
 				</AppBar>
 				<Drawer
@@ -157,7 +164,7 @@ function NavigationBar() {
 							<ListItemIcon>
 								<HomeIcon className={classes.icon} color="primary" />
 							</ListItemIcon>
-								<Link to={`/`}> Dashboard </Link> <br />
+								<Link to={`/dashboard`}> Dashboard </Link> <br />
 							</MenuItem>
 							<MenuItem>
 							<ListItemIcon>
@@ -171,12 +178,6 @@ function NavigationBar() {
 							</ListItemIcon>
 								<Link to={`/startup`}>Startup</Link>
 							</MenuItem>
-							<MenuItem>
-							<ListItemIcon>
-								<DraftsIcon />
-							</ListItemIcon>
-								<Link to={`/login`}>Login</Link>
-							</MenuItem>							
 						</MenuList>
 					</List>
 				</Drawer>

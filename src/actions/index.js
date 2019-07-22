@@ -17,7 +17,9 @@ import {
 	GET_DB_DETAILS_BY_ID_ERROR,
 	UPDATE_DB_DETAILS_SUCCESS,
 	UPDATE_DB_DETAILS_ERROR,
-	GET_TESTCASE_LOG_BY_ID_SUCCESS
+	GET_TESTCASE_LOG_BY_ID_SUCCESS,
+	GET_ORG_DATA_QUALITY_ERROR,
+	GET_ORG_DATA_QUALITY_SUCCESS
 } from "../constants/ActionTypes"; 
 
 export const loginToPortalSuccess = data =>({
@@ -117,5 +119,15 @@ export const getTestCaseLogByIdSuccess = data => ({
 
 export const getTestCaseLogByIdError = error => ({
 	type: GET_ALL_CONNECTIONS_ERROR,
+	error
+});
+
+export const getOrgDataQualitySuccess = response => ({
+	type: GET_ORG_DATA_QUALITY_SUCCESS,
+	data: response.data
+});
+
+export const getOrgDataQualityError = error => ({
+	type: GET_ORG_DATA_QUALITY_ERROR,
 	error
 });

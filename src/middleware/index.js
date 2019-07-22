@@ -1,7 +1,8 @@
 /**
  * Mocking client-server processing
  */
-import _testSuitesData from './testSuitesData.json';
+import _testSuitesData from '../json/test-suites-data.json';
+import _orgDataQuality from '../json/org-data-quality.json';
 
 import {
 	loginToPortalSuccess,
@@ -23,42 +24,60 @@ import {
 	updateDBDetailsError,
 	updateDBDetailsSuccess,
 	getTestCaseLogByIdSuccess,
-	getTestCaseLogByIdError
+	getTestCaseLogByIdError,
+	getOrgDataQualitySuccess,
+	getOrgDataQualityError
 } from '../actions';
 
 const headers = {
 	'Accept': 'application/json, text/plain, */*',
-	'Content-Type': 'application/json'
+	'Content-Type': 'application/json',
+	'Authorization':''
 };
 const TIMEOUT = 100;
 const BASE_URL= '/api';
 
 
-export const loginToPortal = () => dispatch => {
-	fetch(`${BASE_URL}/login`, {
-		method: 'post',
-		headers,
-		body: {}
-	})
-		.then(res => res.json())
-		.then(res => {
-			if(res.error) {
-				dispatch(loginToPortalError(res.error));
-			}
-			dispatch(loginToPortalSuccess(res.data));
-		})
-		.catch(error => {
-			dispatch(loginToPortalError(error));
-		});
+const updateHeaders = () => {
+	headers.Authorization = localStorage.getItem('id_token');
+};
+
+export const loginToPortal = (loginData) => dispatch => {
+	loginData = {
+		access_token:"asdssdfsdfsfsfsfsdfsdfsfsdfasds",
+		user: "justsoma",
+		uid:"soma131231",
+		refresh_token:"asdafghfhfhfghfghfghfg",
+		name: "Somasunder CS"
+	}
+	setTimeout(() => {
+		dispatch(loginToPortalSuccess(loginData));
+	}, TIMEOUT);
+
+	// fetch(`${BASE_URL}/login`, {
+	// 	method: 'post',
+	// 	headers,
+	// 	body: loginData
+	// })
+	// 	.then(res => res.json())
+	// 	.then(res => {
+	// 		if(res.error) {
+	// 			dispatch(loginToPortalError(res.error));
+	// 		}
+	// 		dispatch(loginToPortalSuccess(res.data));
+	// 	})
+	// 	.catch(error => {
+	// 		dispatch(loginToPortalError(error));
+	// 	});
 }
 
-export const getAllTestSuites = () => dispatch => {
-	setTimeout(function() {
-		console.log('MW.getAllTestSuites()  inside timeout');
+export const getAllTestSuites = () => (dispatch, getState)  => {
+	setTimeout(() => {
+		console.log('getAllTestSuites ', getState());
 		dispatch(getAllTestSuitesSuccess(_testSuitesData));
 	}, TIMEOUT);
 
-	// fetch(`${this.url}/test-suite`, {
+	// fetch(`${BASE_URL}/test-suite`, {
 	// 	method: 'get',
 	// 	headers
 	// })
@@ -76,7 +95,7 @@ export const getAllTestSuites = () => dispatch => {
 };
 
 export const executeTestBySuiteId = (suiteID) => dispatch => {
-	fetch(`${this.url}/test-case-job/`, {
+	fetch(`${BASE_URL}/test-case-job/`, {
 		method: 'post',
 		headers,
 		body: {'suite_id': suiteID}
@@ -94,7 +113,7 @@ export const executeTestBySuiteId = (suiteID) => dispatch => {
 };
 
 export const executeTestByCaseId = (caseID) => dispatch => {
-	fetch(`${this.url}/test-case-job/`, {
+	fetch(`${BASE_URL}/test-case-job/`, {
 		method: 'post',
 		headers,
 		body: {'case_id': caseID}
@@ -112,7 +131,7 @@ export const executeTestByCaseId = (caseID) => dispatch => {
 };
 
 export const getAllConnections = (suiteID) => dispatch => {
-	fetch(`${this.url}/connection-detail/${suiteID}`, {
+	fetch(`${BASE_URL}/connection-detail/${suiteID}`, {
 		method: 'get',
 		headers
 	})
@@ -129,7 +148,7 @@ export const getAllConnections = (suiteID) => dispatch => {
 };
 
 export const selectConnections = (type, cases, connectionID) => dispatch => {
-	fetch(`${this.url}/select-connection`, {
+	fetch(`${BASE_URL}/select-connection`, {
 		method: 'post',
 		headers,
 		body: {
@@ -151,7 +170,7 @@ export const selectConnections = (type, cases, connectionID) => dispatch => {
 };
 
 export const getAllDBDetails = () => dispatch => {
-	fetch(`${this.url}/db-detail`, {
+	fetch(`${BASE_URL}/db-detail`, {
 		method: 'get',
 		headers
 	})
@@ -168,7 +187,7 @@ export const getAllDBDetails = () => dispatch => {
 };
 
 export const getDBDetailsById = (dbID) => dispatch => {
-	fetch(`${this.url}/db-detail/${dbID}`, {
+	fetch(`${BASE_URL}/db-detail/${dbID}`, {
 		method: 'get',
 		headers
 	})
@@ -185,7 +204,7 @@ export const getDBDetailsById = (dbID) => dispatch => {
 };
 
 export const updateDBDetails = (dbID, formData) => dispatch => {
-	fetch(`${this.url}/db-detail-update/${dbID}`, {
+	fetch(`${BASE_URL}/db-detail-update/${dbID}`, {
 		method: 'put',
 		headers,
 		body: formData
@@ -203,7 +222,7 @@ export const updateDBDetails = (dbID, formData) => dispatch => {
 };
 
 export const getTestCaseLogById = (logID) => dispatch => {
-	fetch(`${this.url}/test-case-log/${logID}/`, {
+	fetch(`${BASE_URL}/test-case-log/${logID}/`, {
 		method: 'get',
 		headers
 	})
@@ -217,4 +236,25 @@ export const getTestCaseLogById = (logID) => dispatch => {
 		.catch(error => {
 			dispatch(getTestCaseLogByIdError(error));
 		});
+};
+
+export const getOrgDataQuality = () => dispatch => {
+	setTimeout(() => {
+		dispatch(getOrgDataQualitySuccess(_orgDataQuality));
+	}, TIMEOUT);
+
+	// fetch(`${BASE_URL}/organization-data-quality-index`, {
+	// 	method: 'get',
+	// 	headers
+	// })
+	// 	.then(res => res.json())
+	// 	.then(res => {
+	// 		if(res.error) {
+	// 			dispatch(getOrgDataQualityError(res.error));
+	// 		}
+	// 		dispatch(getOrgDataQualitySuccess(res.data));
+	// 	})
+	// 	.catch(error => {
+	// 		dispatch(getOrgDataQualityError(error));
+	// 	});
 };
