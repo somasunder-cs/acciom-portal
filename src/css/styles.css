@@ -4303,4 +4303,15 @@ html
 .donut {
     width: 300px;
     display: inline-block;
+    padding-top: 35px;
+}
+
+.donutContent li{
+    width: 50%;
+    display: contents;
+}
+
+.chartProjectName {
+    color: #000 !important;
+    padding-left: 8px;
 }

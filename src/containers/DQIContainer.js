@@ -2,7 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import DonutChart from '../components/DonutChart'
 
-function DQIContainer () {
+function DQIContainer (props) {
+    console.log("DQIContainer=", props);
+
+    const getDonutCharts = () => {
+      let chartList = [];
+      if (props.orgDataQuality.projects) {
+        chartList =  props.orgDataQuality.projects.map(function(item, index){
+          return (<li key={ index }><DonutChart chartData={item}/></li>);
+        })
+      }
+      return chartList;
+    };
+
     return (
         <div className="col-md-8 col-sm-8 col-xs-12">
           <div className="x_panel tile overflow_hidden">
@@ -24,7 +36,9 @@ function DQIContainer () {
                 </li>
               </ul>
               <div className="clearfix"></div>
-              <DonutChart />
+              <ul className="donutContent">
+              {getDonutCharts()}
+              </ul>
             </div>
           </div>
          
