@@ -12,7 +12,7 @@ function CardContainer () {
 };
 
 const mapStateToProps = state => {
-	console.log("CardContainer.state==>", state);
+	// console.log("CardContainer.state==>", state);
 	return {
 		orgDataQuality: state.testSuites.orgDataQuality
 	};
