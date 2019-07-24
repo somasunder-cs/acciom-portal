@@ -4,12 +4,18 @@ import DonutChart from '../components/DonutChart'
 
 function DQIContainer (props) {
     console.log("DQIContainer=", props);
+    const colorsArray = [
+      ['#99cc00', '#cc9900'],
+      ['#cc00cc', '#ffddff'],
+      ['#131386', '#ff00dd'],
+      ['#0000ff', '#ff00aa'],
+    ];
 
     const getDonutCharts = () => {
       let chartList = [];
       if (props.orgDataQuality.projects) {
         chartList =  props.orgDataQuality.projects.map(function(item, index){
-          return (<li key={ index }><DonutChart chartData={item}/></li>);
+          return (<li key={ index }><DonutChart chartindex={index} chartData={item} colors={colorsArray[index]}/></li>);
         })
       }
       return chartList;

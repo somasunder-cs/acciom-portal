@@ -4304,6 +4304,7 @@ html
     width: 300px;
     display: inline-block;
     padding-top: 35px;
+    text-align: center;
 }
 
 .donutContent li{
@@ -4314,4 +4315,5 @@ html
 .chartProjectName {
     color: #000 !important;
     padding-left: 8px;
+    font-weight: bold;
 }
