@@ -20,6 +20,8 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import AcciomLogo from '../assets/images/Acciom Logo 1.jpeg';
+import Icon from '@material-ui/core/Icon';
 
 const drawerWidth = 240;
 
@@ -85,8 +87,23 @@ const useStyles = makeStyles(theme => ({
   loginbtn : {
 	position: 'absolute',
 	right: '20px',
-	color: 'white',
+	color: 'cadetblue',
     fontSize: '16px'
+  },
+  dashboard : {
+	  color: 'white'
+  },
+  home : {
+	  color: 'white'
+  },
+  startup : {
+	  color: 'white'
+  },
+  acciom : {
+	  color: 'cadetblue'
+  },
+  acciomimg : {
+	  width: '70px'
   }
 }));
 
@@ -111,6 +128,9 @@ function NavigationBar() {
 			setOpen(false);
 		}
 
+		function handleHomeIcon () {
+			console.log('HomeIcon clicked...');
+		}
 		return (
 			<div className={classes.root}>
 				<CssBaseline />
@@ -132,7 +152,10 @@ function NavigationBar() {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap>
+					{/* <div>
+						<img src= {AcciomLogo}  className={classes.acciomimg}/>
+					</div> */}
+					<Typography variant="h6" noWrap className={classes.acciom}>
 						Acciom
 					</Typography>
 					<Link to={`/login`} className={classes.loginbtn}>Login</Link>
@@ -162,21 +185,30 @@ function NavigationBar() {
 						<MenuList>
 							<MenuItem>
 							<ListItemIcon>
-								<HomeIcon className={classes.icon} color="primary" />
+								{/* <HomeIcon className={classes.icon} color="primary" /> */}
+								<Link to= {'/dashboard'} color= 'primary' >
+									<Icon className={clsx(classes.icon, 'fas fa-business-time fa-2x')} color="primary" />	
+								</Link>
 							</ListItemIcon>
-								<Link to={`/dashboard`}> Dashboard </Link> <br />
+								<Link to={`/dashboard`} className = {classes.dashboard}> Dashboard </Link> <br />
+							</MenuItem>
+							<MenuItem>
+							<ListItemIcon >
+							<Link to={`/home`} className = {classes.home}>
+								<Icon className={clsx(classes.icon, 'fas fa-home fa-2x')} color="primary" />  
+							</Link> 
+								{/* <Link to= {'/home'} className={classes.icon}color='primary'></Link> */}
+							</ListItemIcon>
+								<Link to={`/home`} className = {classes.home}> Home </Link> <br />
 							</MenuItem>
 							<MenuItem>
 							<ListItemIcon>
-								<PriorityHighIcon />
+							<Link to ={`/startup`} className = {classes.startup}>
+								<Icon className={clsx(classes.icon, 'fas fa-signal fa-2x')} color="primary" />
+							</Link>
+								{/* <DraftsIcon className={classes.icon} color="primary"/> */}
 							</ListItemIcon>
-								<Link to={`/home`}> Home </Link> <br />
-							</MenuItem>
-							<MenuItem>
-							<ListItemIcon>
-								<DraftsIcon />
-							</ListItemIcon>
-								<Link to={`/startup`}>Startup</Link>
+								<Link to={`/startup`} className = {classes.startup}>Startup</Link>
 							</MenuItem>
 						</MenuList>
 					</List>
