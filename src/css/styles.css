@@ -4317,3 +4317,8 @@ html
     padding-left: 8px;
     font-weight: bold;
 }
+
+.MuiIcon-root {
+    width: 1.2em !important;
+    color: white !important;
+}
