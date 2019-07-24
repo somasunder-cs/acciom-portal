@@ -7,7 +7,8 @@ import {
 	GET_TESTCASE_LOG_BY_ID_SUCCESS,
 	LOGIN_TO_PORTAL_SUCCESS,
 	LOGIN_TO_PORTAL_ERROR,
-	GET_ORG_DATA_QUALITY_SUCCESS
+	GET_ORG_DATA_QUALITY_SUCCESS,
+	TEST_SUITE_FILE_UPLOAD_SUCCESS
 } from '../constants/ActionTypes';
 
 import { browserHistory } from 'react-router';
@@ -27,6 +28,7 @@ const storeUserData = ({access_token, user, uid, refresh_token, name }) => {
 };
 
 const testSuites = (state = initialState, action) => {
+	let sheets = [];
 	switch (action.type) {
 	case LOGIN_TO_PORTAL_SUCCESS:
 		storeUserData(action.data);
@@ -41,7 +43,6 @@ const testSuites = (state = initialState, action) => {
 			...state
 		};	
 	case GET_ALL_TEST_SUITES_SUCCESS:
-		// console.log('reducer: testSuites.LOAD_TEST_SUITES ==>', action);
 		return {
 			...state,
 			testSuiteList: action.testSuiteList
@@ -91,8 +92,26 @@ const testSuites = (state = initialState, action) => {
 			orgDataQuality: action.data
 		};
 
+	case TEST_SUITE_FILE_UPLOAD_SUCCESS:
+		sheets = action.sheets.map((sheet) => {
+			return { name: sheet, selected: false };
+		});
+		return {
+			...state,
+			testSuiteUploadData: {
+				sheets
+			}
+		};
+	
+	case 'TEST_SUITE_SHEET_SELECT':
+		sheets = [{name: action.sheet.name, selected:!action.sheet.selected}];
+		return {
+			...state,
+			testSuiteUploadData: {
+				sheets
+			}
+		}
 	default:
-		// console.log('reducer: testSuites.default ==>');
 		return state;
 	 }
 };

@@ -19,7 +19,8 @@ import {
 	UPDATE_DB_DETAILS_ERROR,
 	GET_TESTCASE_LOG_BY_ID_SUCCESS,
 	GET_ORG_DATA_QUALITY_ERROR,
-	GET_ORG_DATA_QUALITY_SUCCESS
+	GET_ORG_DATA_QUALITY_SUCCESS,
+	TEST_SUITE_FILE_UPLOAD_SUCCESS
 } from "../constants/ActionTypes"; 
 
 export const loginToPortalSuccess = data =>({
@@ -130,4 +131,19 @@ export const getOrgDataQualitySuccess = response => ({
 export const getOrgDataQualityError = error => ({
 	type: GET_ORG_DATA_QUALITY_ERROR,
 	error
+});
+
+export const testSuiteFileUploadSuccess = sheets => ({
+	type: TEST_SUITE_FILE_UPLOAD_SUCCESS,
+	sheets
+});
+
+export const onTestSuiteSheetSelect = (sheet) => ({
+	type: 'TEST_SUITE_SHEET_SELECT',
+	sheet
+})
+
+export const testSuiteSheetloadSuccess = sheetData => ({
+	type: TEST_SUITE_SHEET_LOAD_SUCCESS,
+	sheetData
 });

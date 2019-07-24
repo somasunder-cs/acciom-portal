@@ -31,20 +31,19 @@ class Login extends Component {
 	}
 
 	handleInputChange = ({target}) => {
-		const value = target.value;
-		const name = target.name;
+		const { value, name } = target;
 
 		const { formData } = this.state;
 		formData[name] = value;
 
 		this.setState({
-			formData: formData
+			formData
 		});
 	}
 
 	validateLoginForm = (e) => {
 		
-		let errors = {};
+		const errors = {};
 		const { formData } = this.state;
 
 		if (isEmpty(formData.email)) {
