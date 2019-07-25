@@ -26,7 +26,8 @@ import {
 	HIDE_CASE_LOG_DIALOG,
 	VIEW_TEST_CASE,
 	HIDE_TEST_CASE_DIALOG,
-	SHOW_TEST_CASE_EDIT_ENABLED
+	SHOW_TEST_CASE_EDIT_ENABLED,
+	TEST_SUITE_FILE_UPLOAD_SUCCESS
 } from "../constants/ActionTypes"; 
 
 export const loginToPortalSuccess = data =>({
@@ -143,6 +144,7 @@ export const getOrgDataQualityError = error => ({
 	error
 });
 
+
 export const manageConnectionsCaseUpdate = data => ({
 	type: MANAGE_CONNECTIONS_CASE_UPDATE,
 	data
@@ -168,4 +170,18 @@ export const hideTestCaseDialog = () => ({
 
 export const showTestCaseEditEnabled = () => ({
 	type: SHOW_TEST_CASE_EDIT_ENABLED
+});
+export const testSuiteFileUploadSuccess = sheets => ({
+	type: TEST_SUITE_FILE_UPLOAD_SUCCESS,
+	sheets
+});
+
+export const onTestSuiteSheetSelect = (sheet) => ({
+	type: 'TEST_SUITE_SHEET_SELECT',
+	sheet
+})
+
+export const testSuiteSheetloadSuccess = sheetData => ({
+	type: TEST_SUITE_SHEET_LOAD_SUCCESS,
+	sheetData
 });

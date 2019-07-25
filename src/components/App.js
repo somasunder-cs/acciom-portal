@@ -7,6 +7,7 @@ import Home from '../containers/Home';
 import Dashboard from '../containers/Dashboard';
 import NavigationBar from '../containers/NavigationBar';
 import Login from '../containers/Login';
+import DQIDetailsComponent from './DQIProjectDetails'
 
 const RootContainer = styled.div`
 	font-size: 2rem;	
@@ -38,6 +39,7 @@ const App = () => (
 				<Route path="/startup" component={Startup} />
 				<Route path="/home" component={Home} />
 				<Route path="/login" component={Login} />
+				<Route path="/dqi_details" component={DQIDetailsComponent} />
 			</Content>
 		</Router>
 	</RootContainer>

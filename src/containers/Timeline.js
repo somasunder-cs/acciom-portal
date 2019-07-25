@@ -1,15 +1,12 @@
 import React from 'react';
-import '../css/Timeline.css';
-
 
 
 function TimeLineComponent() {
     return (
-        <div className="row">
             <div className="col-md-4 col-sm-4 col-xs-12">
               <div className="x_panel">
                 <div className="x_title">
-                  <h2>Recent Activities <small>Sessions</small></h2>
+                  <h2 className="activityHeading">Recent Activities <small>Sessions</small></h2>
                   <ul className="nav navbar-right panel_toolbox">
                     <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
                     </li>
@@ -22,7 +19,7 @@ function TimeLineComponent() {
                         </li>
                       </ul>
                     </li>
-                    <li><a className="close-link"><i className="fa fa-close"></i></a>
+                    <li><a className="close-link"><i className="fas fa-times"></i></a>
                     </li>
                   </ul>
                   <div className="clearfix"></div>
@@ -92,7 +89,6 @@ function TimeLineComponent() {
                 </div>
               </div>
             </div>
-        </div>
     )
 }
 

@@ -9,5 +9,9 @@
 }
 
 .eScNsh {
-    font-size: 0rem !important;
+    font-size: 0.9rem !important;
+}
+
+.cardBox {
+    width: 30%;
 }

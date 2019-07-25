@@ -4267,6 +4267,7 @@ html
    }
    /** /bootstrap-datetimepicker **/
 
+
    /** Manage Connections **/
    .MuiDialogWidth .MuiDialog-paperWidthSm {
        width: 600px !important;
@@ -4280,4 +4281,54 @@ html
        padding: 2px !important;
    }
 
+
+.MuiSvgIcon-colorPrimary {
+    color: #E7E7E7 !important;
+}
+
+.MuiDrawer-paperAnchorLeft {
+    background: #2A3F54 !important;
+}
+
+.MuiListItemIcon-root a {
+    color: #E7E7E7 !important;
+}
+
+.MuiAppBar-colorPrimary {
+    background-color: #dcdcdc !important;
+}
+
+.activityHeading, .chartHeading {
+    font-size: 20px !important;
+}
+
+.clearfix {
+    border-bottom: 2px solid #E6E9ED;
+}
+
+.x_title {
+    border-bottom: unset;
+}
+
+.chartRow {
+    display: inline-block;
+}
+
+.donut {
+    width: 300px;
+    display: inline-block;
+    padding-top: 35px;
+    text-align: center;
+}
+
+.donutContent li{
+    width: 50%;
+    display: contents;
+}
+
+.chartProjectName {
+    color: #000 !important;
+    padding-left: 8px;
+    font-weight: bold;
+}
 
