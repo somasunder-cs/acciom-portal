@@ -12,6 +12,13 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import ManageConnection from '../components/ManageConnection';
+import ViewLogs from '../components/ViewLogs';
+import ViewTestCase from '../components/ViewTestCase';
+
+import { getAllConnections } from '../middleware';
+import { getTestCases } from '../middleware';
+import { testCaseLogs } from '../middleware';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -48,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 	rcorners: {
 		border: '2px solid',
 		padding: '20px',
-		width: '500px',
+		width: '580px',
 		borderRadius: '25px',
 		boxShadow: '4px',
 	},
@@ -81,9 +88,11 @@ const useStyles = makeStyles(theme => ({
 		fontWeight: 'bold'
 	},
 	executionWidth: {width: '20%'},
+	caseLog: {cursor: 'pointer'},
 }));
 
-function ControlledExpansionPanels({ testSuites }) {
+
+function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs, getTestCases}) {
 	console.log('ControlledExpansionPanels constructor');
 	const testSuiteDataLen = testSuites && testSuites.suites ? Object.keys(testSuites.suites).length : 0;
 	const classes = useStyles();
@@ -91,6 +100,23 @@ function ControlledExpansionPanels({ testSuites }) {
 
 	const handleChange = panel => (event, isExpanded) => {
 		setExpanded(isExpanded ? panel : false);
+	};
+
+	const handleManageConnection = (e) => {
+		console.log('handleManageConnection ===>');
+		getAllConnections();
+		e.stopPropagation();
+	};
+
+	const viewTestCase = (e) => {
+		console.log('viewTestCase ===>');
+		getTestCases();
+		e.stopPropagation();
+	};
+
+	const viewTestCaseLogs = (e) => {
+		console.log('viewTestCaseLogs ===>');
+		testCaseLogs();
 	};
 
 	const renderTestStatus = (status) => {
@@ -110,9 +136,40 @@ function ControlledExpansionPanels({ testSuites }) {
 		}
 	};
 
+	const renderExecutionStatus = (status) => {
+		let labelColor, label = '';
+		switch(status) {
+		case 0:
+			labelColor = 'blue';
+			label = 'New';
+			return <label style={{ color: labelColor }}>{label}</label>;
+		case 1:
+			labelColor = '#4ac69b';
+			label = 'Pass';
+			return <label style={{ color: labelColor }}>{label}</label>;
+		case 2:
+			labelColor = '#ef8160';
+			label = 'Fail';
+			return <label style={{ color: labelColor }}>{label}</label>;
+		case 3:
+			labelColor = '#f3a563';
+			label = 'In Progress';
+			return <label style={{ color: labelColor }}>{label}</label>;
+		case 4:
+			labelColor = '#e56868';
+			label = 'Error';
+			return <label style={{ color: labelColor }}>{label}</label>;
+		default:
+			labelColor = '';
+			label = '';
+			return <label style={{ color: labelColor }}>{label}</label>;				
+		}
+	};
+
 	return (
 		<div className={classes.root}>
-			{ testSuiteDataLen > 0 ?
+			{ 
+				testSuiteDataLen > 0 ?
 				testSuites.suites.user.map(testSuite => (
 					<ExpansionPanel key={testSuite.test_suite_id} expanded={expanded === testSuite.test_suite_id} onChange={handleChange(testSuite.test_suite_id)}>
 						
@@ -121,7 +178,7 @@ function ControlledExpansionPanels({ testSuites }) {
 							aria-controls="panel1bh-content"
 							id="panel1bh-header">
 							<Typography className={classes.heading}>{testSuite.test_suite_name}</Typography>
-							<Typography className={classes.manageConnection}>Manage Connections</Typography>
+							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, getAllConnections)}>Manage Connections</Typography>
 							<Typography className={classes.suiteID}>SuiteID:{testSuite.test_suite_id}</Typography>
 							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created}</Typography>
 						</ExpansionPanelSummary>
@@ -133,7 +190,7 @@ function ControlledExpansionPanels({ testSuites }) {
 
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 											<Typography className={classes.subHeading}>{testCaseList.test_id}</Typography>
-											<Typography className={classes.manageConnection}>View</Typography>
+											<Typography className={classes.manageConnection} onClick={e => viewTestCase(e, getTestCases)}>View</Typography>
 											<Typography className={classes.status}>Status</Typography>
 											<Typography className={renderTestStatus(testCaseList.test_status)}>{testCaseList.test_name}</Typography>
 										</ExpansionPanelSummary>
@@ -144,18 +201,19 @@ function ControlledExpansionPanels({ testSuites }) {
 													<TableHead>
 														<TableRow>
 															<TableCell>Run ID</TableCell>
-															<TableCell align="right">Execution Status</TableCell>
-															<TableCell align="right">Execution At</TableCell>
-															<TableCell align="right">Log</TableCell>
+															<TableCell align="left">Execution Status</TableCell>
+															<TableCell align="left">Execution At</TableCell>
+															<TableCell align="left">Log</TableCell>
 														</TableRow>
-													</TableHead>
-													{ testCaseList.test_case_log.map(testCaseLog => (
+													</TableHead>													
+													{   
+														testCaseList.test_case_log.map(testCaseLog => (
 														<TableBody key={testCaseLog.test_case_log_id}>
 															<TableRow>
-																<TableCell align="right"></TableCell>
-																<TableCell align="right">{testCaseLog.executed_at}</TableCell>
-																<TableCell align="right"></TableCell>
-																<TableCell align="right"></TableCell>
+																<TableCell align="left"></TableCell>
+																<TableCell align="left">{renderExecutionStatus(testCaseLog.test_execution_status)}</TableCell>
+																<TableCell align="left">{testCaseLog.executed_at}</TableCell>
+																<TableCell align="left" className={classes.caseLog} onClick={e => viewTestCaseLogs(e, testCaseLogs)}>icon</TableCell>
 															</TableRow>
 														</TableBody>
 													))}
@@ -169,7 +227,11 @@ function ControlledExpansionPanels({ testSuites }) {
 						</ExpansionPanelDetails>
 
 					</ExpansionPanel>
-				)) : <div className={classes.noRecord}>No Test Suite found!</div> }
+				)) : null
+				}
+				<ManageConnection></ManageConnection>
+				<ViewTestCase></ViewTestCase>
+				<ViewLogs></ViewLogs>				
 		</div>
 	);
 };
@@ -181,4 +243,6 @@ const mapStateToProps = function (state) {
 	}
 };
 
-export default connect(mapStateToProps)(ControlledExpansionPanels);
+export default connect(mapStateToProps, {
+	getAllConnections, testCaseLogs, getTestCases
+})(ControlledExpansionPanels);

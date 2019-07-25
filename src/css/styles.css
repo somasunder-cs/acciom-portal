@@ -4266,4 +4266,18 @@ html
        background-color: #ffff !important;
    }
    /** /bootstrap-datetimepicker **/
-   
+
+   /** Manage Connections **/
+   .MuiDialogWidth .MuiDialog-paperWidthSm {
+       width: 600px !important;
+   }
+
+   .MuiSelect-select {
+     min-width: 180 px !important;
+   }
+
+   .manageconnectionTestCase .MuiButtonBase-root {
+       padding: 2px !important;
+   }
+
+
