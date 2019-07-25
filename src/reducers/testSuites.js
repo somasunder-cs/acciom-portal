@@ -8,6 +8,13 @@ import {
 	LOGIN_TO_PORTAL_SUCCESS,
 	LOGIN_TO_PORTAL_ERROR,
 	GET_ORG_DATA_QUALITY_SUCCESS,
+	MANAGE_CONNECTIONS_CASE_UPDATE,
+	HIDE_MANAGE_CONNECTIONS_DIALOG,
+	VIEW_TEST_CASE_LOG,
+	HIDE_CASE_LOG_DIALOG,
+	VIEW_TEST_CASE,
+	HIDE_TEST_CASE_DIALOG,
+	SHOW_TEST_CASE_EDIT_ENABLED,
 	TEST_SUITE_FILE_UPLOAD_SUCCESS
 } from '../constants/ActionTypes';
 
@@ -16,7 +23,21 @@ import { browserHistory } from 'react-router';
 const initialState = {
 	testSuiteList: [],
 	loginData: {},
-	orgDataQuality: {}
+	orgDataQuality: {},
+    connectionsList:{
+	   showConnectionsDialog: false,
+	   allCases:[],
+	   allConnections:[]
+	},
+	testCaseLog: {
+		showCaseLogDialog: false,
+		caseLog:[]
+	},
+	testCase: {
+		showTestCaseDialog: false,
+		testCaseDetails:[]
+	},
+	showTestCaseEditEnabled: false
 }
 
 const storeUserData = ({access_token, user, uid, refresh_token, name }) => {
@@ -65,10 +86,58 @@ const testSuites = (state = initialState, action) => {
 		};	
 
 	case GET_ALL_CONNECTIONS_SUCCESS:
+		console.log('reducer GET_ALL_CONNECTIONS_SUCCESS===>');
+		action.connectionsList.showConnectionsDialog = true;
+		action.connectionsList.all_connections.map(connection => (
+			connection.checked = false
+		));
 		return {
 			...state,
-			allCases: action.allCases,
-			allConnections: action.allConnections
+			connectionsList : action.connectionsList		
+		};
+
+	case VIEW_TEST_CASE_LOG:
+		console.log('reducer VIEW_TEST_CASE_LOG===>');
+		 action.testCaseLog.showCaseLogDialog = true;
+		return {
+			...state,
+			testCaseLog : action.testCaseLog		
+	};
+
+	case HIDE_CASE_LOG_DIALOG:
+		console.log('reducer HIDE_CASE_LOG_DIALOG===>');
+		state.testCaseLog.showCaseLogDialog = false;
+	return {
+		...state
+	};
+
+	case VIEW_TEST_CASE:
+		console.log('reducer VIEW_TEST_CASE===>');
+		 action.testCase.showTestCaseDialog = true;
+		return {
+			...state,
+			testCase : action.testCase		
+	};
+
+	case SHOW_TEST_CASE_EDIT_ENABLED:
+		console.log('reducer SHOW_TEST_CASE_EDIT_ENABLED===>');
+		 action.showTestCaseEditEnabled = true;
+		return {
+			...state		
+	};
+
+	case HIDE_TEST_CASE_DIALOG:
+		console.log('reducer HIDE_TEST_CASE_DIALOG===>');
+		state.testCase.showTestCaseDialog = false;
+	return {
+		...state
+	};
+
+
+	case HIDE_MANAGE_CONNECTIONS_DIALOG:
+			state.connectionsList.showConnectionsDialog = false;
+		return {
+			...state
 		};
 
 	case SELECT_CONNECTIONS_SUCCESS:
@@ -92,6 +161,12 @@ const testSuites = (state = initialState, action) => {
 			orgDataQuality: action.data
 		};
 
+
+    case MANAGE_CONNECTIONS_CASE_UPDATE:
+		return {
+			...state
+		};
+
 	case TEST_SUITE_FILE_UPLOAD_SUCCESS:
 		sheets = action.sheets.map((sheet) => {
 			return { name: sheet, selected: false };
@@ -111,6 +186,7 @@ const testSuites = (state = initialState, action) => {
 				sheets
 			}
 		}
+
 	default:
 		return state;
 	 }

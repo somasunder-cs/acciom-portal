@@ -20,6 +20,13 @@ import {
 	GET_TESTCASE_LOG_BY_ID_SUCCESS,
 	GET_ORG_DATA_QUALITY_ERROR,
 	GET_ORG_DATA_QUALITY_SUCCESS,
+	MANAGE_CONNECTIONS_CASE_UPDATE,
+	HIDE_MANAGE_CONNECTIONS_DIALOG,
+	VIEW_TEST_CASE_LOG,
+	HIDE_CASE_LOG_DIALOG,
+	VIEW_TEST_CASE,
+	HIDE_TEST_CASE_DIALOG,
+	SHOW_TEST_CASE_EDIT_ENABLED,
 	TEST_SUITE_FILE_UPLOAD_SUCCESS
 } from "../constants/ActionTypes"; 
 
@@ -71,6 +78,10 @@ export const getAllConnectionsSuccess = connectionsList => ({
 export const getAllConnectionsError = error => ({
 	type: GET_ALL_CONNECTIONS_ERROR,
 	error
+});
+
+export const hideManageConnectionsDialog = () => ({
+	type: HIDE_MANAGE_CONNECTIONS_DIALOG
 });
 
 export const selectConnectionsSuccess = data => ({
@@ -133,6 +144,33 @@ export const getOrgDataQualityError = error => ({
 	error
 });
 
+
+export const manageConnectionsCaseUpdate = data => ({
+	type: MANAGE_CONNECTIONS_CASE_UPDATE,
+	data
+});
+
+export const viewTestCase = testCase => ({
+	type: VIEW_TEST_CASE,
+	testCase
+});
+
+export const viewTestCaseLog = testCaseLog => ({
+	type: VIEW_TEST_CASE_LOG,
+	testCaseLog
+});
+
+export const hideCaseLogDialog = () => ({
+	type: HIDE_CASE_LOG_DIALOG
+});
+
+export const hideTestCaseDialog = () => ({
+	type: HIDE_TEST_CASE_DIALOG
+});
+
+export const showTestCaseEditEnabled = () => ({
+	type: SHOW_TEST_CASE_EDIT_ENABLED
+});
 export const testSuiteFileUploadSuccess = sheets => ({
 	type: TEST_SUITE_FILE_UPLOAD_SUCCESS,
 	sheets
