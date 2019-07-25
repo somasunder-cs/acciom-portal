@@ -3,6 +3,10 @@
  */
 import _testSuitesData from '../json/test-suites-data.json';
 import _orgDataQuality from '../json/org-data-quality.json';
+import _getAllConnections from '../json/getAllConnections.json';
+import _viewTestCase from '../json/viewTestCase.json';
+import _viewTestCaseLog from '../json/viewLogs.json';
+
 
 import {
 	loginToPortalSuccess,
@@ -26,7 +30,9 @@ import {
 	getTestCaseLogByIdSuccess,
 	getTestCaseLogByIdError,
 	getOrgDataQualitySuccess,
-	getOrgDataQualityError
+	getOrgDataQualityError,
+	viewTestCaseLog,
+	viewTestCase
 } from '../actions';
 
 const headers = {
@@ -131,20 +137,39 @@ export const executeTestByCaseId = (caseID) => dispatch => {
 };
 
 export const getAllConnections = (suiteID) => dispatch => {
-	fetch(`${BASE_URL}/connection-detail/${suiteID}`, {
-		method: 'get',
-		headers
-	})
-		.then(res => res.json())
-		.then(res => {
-			if(res.error) {
-				dispatch(getAllConnectionsError(res.error));
-			}
-			dispatch(getAllConnectionsSuccess(res.data));
-		})
-		.catch(error => {
-			dispatch(getAllConnectionsError(error));
-		});
+	setTimeout(function() {
+		console.log('MW.getAllConnections()  inside timeout');
+		dispatch(getAllConnectionsSuccess(_getAllConnections));
+	}, TIMEOUT);
+
+	// fetch(`${this.url}/connection-detail/${suiteID}`, {
+	// 	method: 'get',
+	// 	headers
+	// })
+	// 	.then(res => res.json())
+	// 	.then(res => {
+	// 		if(res.error) {
+	// 			dispatch(getAllConnectionsError(res.error));
+	// 		}
+	// 		dispatch(getAllConnectionsSuccess(_getAllConnections));
+	// 	})
+	// 	.catch(error => {
+	// 		dispatch(getAllConnectionsError(error));
+	// 	});
+};
+
+export const testCaseLogs = (caseID) => dispatch => {
+	setTimeout(function() {
+		console.log('MW.viewTestCaseLog()  inside timeout');
+		dispatch(viewTestCaseLog(_viewTestCaseLog));
+	}, TIMEOUT);
+};
+
+export const getTestCases = (caseID) => dispatch => {
+	setTimeout(function() {
+		console.log('MW.viewTestCase()  inside timeout');
+		dispatch(viewTestCase(_viewTestCase));
+	}, TIMEOUT);
 };
 
 export const selectConnections = (type, cases, connectionID) => dispatch => {
