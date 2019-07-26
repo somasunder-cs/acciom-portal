@@ -24,6 +24,7 @@ const initialState = {
 	testSuiteList: [],
 	loginData: {},
 	orgDataQuality: {},
+	projectDataQuality: {}
     connectionsList:{
 	   showConnectionsDialog: false,
 	   allCases:[],
@@ -186,6 +187,12 @@ const testSuites = (state = initialState, action) => {
 				sheets
 			}
 		}
+	
+	case 'GET_DQI_PROJECT_DETAILS_SUCCESS':
+		return {
+			...state,
+			projectDataQuality: action.data.data
+		}	
 
 	default:
 		return state;

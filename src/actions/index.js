@@ -185,3 +185,13 @@ export const testSuiteSheetloadSuccess = sheetData => ({
 	type: TEST_SUITE_SHEET_LOAD_SUCCESS,
 	sheetData
 });
+
+export const getDQIprojectDetailsSuccess = data => ({
+	type: 'GET_DQI_PROJECT_DETAILS_SUCCESS',
+	data
+});
+
+export const getDQIprojectDetailsError = error => ({
+	type: 'GET_DQI_PROJECT_DETAILS_ERROR',
+	error
+});

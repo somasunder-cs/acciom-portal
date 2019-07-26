@@ -20,74 +20,90 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Icon from '@material-ui/core/Icon';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  loginbtn : {
-	position: 'absolute',
-	right: '20px',
-	color: 'white',
-    fontSize: '16px'
-  }
+	root: {
+		display: 'flex',
+	},
+	appBar: {
+		zIndex: theme.zIndex.drawer + 1,
+		transition: theme.transitions.create(['width', 'margin'], {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.leavingScreen,
+		}),
+	},
+	appBarShift: {
+		marginLeft: drawerWidth,
+		width: `calc(100% - ${drawerWidth}px)`,
+		transition: theme.transitions.create(['width', 'margin'], {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.enteringScreen,
+		}),
+	},
+	menuButton: {
+		marginRight: 36,
+	},
+	hide: {
+		display: 'none',
+	},
+	drawer: {
+		width: drawerWidth,
+		flexShrink: 0,
+		whiteSpace: 'nowrap',
+	},
+	drawerOpen: {
+		width: drawerWidth,
+		transition: theme.transitions.create('width', {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.enteringScreen,
+		}),
+	},
+	drawerClose: {
+		transition: theme.transitions.create('width', {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.leavingScreen,
+		}),
+		overflowX: 'hidden',
+		width: theme.spacing(7) + 1,
+		[theme.breakpoints.up('sm')]: {
+		width: theme.spacing(9) + 1,
+		},
+	},
+	toolbar: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		padding: '0 8px',
+		...theme.mixins.toolbar,
+	},
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing(3),
+	},
+	loginbtn : {
+		position: 'absolute',
+		right: '20px',
+		color: 'cadetblue',
+		fontSize: '16px'
+	},
+  	dashboard : {
+		color: 'white'
+	},
+	home : {
+		color: 'white'
+	},
+	startup : {
+		color: 'white'
+	},
+	acciom : {
+		color: 'cadetblue'
+	},
+	acciomimg : {
+		width: '70px'
+	}
 }));
 
 function HomeIcon(props) {
@@ -132,7 +148,7 @@ function NavigationBar() {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap>
+					<Typography variant="h6" noWrap className={classes.acciom}>
 						Acciom
 					</Typography>
 					<Link to={`/login`} className={classes.loginbtn}>Login</Link>
@@ -162,21 +178,29 @@ function NavigationBar() {
 						<MenuList>
 							<MenuItem>
 							<ListItemIcon>
-								<HomeIcon className={classes.icon} color="primary" />
+								{/* <HomeIcon className={classes.icon} color="primary" /> */}
+								<Link to= {'/dashboard'} color= 'primary' >
+									<Icon className={clsx(classes.icon, 'fas fa-business-time fa-2x')} color="primary" />	
+								</Link>
 							</ListItemIcon>
-								<Link to={`/dashboard`}> Dashboard </Link> <br />
+								{/* <Link to={`/dashboard`}> Dashboard </Link> <br /> */}
+								<Link to={`/dashboard`} className = {classes.dashboard}> Dashboard </Link> <br />
 							</MenuItem>
 							<MenuItem>
 							<ListItemIcon>
-								<PriorityHighIcon />
+								<Link to={`/home`} className = {classes.home}>
+									<Icon className={clsx(classes.icon, 'fas fa-home fa-2x')} color="primary" />  
+								</Link> 
 							</ListItemIcon>
-								<Link to={`/home`}> Home </Link> <br />
+								<Link to={`/home`} className = {classes.home}> Home </Link> <br />
 							</MenuItem>
 							<MenuItem>
 							<ListItemIcon>
-								<DraftsIcon />
+								<Link to ={`/startup`} className = {classes.startup}>
+									<Icon className={clsx(classes.icon, 'fas fa-signal fa-2x')} color="primary" />
+								</Link>
 							</ListItemIcon>
-								<Link to={`/startup`}>Startup</Link>
+								<Link to={`/startup`} className = {classes.startup}>Startup</Link>
 							</MenuItem>
 						</MenuList>
 					</List>

@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "message": "success",
+  "data": {
+    "project_name": "NRD Regression Test Run",
+    "project_id": 1,
+    "project_dqi_percentage": 99.89,
+    "project_dqi_detail": [
+      {
+        "name": "correcteness",
+        "value": 89.32
+      },
+      {
+        "name": "consistency",
+        "value": 89.32
+      },
+      {
+        "name": "duplicates",
+        "value": 89.32
+      },
+      {
+        "name": "Null",
+        "value": 89.32
+      },
+      {
+        "name": "completeness",
+        "value": 89.32
+      }
+    ],
+    "start_date": "2019-07-01",
+    "end_date": "2019-07-18"
+  }
+}
+
+

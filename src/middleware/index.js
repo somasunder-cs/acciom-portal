@@ -3,6 +3,9 @@
  */
 import _testSuitesData from '../json/test-suites-data.json';
 import _orgDataQuality from '../json/org-data-quality.json';
+
+import _projectDataQuality from '../json/project-data-quality-index.json';
+
 import _getAllConnections from '../json/getAllConnections.json';
 import _viewTestCase from '../json/viewTestCase.json';
 import _viewTestCaseLog from '../json/viewLogs.json';
@@ -31,8 +34,13 @@ import {
 	getTestCaseLogByIdError,
 	getOrgDataQualitySuccess,
 	getOrgDataQualityError,
+
+	getDQIprojectDetailsSuccess,
+	getDQIprojectDetailsError
+
 	viewTestCaseLog,
 	viewTestCase
+
 } from '../actions';
 
 const headers = {
@@ -282,4 +290,25 @@ export const getOrgDataQuality = () => dispatch => {
 	// 	.catch(error => {
 	// 		dispatch(getOrgDataQualityError(error));
 	// 	});
+};
+
+export const getDQIprojectDetails = (project_id) => dispatch => {
+	setTimeout(() => {
+		dispatch(getDQIprojectDetailsSuccess(_projectDataQuality));
+	}, TIMEOUT);
+
+	// fetch(`${BASE_URL}/project-data-quality-index?project_id:${project_id}`, {
+	// 	method: 'get',
+	// 	headers
+	// })
+	// .then(res => res.json())
+	// .then(res => {
+	// 	if(res.error) {
+	// 		dispatch(getDQIprojectDetailsError(res.error));
+	// 	}
+	// 	dispatch(getDQIprojectDetailsSuccess(res.data));
+	// })
+	// .catch(error => {
+	// 	dispatch(getDQIprojectDetailsError(error));
+	// });
 };

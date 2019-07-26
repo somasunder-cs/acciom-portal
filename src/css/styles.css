@@ -4332,3 +4332,29 @@ html
     font-weight: bold;
 }
 
+
+.MuiIcon-root {
+    width: 1.2em !important;
+    color: white !important;
+}
+
+.projectChart {
+    padding-left: 465px;
+}
+
+.detailsChart {
+    display: -webkit-box;
+    height: 145px;
+    width: 75%;
+    padding-top: 20px;
+}
+
+.wTAoZ {
+    left: 50px !important;
+}
+
+.DQIprojectdetailsHeading {
+    width: 300px;
+    font-weight: bold; 
+}
+
