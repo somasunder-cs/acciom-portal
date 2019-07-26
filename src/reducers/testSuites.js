@@ -16,7 +16,8 @@ import { browserHistory } from 'react-router';
 const initialState = {
 	testSuiteList: [],
 	loginData: {},
-	orgDataQuality: {}
+	orgDataQuality: {},
+	projectDataQuality: {}
 }
 
 const storeUserData = ({access_token, user, uid, refresh_token, name }) => {
@@ -111,6 +112,13 @@ const testSuites = (state = initialState, action) => {
 				sheets
 			}
 		}
+	
+	case 'GET_DQI_PROJECT_DETAILS_SUCCESS':
+		return {
+			...state,
+			projectDataQuality: action.data.data
+		}	
+
 	default:
 		return state;
 	 }

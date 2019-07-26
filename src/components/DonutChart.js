@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import DQIDetailsComponent from './DQIProjectDetails';
-import {browserHistory} from 'react-router'
+import { Link } from 'react-router-dom';
 
 import Chart from 'react-apexcharts'
 
 class DonutChart extends Component {
-
+  
   constructor(props) {
     super(props);
-    const me = this;
-    this.state = {
+    this.options = {
       optionsRadial: {
         fill: {
           type: 'solid',
@@ -78,8 +75,8 @@ class DonutChart extends Component {
     return (
 
       <div className="donut">
-        <Link to={`/dqi_details`}>
-          <Chart options={this.state.optionsRadial} series={this.state.seriesRadial} colors={this.state.optionsRadial.colors} type="radialBar" width="280" />
+        <Link to={`/dqi_details/${this.props.chartData.project_name}`}>
+          <Chart options={this.options.optionsRadial} series={this.options.seriesRadial} colors={this.options.optionsRadial.colors} type="radialBar" width="280" />
         </Link>
         <span className="chartProjectName">{this.props.chartData.project_name}</span>
       </div>

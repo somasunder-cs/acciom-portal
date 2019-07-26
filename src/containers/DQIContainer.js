@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import DonutChart from '../components/DonutChart'
+import DonutChart from '../components/DonutChart';
 
 function DQIContainer (props) {
     console.log("DQIContainer=", props);

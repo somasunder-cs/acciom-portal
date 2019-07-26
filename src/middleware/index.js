@@ -3,6 +3,7 @@
  */
 import _testSuitesData from '../json/test-suites-data.json';
 import _orgDataQuality from '../json/org-data-quality.json';
+import _projectDataQuality from '../json/project-data-quality-index.json';
 
 import {
 	loginToPortalSuccess,
@@ -26,7 +27,9 @@ import {
 	getTestCaseLogByIdSuccess,
 	getTestCaseLogByIdError,
 	getOrgDataQualitySuccess,
-	getOrgDataQualityError
+	getOrgDataQualityError,
+	getDQIprojectDetailsSuccess,
+	getDQIprojectDetailsError
 } from '../actions';
 
 const headers = {
@@ -257,4 +260,25 @@ export const getOrgDataQuality = () => dispatch => {
 	// 	.catch(error => {
 	// 		dispatch(getOrgDataQualityError(error));
 	// 	});
+};
+
+export const getDQIprojectDetails = (project_id) => dispatch => {
+	setTimeout(() => {
+		dispatch(getDQIprojectDetailsSuccess(_projectDataQuality));
+	}, TIMEOUT);
+
+	// fetch(`${BASE_URL}/project-data-quality-index?project_id:${project_id}`, {
+	// 	method: 'get',
+	// 	headers
+	// })
+	// .then(res => res.json())
+	// .then(res => {
+	// 	if(res.error) {
+	// 		dispatch(getDQIprojectDetailsError(res.error));
+	// 	}
+	// 	dispatch(getDQIprojectDetailsSuccess(res.data));
+	// })
+	// .catch(error => {
+	// 	dispatch(getDQIprojectDetailsError(error));
+	// });
 };
