@@ -27,7 +27,9 @@ import {
 	VIEW_TEST_CASE,
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
-	TEST_SUITE_FILE_UPLOAD_SUCCESS
+	TEST_SUITE_FILE_UPLOAD_SUCCESS,
+	SAVE_MANAGE_CONNECTION_DETAILS,		
+	SHOW_TEST_CASE_VIEW_ENABLED
 } from "../constants/ActionTypes"; 
 
 export const loginToPortalSuccess = data =>({
@@ -208,4 +210,13 @@ export const uploadTestCasesError = data => ({
 export const testCaseSelectionChange = (testCase) => ({
 	type: 'TEST_CASE_SELECTION_CHANGE',
 	testCase
-})
+});
+
+export const showTestCaseViewEnabled = () => ({		
+	type: SHOW_TEST_CASE_VIEW_ENABLED		
+});
+
+export const saveManageConnectionDetails = data => ({
+	type: SAVE_MANAGE_CONNECTION_DETAILS,
+	data
+});	
