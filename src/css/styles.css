@@ -4343,7 +4343,7 @@ html
 }
 
 .detailsChart {
-    display: -webkit-box;
+    display: flex;
     height: 145px;
     width: 75%;
     padding-top: 20px;
@@ -4357,4 +4357,5 @@ html
     width: 300px;
     font-weight: bold; 
 }
+
 

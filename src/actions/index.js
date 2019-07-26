@@ -182,7 +182,7 @@ export const onTestSuiteSheetSelect = (sheet) => ({
 })
 
 export const testSuiteSheetloadSuccess = sheetData => ({
-	type: TEST_SUITE_SHEET_LOAD_SUCCESS,
+	type: 'TEST_SUITE_SHEET_LOAD_SUCCESS',
 	sheetData
 });
 
@@ -195,3 +195,17 @@ export const getDQIprojectDetailsError = error => ({
 	type: 'GET_DQI_PROJECT_DETAILS_ERROR',
 	error
 });
+export const uploadTestCasesSuccess = data => ({
+	type: 'UPLOAD_TESTCASES_SUCCESS',
+	data
+});
+
+export const uploadTestCasesError = data => ({
+	type: 'UPLOAD_TESTCASES_ERROR',
+	data
+});
+
+export const testCaseSelectionChange = (testCase) => ({
+	type: 'TEST_CASE_SELECTION_CHANGE',
+	testCase
+})

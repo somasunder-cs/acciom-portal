@@ -5,8 +5,11 @@ class GaugeChart extends Component {
   
   constructor(props) {
     super(props);
-    console.log("gaugeChartValue", this.props);
-    this.options = {
+  }
+
+  render() {
+    console.log("gaugeChartValue render ", this.props);
+    const options = {
         chart: {
             type: 'radialBar',
         },
@@ -22,7 +25,7 @@ class GaugeChart extends Component {
                         enabled: true,
                         top: 2,
                         left: 0,
-                        color: '#999',
+                        color: this.props.color,
                         opacity: 1,
                         blur: 2
                     }
@@ -40,19 +43,17 @@ class GaugeChart extends Component {
         },
         fill: {
             type: 'solid',
+            colors: this.props.color
         },
-        series: [86],
-        labels: ['Average Results'],
-       
-    }
-  }
-
-  render() {
+        series: [this.props.percentage],
+        labels: ['Average Results']
+        
+    };
 
     return (
 
       <div className="donut">  
-        <Chart options={this.options} series={this.options.series} type="radialBar" width="300" />
+        <Chart options={options} series={options.series} type="radialBar" width={this.props.width ? this.props.width : 300}/>
       </div>
     );
   }

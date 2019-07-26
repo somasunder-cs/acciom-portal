@@ -24,7 +24,7 @@ const initialState = {
 	testSuiteList: [],
 	loginData: {},
 	orgDataQuality: {},
-	projectDataQuality: {}
+	projectDataQuality: {},
     connectionsList:{
 	   showConnectionsDialog: false,
 	   allCases:[],
@@ -186,14 +186,44 @@ const testSuites = (state = initialState, action) => {
 			testSuiteUploadData: {
 				sheets
 			}
-		}
+		};
 	
 	case 'GET_DQI_PROJECT_DETAILS_SUCCESS':
 		return {
 			...state,
 			projectDataQuality: action.data.data
 		}	
-
+	case 'TEST_SUITE_SHEET_LOAD_SUCCESS':
+		state.testSuiteUploadData.sheetData = action.sheetData;
+		return {
+			...state,
+		};
+	
+	case 'UPLOAD_TESTCASES_SUCCESS':
+		return {
+			...state,
+		};
+	
+	case 'TEST_CASE_SELECTION_CHANGE':
+		console.log('reducer.TEST_CASE_SELECTION_CHANGE==', action.testCase);
+		
+		const testCases = state.testSuiteUploadData.sheetData.allCases;
+		const idx = testCases.indexOf(action.testCase);
+		
+		return {
+			...state,
+			testSuiteUploadData: {
+				...state.testSuiteUploadData,
+				sheetData: {
+					...state.testSuiteUploadData.sheetData,
+					allCases: [ 
+						...state.testSuiteUploadData.sheetData.allCases.slice(0, idx), 
+						{ ...action.testCase, selected: !action.testCase.selected },
+						...state.testSuiteUploadData.sheetData.allCases.slice(idx + 1)
+					]
+				}
+			}
+		};
 	default:
 		return state;
 	 }

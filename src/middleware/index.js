@@ -36,7 +36,7 @@ import {
 	getOrgDataQualityError,
 
 	getDQIprojectDetailsSuccess,
-	getDQIprojectDetailsError
+	getDQIprojectDetailsError,
 
 	viewTestCaseLog,
 	viewTestCase
