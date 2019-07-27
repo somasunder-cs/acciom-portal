@@ -219,4 +219,8 @@ export const showTestCaseViewEnabled = () => ({
 export const saveManageConnectionDetails = data => ({
 	type: SAVE_MANAGE_CONNECTION_DETAILS,
 	data
+});
+
+export const testCaseSelectAllToggle = () => ({
+	type: 'TEST_CASE_SELECT_ALL_TOGGLE'
 });	

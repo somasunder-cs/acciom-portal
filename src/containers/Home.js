@@ -1,28 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
+import { Table } from 'react-bootstrap';
+
 import { loadTestSuiteFile,	loadTestSuiteSheet, uploadTestCases } from '../middleware/testSuiteUpload';
-import { onTestSuiteSheetSelect, testCaseSelectionChange } from '../actions';
+import { onTestSuiteSheetSelect, testCaseSelectionChange, testCaseSelectAllToggle } from '../actions';
 
 class Home extends React.Component {
+render() {
+		const MODE_UPLOAD = 0;
+		const MODE_UPLOAD_AND_EXECUTE = 1;
 
-	render() {
 		console.log('render()', this.props);
 
-		const handleChange = (selectorFiles) => {
-			console.log('handleChange() selectorFiles ', selectorFiles);
-			if (selectorFiles) {
-				this.props.loadTestSuiteFile(selectorFiles);	
+		const handleChange = (selectedFiles) => {
+			console.log('handleChange ', selectedFiles);
+			if (selectedFiles) {
+				this.props.loadTestSuiteFile(selectedFiles);	
 			}
 		};
 
 		const handleSheetCheckChange = (page) => {
-			console.log('handleSheetCheckChange() ', page);
 			this.props.onSheetSelect(page);
 		};
 
 		const onContinueClick = (event) => {
-			console.log('onContinueClick ==>');
 			this.props.pages.forEach(page => {
 				if (page.selected) {
 					this.props.loadTestSuiteSheet(page.name);
@@ -31,13 +33,14 @@ class Home extends React.Component {
 		}
 
 		const handleTestCaseCheckChange = (testCase) => {
-			console.log('handleTestCaseCheckChange', testCase);
-			// testCase.selected = !testCase.selected;
 			this.props.testCaseSelectionChange(testCase);
 		};
 
+		const handleSelectAllChange = () => {
+			this.props.testCaseSelectAllToggle();
+		};
+
 		const getSheetsList = () => {
-			console.log('getSheetsList()==>', this.props.pages);
 			let sheetList = [];
 			if (this.props.pages.length > 0) {
 				sheetList = this.props.pages.map((page, index) => {
@@ -66,37 +69,59 @@ class Home extends React.Component {
 			return sheetList;
 		}
 
-		const onUploadBtnClick = () => {
-			console.log('onUploadBtnClick==>');
-			this.props.uploadTestCases();
-		}
+		const onUploadBtnClick = (mode) => {
+			this.props.uploadTestCases(mode);
+		};
 
 		const getTestCasesList = () => {
 			let testCasesList = [];
 			if (this.props.allCases && this.props.allCases.length > 0) {
+
 				testCasesList = this.props.allCases.map((testCase, index) => {
 					return (
-						<div key={index}>
-							<span>{testCase.description}</span>
-							<span>{testCase.name}</span>
-							<input
-								type="checkbox"
-								value={testCase.selected}
-								id={testCase.name}
-								name={testCase.name}
-								checked={testCase.selected}
-								onChange={ (e) => handleTestCaseCheckChange(testCase)}
-							/>
-						</div>	
+						<tr key={index}>
+							<td>{testCase.description}</td>
+							<td>{testCase.name}</td>
+							<td>
+								<input
+									type="checkbox"
+									value={testCase.selected}
+									id={testCase.name}
+									name={testCase.name}
+									checked={testCase.selected}
+									onChange={ (e) => handleTestCaseCheckChange(testCase)}
+								/>
+							</td>
+						</tr>	
 					)
 				});			
 				
 				return (
 					<div>
-						<div>{testCasesList}</div>	<br />
+						<Table responsive>
+							<thead>
+								<tr>
+									<th>Test Case Description</th>
+									<th>Test Class</th>
+									<th>
+										<input
+											type="checkbox"
+											value="Select All"
+											id="Select All"
+											name="Select All"
+											checked= {this.props.selectAll}
+											onChange={ (e) => handleSelectAllChange()}
+										/> Select All
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{testCasesList}
+							</tbody>
+						</Table>
 						<div>
-						<input type='button' name="Upload" value="Upload" onClick = { (e) => onUploadBtnClick()}/>
-						<input type='button' name="Upload and Execute" value="Upload and Execute" onClick = { (e) => onUploadBtnClick()}/>
+							<input type='button' name="Upload" value="Upload" onClick = { (e) => onUploadBtnClick(MODE_UPLOAD)}/>
+							<input type='button' name="Upload and Execute" value="Upload and Execute" onClick = { (e) => onUploadBtnClick(MODE_UPLOAD_AND_EXECUTE)}/>
 						</div>
 					</div>
 				)
@@ -119,12 +144,6 @@ class Home extends React.Component {
 				<br />
 				<br />
 
-				{/* <div>
-					<span>Test Case Description</span>
-					<span>Test Case Name</span>
-					<span></span>
-				</div> */}
-
 				{ getTestCasesList() }
 			</div>
 		)
@@ -132,12 +151,13 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log("Home.mapStateToProps() ", state);
+	console.log('Home mapStateToProps ', state);
 	return {
-		pages: state.testSuites.testSuiteUploadData? state.testSuites.testSuiteUploadData.sheets : [],
-		allCases: state.testSuites.testSuiteUploadData && 
-		state.testSuites.testSuiteUploadData.sheetData? state.testSuites.testSuiteUploadData.sheetData.allCases : []
-	}
+		pages: state.testSuiteUploadData? state.testSuiteUploadData.sheets : [],
+		allCases: state.testSuiteUploadData && 
+			state.testSuiteUploadData.sheetData ? state.testSuiteUploadData.sheetData.allCases : [],
+		selectAll: state.testSuiteUploadData ? state.testSuiteUploadData.selectAll : false
+	};
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -145,7 +165,8 @@ const mapDispatchToProps = dispatch => ({
 	onSheetSelect: (data) => dispatch(onTestSuiteSheetSelect(data)),
 	loadTestSuiteSheet: (data) => dispatch(loadTestSuiteSheet(data)),
 	uploadTestCases: (data) => dispatch(uploadTestCases(data)),
-	testCaseSelectionChange: (data) => dispatch(testCaseSelectionChange(data))
+	testCaseSelectionChange: (data) => dispatch(testCaseSelectionChange(data)),
+	testCaseSelectAllToggle: () => dispatch(testCaseSelectAllToggle())
 })
 
 export default connect(

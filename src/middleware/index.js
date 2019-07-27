@@ -272,6 +272,7 @@ export const getTestCaseLogById = (logID) => dispatch => {
 };
 
 export const getOrgDataQuality = () => dispatch => {
+	console.log('MW.getOrgDataQuality ');
 	setTimeout(() => {
 		dispatch(getOrgDataQualitySuccess(_orgDataQuality));
 	}, TIMEOUT);
