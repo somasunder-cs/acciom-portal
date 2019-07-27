@@ -175,7 +175,7 @@ function NavigationBar() {
 					</div>
 					<Divider />
 					<List>
-						<MenuList>
+						<MenuList className="sideNavBar">
 							<MenuItem>
 							<ListItemIcon>
 								{/* <HomeIcon className={classes.icon} color="primary" /> */}
@@ -189,18 +189,18 @@ function NavigationBar() {
 							<MenuItem>
 							<ListItemIcon>
 								<Link to={`/home`} className = {classes.home}>
-									<Icon className={clsx(classes.icon, 'fas fa-home fa-2x')} color="primary" />  
+									<Icon className={clsx(classes.icon, 'fas fa-upload fa-2x')} color="primary" />  
 								</Link> 
 							</ListItemIcon>
-								<Link to={`/home`} className = {classes.home}> Home </Link> <br />
+								<Link to={`/home`} className = {classes.home}> Upload Test Suites </Link> <br />
 							</MenuItem>
 							<MenuItem>
 							<ListItemIcon>
 								<Link to ={`/startup`} className = {classes.startup}>
-									<Icon className={clsx(classes.icon, 'fas fa-signal fa-2x')} color="primary" />
+									<Icon className={clsx(classes.icon, 'fas fa-list-alt fa-2x')} color="primary" />
 								</Link>
 							</ListItemIcon>
-								<Link to={`/startup`} className = {classes.startup}>Startup</Link>
+								<Link to={`/startup`} className = {classes.startup}>Test Suites</Link>
 							</MenuItem>
 						</MenuList>
 					</List>

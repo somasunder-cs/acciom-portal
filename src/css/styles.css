@@ -4334,8 +4334,11 @@ html
 
 
 .MuiIcon-root {
-    width: 1.2em !important;
+    width: 1.8em !important;
     color: white !important;
+    padding-top: 5px !important;
+    padding-left: 7px !important;
+    height: 1.3em !important;
 }
 
 .projectChart {
@@ -4347,10 +4350,11 @@ html
     height: 145px;
     width: 75%;
     padding-top: 20px;
+    width: 100px !important;
 }
 
 .wTAoZ {
-    left: 50px !important;
+    left: 20px !important;
 }
 
 .DQIprojectdetailsHeading {
@@ -4358,4 +4362,28 @@ html
     font-weight: bold; 
 }
 
+.sideNavBar a:hover {
+    color: #b0daff !important;
+}
 
+.sideNavBar a:active {
+   color: #0085fb !important
+}
+
+.DQIprojectGauge {
+    padding-top: 0px !important;
+}
+
+.detailsChart li {
+    list-style: none;
+    width: 245px;
+}
+
+.DQIprojectChartContainer {
+    padding-top: 0px !important;
+}
+
+.bar {
+    padding-left: 125px;
+    padding-top: 20px;
+}
