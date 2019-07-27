@@ -5,27 +5,29 @@ import '../css/card.css';
 function Cards () {
     return (
         <div>
-            <div className="row tile_count">
-				<div className="col-md-2 col-sm-4 col-xs-6 tile_stats_count cardBox">
-					<span className="count_top">
-						<i className="far fa-calendar-alt fa-5x" aria-hidden="true"></i> 
-						<span className="count">72</span>
-						<span>Projects</span>
-					</span>
+            <div className="row cardContainer">
+				<div className="col-md-3">
+					<div className="card-counter info">
+						<i className="fa fa-database"></i>
+						<span className="count-numbers">72</span>
+						<span className="count-name">projects</span>
+					</div>
 				</div>
-				<div className="col-md-2 col-sm-4 col-xs-6 tile_stats_count cardBox">
-					<span className="count_top">
-						<i className="fas fa-chart-bar fa-5x" aria-hidden="true"></i> 
-						<span className="count">12</span>
-						<span>Scheduled Runs</span>
-					</span>
+
+				<div className="col-md-3">
+					<div className="card-counter info">
+						<i className="fas fa-chart-bar"></i>
+						<span className="count-numbers">12</span>
+						<span className="count-name">Scheduled Runs</span>
+					</div>
 				</div>
-				<div className="col-md-2 col-sm-4 col-xs-6 tile_stats_count cardBox">
-					<span className="count_top">
-						<i className="fas fa-user-friends fa-5x" aria-hidden="true"></i> 
-						<span className="count">272</span>
-						<span>Users</span>
-					</span>
+
+				<div className="col-md-3">
+					<div className="card-counter info">
+						<i className="fa fa-users"></i>
+						<span className="count-numbers">272</span>
+						<span className="count-name">Users</span>
+					</div>
 				</div>
 			</div>
         </div>
