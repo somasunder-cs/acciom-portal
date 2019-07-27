@@ -15,7 +15,9 @@ import {
 	VIEW_TEST_CASE,
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
-	TEST_SUITE_FILE_UPLOAD_SUCCESS
+	TEST_SUITE_FILE_UPLOAD_SUCCESS,
+	SAVE_MANAGE_CONNECTION_DETAILS,
+	SHOW_TEST_CASE_VIEW_ENABLED
 } from '../constants/ActionTypes';
 
 import { browserHistory } from 'react-router';
@@ -178,6 +180,20 @@ const testSuites = (state = initialState, action) => {
 				sheets
 			}
 		};
+	
+	case SHOW_TEST_CASE_EDIT_ENABLED:
+		console.log('reducer SHOW_TEST_CASE_EDIT_ENABLED===>');
+		state.showTestCaseEditEnabled = true;
+		return {
+			...state		
+		};
+	
+	case SHOW_TEST_CASE_VIEW_ENABLED:
+		console.log('reducer SHOW_TEST_CASE_VIEW_ENABLED===>');
+		state.showTestCaseEditEnabled = false;
+		return {
+			...state		
+		};		
 	
 	case 'TEST_SUITE_SHEET_SELECT':
 		sheets = [{name: action.sheet.name, selected:!action.sheet.selected}];
