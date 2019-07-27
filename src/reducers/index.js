@@ -1,8 +1,14 @@
 import { combineReducers } from 'redux';
 import testSuites from './testSuites';
+import testSuiteUploadData from './testSuiteUploadReducer';
+import loginData from './loginReducer';
+import dashboardData from './dashboardReducer';
 
 const rootReducer = combineReducers({
-	testSuites
+	loginData,
+	dashboardData,
+	testSuites,
+	testSuiteUploadData
 });
 
 export default rootReducer;

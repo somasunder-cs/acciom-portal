@@ -4373,6 +4373,16 @@ html
 .DQIprojectGauge {
     padding-top: 0px !important;
 }
+.viewEditLabel {
+    font-size: 16px; 
+    cursor: pointer; 
+    margin-left: 32px;
+    color:red;
+}
+
+.MuiTableCell-root {
+    padding: 10px 6px 6px 10px !important;
+}
 
 .detailsChart li {
     list-style: none;

@@ -59,6 +59,12 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: '25px',
 		boxShadow: '4px',
 	},
+	viewConnection: {
+		fontSize: theme.typography.pxToRem(15),
+		flexBasis: '18.33%',
+		flexShrink: 0,
+		color: 'brown',
+	},
 	status: {
 		fontSize: theme.typography.pxToRem(15),
 		flexBasis: '18.33%',
@@ -70,22 +76,26 @@ const useStyles = makeStyles(theme => ({
 	statusBg: {
 		fontSize: theme.typography.pxToRem(15),
 		color: '#2ecca4',
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		flexBasis: '18.33%',
 	},
 	statusBgBlue: {
 		fontSize: theme.typography.pxToRem(15),
 		color: 'blue',
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		flexBasis: '18.33%',
 	},
 	statusBgRed: {
 		fontSize: theme.typography.pxToRem(15),
 		color:'rgb(245, 124, 76)',
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		flexBasis: '18.33%',
 	},
 	statusBgOrange: {
 		fontSize: theme.typography.pxToRem(15),
 		color: '#F7861B',
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		flexBasis: '18.33%',
 	},
 	executionWidth: {width: '20%'},
 	caseLog: {cursor: 'pointer'},
@@ -96,8 +106,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 	console.log('ControlledExpansionPanels constructor');
 	const testSuiteDataLen = testSuites && testSuites.suites ? Object.keys(testSuites.suites).length : 0;
 	const classes = useStyles();
-	const [expanded, setExpanded] = React.useState(false);
-
+	const [expanded, setExpanded] = React.useState(false);	
 	const handleChange = panel => (event, isExpanded) => {
 		setExpanded(isExpanded ? panel : false);
 	};
@@ -181,6 +190,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, getAllConnections)}>Manage Connections</Typography>
 							<Typography className={classes.suiteID}>SuiteID:{testSuite.test_suite_id}</Typography>
 							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created}</Typography>
+							<i className="fa fa fa-play" aria-hidden="true"></i>
 						</ExpansionPanelSummary>
 
 						<ExpansionPanelDetails>
@@ -190,9 +200,10 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 											<Typography className={classes.subHeading}>{testCaseList.test_id}</Typography>
-											<Typography className={classes.manageConnection} onClick={e => viewTestCase(e, getTestCases)}>View</Typography>
+											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, getTestCases)}>View</Typography>
 											<Typography className={classes.status}>Status</Typography>
 											<Typography className={renderTestStatus(testCaseList.test_status)}>{testCaseList.test_name}</Typography>
+											<Typography><i className="fa fa fa-play" aria-hidden="true"></i></Typography>
 										</ExpansionPanelSummary>
 										
 										<ExpansionPanelDetails>
@@ -203,24 +214,23 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 															<TableCell>Run ID</TableCell>
 															<TableCell align="left">Execution Status</TableCell>
 															<TableCell align="left">Execution At</TableCell>
-															<TableCell align="left">Log</TableCell>
+															<TableCell align="left">Logs</TableCell>
 														</TableRow>
 													</TableHead>													
-													{   
+													{  
 														testCaseList.test_case_log.map(testCaseLog => (
 														<TableBody key={testCaseLog.test_case_log_id}>
 															<TableRow>
 																<TableCell align="left"></TableCell>
 																<TableCell align="left">{renderExecutionStatus(testCaseLog.test_execution_status)}</TableCell>
 																<TableCell align="left">{testCaseLog.executed_at}</TableCell>
-																<TableCell align="left" className={classes.caseLog} onClick={e => viewTestCaseLogs(e, testCaseLogs)}>icon</TableCell>
+																<TableCell align="left" className={classes.caseLog} onClick={e => viewTestCaseLogs(e, testCaseLogs)}><i className="fas fa-grip-lines"></i></TableCell>
 															</TableRow>
 														</TableBody>
 													))}
 												</Table>
 											</div>
 										</ExpansionPanelDetails>
-
 									</ExpansionPanel>
 								)) }
 							</div>

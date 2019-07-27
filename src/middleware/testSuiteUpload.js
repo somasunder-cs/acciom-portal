@@ -127,10 +127,18 @@ export const loadTestSuiteSheet = (page) => dispatch => {
 	//  });
 };
 
-export const uploadTestCases = (selectedTestCases, mode) => dispatch => {
-	console.log('uploadTestCases ==', selectedTestCases);
-	console.log(this.suitename);
-	this.spinnerService.show();
+export const uploadTestCases = (executeValue) => (dispatch, getState) => {
+	console.log('uploadTestCases ==', getState().testSuiteUploadData.sheetData.allCases);
+
+	const selectedTestCases = [] 
+	getState().testSuiteUploadData.sheetData.allCases.map((item) => {
+		if (item.selected) {
+			selectedTestCases.push(item.id);
+		}
+	});
+	console.log('selectedTestCases', selectedTestCases );
+
+	// this.spinnerService.show();
 	// this.MyModel=null;
 	// this.show=false;
 	// this.show1=false;
@@ -144,7 +152,6 @@ export const uploadTestCases = (selectedTestCases, mode) => dispatch => {
 	//    this.executevalue = 1
 	//  }
 
-	const executeValue = (mode == 0)? 0: 1;
 	// this.changessaved=true;
 
 	 // tmp Code. Will change after sheet rename file popup dialog
@@ -201,7 +208,3 @@ export const uploadTestCases = (selectedTestCases, mode) => dispatch => {
 //     let headers = new HttpHeaders().set('Authorization',this.newtoken)
 //     return this.http.post<any>(`${this.url}/test-suite`,upload,{headers: headers}); 
 //   }
-
-export const selectAllTestCases = (page) => dispatch => {
-	
-};
