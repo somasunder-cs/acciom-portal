@@ -2,18 +2,11 @@
  * Mocking client-server processing
  */
 import _testSuitesData from '../json/test-suites-data.json';
-import _orgDataQuality from '../json/org-data-quality.json';
-
-import _projectDataQuality from '../json/project-data-quality-index.json';
-
 import _getAllConnections from '../json/getAllConnections.json';
 import _viewTestCase from '../json/viewTestCase.json';
 import _viewTestCaseLog from '../json/viewLogs.json';
 
-
 import {
-	loginToPortalSuccess,
-	loginToPortalError,
 	getAllTestSuitesSuccess,
 	getAllTestSuitesError,
 	executeTestBySuiteIdSuccess,
@@ -32,58 +25,20 @@ import {
 	updateDBDetailsSuccess,
 	getTestCaseLogByIdSuccess,
 	getTestCaseLogByIdError,
-	getOrgDataQualitySuccess,
-	getOrgDataQualityError,
-
-	getDQIprojectDetailsSuccess,
-	getDQIprojectDetailsError,
-
 	viewTestCaseLog,
 	viewTestCase
-
 } from '../actions';
 
-const headers = {
-	'Accept': 'application/json, text/plain, */*',
+const TIMEOUT = 100;
+export const BASE_URL= 'http://172.16.21.192:5000/api';
+export const headers = {
 	'Content-Type': 'application/json',
 	'Authorization':''
 };
-const TIMEOUT = 100;
-const BASE_URL= '/api';
 
-
-const updateHeaders = () => {
-	headers.Authorization = localStorage.getItem('id_token');
+export const updateHeaders = (authToken) => {
+	headers.Authorization = `Bearer ${authToken}`;
 };
-
-export const loginToPortal = (loginData) => dispatch => {
-	loginData = {
-		access_token:"asdssdfsdfsfsfsfsdfsdfsfsdfasds",
-		user: "justsoma",
-		uid:"soma131231",
-		refresh_token:"asdafghfhfhfghfghfghfg",
-		name: "Somasunder CS"
-	}
-	setTimeout(() => {
-		dispatch(loginToPortalSuccess(loginData));
-	}, TIMEOUT);
-
-	// fetch(`${BASE_URL}/login`, {
-	// 	method: 'post',
-	// 	headers,
-	// 	body: loginData
-	// })
-	// 	.then(res => res.json())
-	// 	.then(res => {
-	// 		if(res.error) {
-	// 			dispatch(loginToPortalError(res.error));
-	// 		}
-	// 		dispatch(loginToPortalSuccess(res.data));
-	// 	})
-	// 	.catch(error => {
-	// 		dispatch(loginToPortalError(error));
-	// 	});
-}
 
 export const getAllTestSuites = () => (dispatch, getState)  => {
 	setTimeout(() => {
@@ -269,47 +224,4 @@ export const getTestCaseLogById = (logID) => dispatch => {
 		.catch(error => {
 			dispatch(getTestCaseLogByIdError(error));
 		});
-};
-
-export const getOrgDataQuality = () => dispatch => {
-	console.log('MW.getOrgDataQuality ');
-	setTimeout(() => {
-		dispatch(getOrgDataQualitySuccess(_orgDataQuality));
-	}, TIMEOUT);
-
-	// fetch(`${BASE_URL}/organization-data-quality-index`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(res => res.json())
-	// 	.then(res => {
-	// 		if(res.error) {
-	// 			dispatch(getOrgDataQualityError(res.error));
-	// 		}
-	// 		dispatch(getOrgDataQualitySuccess(res.data));
-	// 	})
-	// 	.catch(error => {
-	// 		dispatch(getOrgDataQualityError(error));
-	// 	});
-};
-
-export const getDQIprojectDetails = (project_id) => dispatch => {
-	setTimeout(() => {
-		dispatch(getDQIprojectDetailsSuccess(_projectDataQuality));
-	}, TIMEOUT);
-
-	// fetch(`${BASE_URL}/project-data-quality-index?project_id:${project_id}`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// .then(res => res.json())
-	// .then(res => {
-	// 	if(res.error) {
-	// 		dispatch(getDQIprojectDetailsError(res.error));
-	// 	}
-	// 	dispatch(getDQIprojectDetailsSuccess(res.data));
-	// })
-	// .catch(error => {
-	// 	dispatch(getDQIprojectDetailsError(error));
-	// });
 };

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -17,10 +18,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Icon from '@material-ui/core/Icon';
+
+import { logoutFromPortal } from '../actions/loginActions';
 
 const drawerWidth = 240;
 
@@ -31,16 +32,16 @@ const useStyles = makeStyles(theme => ({
 	appBar: {
 		zIndex: theme.zIndex.drawer + 1,
 		transition: theme.transitions.create(['width', 'margin'], {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
 		}),
 	},
 	appBarShift: {
 		marginLeft: drawerWidth,
 		width: `calc(100% - ${drawerWidth}px)`,
 		transition: theme.transitions.create(['width', 'margin'], {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.enteringScreen,
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.enteringScreen,
 		}),
 	},
 	menuButton: {
@@ -57,19 +58,19 @@ const useStyles = makeStyles(theme => ({
 	drawerOpen: {
 		width: drawerWidth,
 		transition: theme.transitions.create('width', {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.enteringScreen,
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.enteringScreen,
 		}),
 	},
 	drawerClose: {
 		transition: theme.transitions.create('width', {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
 		}),
 		overflowX: 'hidden',
 		width: theme.spacing(7) + 1,
 		[theme.breakpoints.up('sm')]: {
-		width: theme.spacing(9) + 1,
+			width: theme.spacing(9) + 1,
 		},
 	},
 	toolbar: {
@@ -106,107 +107,125 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function HomeIcon(props) {
+// function HomeIcon(props) {
+// 	return (
+// 		<SvgIcon {...props}>
+// 			<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+// 		</SvgIcon>
+// 	);
+// }
+
+const getLoginOptions = (props, classes) => {
+	let options = null;
+	if (props.loginData && props.loginData.token) {
+		options = <Link to='/login' className={classes.loginbtn}>Login</Link>;
+		// options = <div className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</div>;
+	} else {
+		options = <Link to='/login' className={classes.loginbtn}>Login</Link>;
+	}
+	return options;
+};
+
+function NavigationBar(props) {
+	const classes = useStyles();
+	const theme = useTheme();
+	const [open, setOpen] = React.useState(false);
+
+	function handleDrawerOpen() {
+		setOpen(true);
+	}
+
+	function handleDrawerClose() {
+		setOpen(false);
+	}
+
 	return (
-	  <SvgIcon {...props}>
-		<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-	  </SvgIcon>
-	);
-}
-
-function NavigationBar() {
-		const classes = useStyles();
-		const theme = useTheme();
-		const [open, setOpen] = React.useState(false);
-
-		function handleDrawerOpen() {
-			setOpen(true);
-		}
-
-		function handleDrawerClose() {
-			setOpen(false);
-		}
-
-		return (
-			<div className={classes.root}>
-				<CssBaseline />
-				<AppBar
-					position="fixed"
-					className={clsx(classes.appBar, {
+		<div className={classes.root}>
+			<CssBaseline />
+			<AppBar
+				position="fixed"
+				className={clsx(classes.appBar, {
 					[classes.appBarShift]: open,
-					})}
-				>
-					<Toolbar>
+				})}>
+				<Toolbar>
 					<IconButton
 						color="inherit"
 						aria-label="Open drawer"
 						onClick={handleDrawerOpen}
 						edge="start"
 						className={clsx(classes.menuButton, {
-						[classes.hide]: open,
-						})}
-					>
+							[classes.hide]: open,
+						})}>
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap className={classes.acciom}>
 						Acciom
 					</Typography>
-					<Link to={`/login`} className={classes.loginbtn}>Login</Link>
-					</Toolbar>
-				</AppBar>
-				<Drawer
-					variant="permanent"
-					className={clsx(classes.drawer, {
+					{ getLoginOptions(props, classes) }
+				</Toolbar>
+			</AppBar>
+			<Drawer
+				variant="permanent"
+				className={clsx(classes.drawer, {
 					[classes.drawerOpen]: open,
 					[classes.drawerClose]: !open,
-					})}
-					classes={{
+				})}
+				classes={{
 					paper: clsx({
 						[classes.drawerOpen]: open,
 						[classes.drawerClose]: !open,
 					}),
-					}}
-					open={open}
-				>
-					<div className={classes.toolbar}>
+				}}
+				open={open} >
+				<div className={classes.toolbar}>
 					<IconButton onClick={handleDrawerClose}>
 						{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
 					</IconButton>
-					</div>
-					<Divider />
-					<List>
-						<MenuList className="sideNavBar">
-							<MenuItem>
+				</div>
+				<Divider />
+				<List>
+					<MenuList className="sideNavBar">
+						<MenuItem>
 							<ListItemIcon>
 								{/* <HomeIcon className={classes.icon} color="primary" /> */}
 								<Link to= {'/dashboard'} color= 'primary' >
 									<Icon className={clsx(classes.icon, 'fas fa-business-time fa-2x')} color="primary" />	
 								</Link>
 							</ListItemIcon>
-								{/* <Link to={`/dashboard`}> Dashboard </Link> <br /> */}
-								<Link to={`/dashboard`} className = {classes.dashboard}> Dashboard </Link> <br />
-							</MenuItem>
-							<MenuItem>
+							{/* <Link to={`/dashboard`}> Dashboard </Link> <br /> */}
+							<Link to={`/dashboard`} className = {classes.dashboard}> Dashboard </Link> <br />
+						</MenuItem>
+						<MenuItem>
 							<ListItemIcon>
 								<Link to={`/home`} className = {classes.home}>
 									<Icon className={clsx(classes.icon, 'fas fa-upload fa-2x')} color="primary" />  
 								</Link> 
 							</ListItemIcon>
-								<Link to={`/home`} className = {classes.home}> Upload Test Suites </Link> <br />
-							</MenuItem>
-							<MenuItem>
+							<Link to={`/home`} className = {classes.home}> Upload Test Suites </Link> <br />
+						</MenuItem>
+						<MenuItem>
 							<ListItemIcon>
 								<Link to ={`/startup`} className = {classes.startup}>
 									<Icon className={clsx(classes.icon, 'fas fa-list-alt fa-2x')} color="primary" />
 								</Link>
 							</ListItemIcon>
-								<Link to={`/startup`} className = {classes.startup}>Test Suites</Link>
-							</MenuItem>
-						</MenuList>
-					</List>
-				</Drawer>
-			</div>
-		);
+							<Link to={`/startup`} className = {classes.startup}>Test Suites</Link>
+						</MenuItem>
+					</MenuList>
+				</List>
+			</Drawer>
+		</div>
+	);
 }
 
- export default NavigationBar;
+const mapStateToProps = (state) => {
+	console.log("Navbar mapStateToProps()", state);
+	return {
+		loginData: state.loginData
+	}
+};
+const mapDispatchToProps = (dispatch) => ({
+	logoutFromPortal: () => dispatch(logoutFromPortal())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);

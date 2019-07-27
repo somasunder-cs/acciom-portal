@@ -34,7 +34,7 @@ const App = () => (
 				<NavigationBar />
 			</Sidebar>
 			<Content>
-				<Route path="/" exact component={Home} />
+				<Route path="/" exact component={Dashboard} />
 				<Route path="/dashboard" component={Dashboard} />
 				<Route path="/startup" component={Startup} />
 				<Route path="/home" component={Home} />

@@ -1,6 +1,4 @@
 import { 
-	LOGIN_TO_PORTAL_SUCCESS,
-	LOGIN_TO_PORTAL_ERROR,
 	GET_ALL_TEST_SUITES_SUCCESS,
 	GET_ALL_TEST_SUITES_ERROR,
 	EXECUTE_TEST_BY_SUITE_ID_SUCCESS,
@@ -18,8 +16,6 @@ import {
 	UPDATE_DB_DETAILS_SUCCESS,
 	UPDATE_DB_DETAILS_ERROR,
 	GET_TESTCASE_LOG_BY_ID_SUCCESS,
-	GET_ORG_DATA_QUALITY_ERROR,
-	GET_ORG_DATA_QUALITY_SUCCESS,
 	MANAGE_CONNECTIONS_CASE_UPDATE,
 	HIDE_MANAGE_CONNECTIONS_DIALOG,
 	VIEW_TEST_CASE_LOG,
@@ -27,20 +23,9 @@ import {
 	VIEW_TEST_CASE,
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
-	TEST_SUITE_FILE_UPLOAD_SUCCESS,
 	SAVE_MANAGE_CONNECTION_DETAILS,		
 	SHOW_TEST_CASE_VIEW_ENABLED
 } from "../constants/ActionTypes"; 
-
-export const loginToPortalSuccess = data =>({
-	type: LOGIN_TO_PORTAL_SUCCESS,
-	data
-})
-
-export const loginToPortalError = data =>({
-	type: LOGIN_TO_PORTAL_ERROR,
-	data
-})
 
 export const getAllTestSuitesSuccess = testSuiteList => ({
 	type: GET_ALL_TEST_SUITES_SUCCESS,
@@ -136,17 +121,6 @@ export const getTestCaseLogByIdError = error => ({
 	error
 });
 
-export const getOrgDataQualitySuccess = response => ({
-	type: GET_ORG_DATA_QUALITY_SUCCESS,
-	data: response.data
-});
-
-export const getOrgDataQualityError = error => ({
-	type: GET_ORG_DATA_QUALITY_ERROR,
-	error
-});
-
-
 export const manageConnectionsCaseUpdate = data => ({
 	type: MANAGE_CONNECTIONS_CASE_UPDATE,
 	data
@@ -173,44 +147,6 @@ export const hideTestCaseDialog = () => ({
 export const showTestCaseEditEnabled = () => ({
 	type: SHOW_TEST_CASE_EDIT_ENABLED
 });
-export const testSuiteFileUploadSuccess = sheets => ({
-	type: TEST_SUITE_FILE_UPLOAD_SUCCESS,
-	sheets
-});
-
-export const onTestSuiteSheetSelect = (sheet) => ({
-	type: 'TEST_SUITE_SHEET_SELECT',
-	sheet
-})
-
-export const testSuiteSheetloadSuccess = sheetData => ({
-	type: 'TEST_SUITE_SHEET_LOAD_SUCCESS',
-	sheetData
-});
-
-export const getDQIprojectDetailsSuccess = data => ({
-	type: 'GET_DQI_PROJECT_DETAILS_SUCCESS',
-	data
-});
-
-export const getDQIprojectDetailsError = error => ({
-	type: 'GET_DQI_PROJECT_DETAILS_ERROR',
-	error
-});
-export const uploadTestCasesSuccess = data => ({
-	type: 'UPLOAD_TESTCASES_SUCCESS',
-	data
-});
-
-export const uploadTestCasesError = data => ({
-	type: 'UPLOAD_TESTCASES_ERROR',
-	data
-});
-
-export const testCaseSelectionChange = (testCase) => ({
-	type: 'TEST_CASE_SELECTION_CHANGE',
-	testCase
-});
 
 export const showTestCaseViewEnabled = () => ({		
 	type: SHOW_TEST_CASE_VIEW_ENABLED		
@@ -220,7 +156,3 @@ export const saveManageConnectionDetails = data => ({
 	type: SAVE_MANAGE_CONNECTION_DETAILS,
 	data
 });
-
-export const testCaseSelectAllToggle = () => ({
-	type: 'TEST_CASE_SELECT_ALL_TOGGLE'
-});	

@@ -3,15 +3,25 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { Table } from 'react-bootstrap';
 
-import { loadTestSuiteFile,	loadTestSuiteSheet, uploadTestCases } from '../middleware/testSuiteUpload';
-import { onTestSuiteSheetSelect, testCaseSelectionChange, testCaseSelectAllToggle } from '../actions';
+// import { loadTestSuiteFile,	loadTestSuiteSheet, uploadTestCases } from '../middleware/testSuiteUpload';
+import { 
+	onTestSuiteSheetSelect, 
+	testCaseSelectionChange, 
+	testCaseSelectAllToggle,
+	loadTestSuiteFile,
+	loadTestSuiteSheet,
+	uploadTestCases 
+} from '../actions/testSuiteUploadActions';
 
 class Home extends React.Component {
-render() {
+
+	componentDidMount() {
+		console.log('Home.componentDidMount() ===>', this.props);
+	}
+
+	render() {
 		const MODE_UPLOAD = 0;
 		const MODE_UPLOAD_AND_EXECUTE = 1;
-
-		console.log('render()', this.props);
 
 		const handleChange = (selectedFiles) => {
 			console.log('handleChange ', selectedFiles);

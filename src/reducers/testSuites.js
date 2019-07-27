@@ -84,10 +84,12 @@ const testSuites = (state = initialState, action) => {
 		};
 
 	case VIEW_TEST_CASE:
-		action.testCase.showTestCaseDialog = true;
 		return {
 			...state,
-			testCase : action.testCase		
+			testCase: {
+				...state.testCase,
+				showTestCaseDialog : true
+			}
 		};
 
 	case SHOW_TEST_CASE_EDIT_ENABLED:

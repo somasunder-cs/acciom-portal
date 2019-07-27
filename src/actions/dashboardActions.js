@@ -1,0 +1,72 @@
+import _orgDataQuality from '../json/org-data-quality.json';
+import _projectDataQuality from '../json/project-data-quality-index.json';
+
+import {
+	GET_ORG_DATA_QUALITY_SUCCESS,
+	GET_ORG_DATA_QUALITY_ERROR,
+} from '../constants/ActionTypes';
+
+const TIMEOUT = 100;
+
+const getOrgDataQualitySuccess = response => ({
+	type: GET_ORG_DATA_QUALITY_SUCCESS,
+	data: response.data
+});
+
+const getOrgDataQualityError = error => ({
+	type: GET_ORG_DATA_QUALITY_ERROR,
+	error
+});
+
+const getDQIprojectDetailsSuccess = data => ({
+	type: 'GET_DQI_PROJECT_DETAILS_SUCCESS',
+	data
+});
+
+const getDQIprojectDetailsError = error => ({
+	type: 'GET_DQI_PROJECT_DETAILS_ERROR',
+	error
+});
+
+export const getOrgDataQuality = () => dispatch => {
+	console.log('MW.getOrgDataQuality ');
+	setTimeout(() => {
+		dispatch(getOrgDataQualitySuccess(_orgDataQuality));
+	}, TIMEOUT);
+
+	// fetch(`${BASE_URL}/organization-data-quality-index`, {
+	// 	method: 'get',
+	// 	headers
+	// })
+	// 	.then(res => res.json())
+	// 	.then(res => {
+	// 		if(res.error) {
+	// 			dispatch(getOrgDataQualityError(res.error));
+	// 		}
+	// 		dispatch(getOrgDataQualitySuccess(res.data));
+	// 	})
+	// 	.catch(error => {
+	// 		dispatch(getOrgDataQualityError(error));
+	// 	});
+};
+
+export const getDQIprojectDetails = (project_id) => dispatch => {
+	setTimeout(() => {
+		dispatch(getDQIprojectDetailsSuccess(_projectDataQuality));
+	}, TIMEOUT);
+
+	// fetch(`${BASE_URL}/project-data-quality-index?project_id:${project_id}`, {
+	// 	method: 'get',
+	// 	headers
+	// })
+	// .then(res => res.json())
+	// .then(res => {
+	// 	if(res.error) {
+	// 		dispatch(getDQIprojectDetailsError(res.error));
+	// 	}
+	// 	dispatch(getDQIprojectDetailsSuccess(res.data));
+	// })
+	// .catch(error => {
+	// 	dispatch(getDQIprojectDetailsError(error));
+	// });
+};

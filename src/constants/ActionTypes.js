@@ -1,7 +1,8 @@
 // ========================= Login - Constants
 export const LOGIN_TO_PORTAL_SUCCESS = 'LOGIN_TO_PORTAL_SUCCESS';
 export const LOGIN_TO_PORTAL_ERROR = 'LOGIN_TO_PORTAL_ERROR';
-
+export const LOGOUT_FROM_PORTAL_SUCCESS = 'LOGOUT_FROM_PORTAL_SUCCESS';
+export const LOGOUT_FROM_PORTAL_ERROR = 'LOGOUT_FROM_PORTAL_ERROR';
 // ========================= Test Suite List - Constants
 export const GET_ALL_TEST_SUITES_SUCCESS = 'GET_ALL_TEST_SUITES_SUCCESS';
 export const GET_ALL_TEST_SUITES_ERROR = 'GET_ALL_TEST_SUITES_ERROR';

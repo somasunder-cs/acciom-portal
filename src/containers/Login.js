@@ -5,7 +5,7 @@ import { isEmail, isEmpty, isLength, isContainWhiteSpace } from '../shared/valid
  
 import styled from 'styled-components';
 
-import { loginToPortal } from '../middleware';
+import { loginToPortal } from '../actions/loginActions';
 
 // const FormContainer = styled.div`
 // `;
@@ -24,7 +24,7 @@ class Login extends Component {
 	}
 
 	static getDerivedStateFromProps = (nextProps) => {
-		if (nextProps.loginData.uid) {
+		if (nextProps.loginData.token) {
 			nextProps.history.push('./startup');
 		}
 		return null;
@@ -56,9 +56,10 @@ class Login extends Component {
 			errors.password = "Password can't be blank";
 		} else if (isContainWhiteSpace(formData.password)) {
 			errors.password = "Password should not contain white spaces";
-		} else if (!isLength(formData.password, { gte: 6, lte: 16, trim: true })) {
-			errors.password = "Password's length must between 6 to 16";
-		}
+		} 
+		// else if (!isLength(formData.password, { gte: 6, lte: 16, trim: true })) {
+		// 	errors.password = "Password's length must between 6 to 16";
+		// }
 
 		if (isEmpty(errors)) {
 			return true;
@@ -67,7 +68,7 @@ class Login extends Component {
 		}
 	}
 
-	login = (e) => {		
+	login = (e) => {
 		e.preventDefault();
 		const errors = this.validateLoginForm();
 
@@ -114,10 +115,12 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		loginData: state.testSuites.loginData
+		loginData: state.loginData
 	};
 };
 
-export default connect(mapStateToProps, {
-	loginToPortal
-})(Login);
+const mapDispatchToProps = dispatch => ({
+	loginToPortal: (data) => dispatch(loginToPortal(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

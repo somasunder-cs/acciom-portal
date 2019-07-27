@@ -178,7 +178,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 	return (
 		<div className={classes.root}>
 			{ 
-				testSuiteDataLen > 0 ?
+				(testSuiteDataLen > 0 && testSuites.suites && testSuites.suites.user) ?
 				testSuites.suites.user.map(testSuite => (
 					<ExpansionPanel key={testSuite.test_suite_id} expanded={expanded === testSuite.test_suite_id} onChange={handleChange(testSuite.test_suite_id)}>
 						

@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import CardContainer from './CardContainers';
 import TimeLineComponent from './Timeline';
 import DQIContainer from './DQIContainer';
-import { getOrgDataQuality } from '../middleware';
+import { getOrgDataQuality } from '../actions/dashboardActions';
 
 const loadDashBoardData = (props) => {
 	props.getOrgDataQuality();
