@@ -52,7 +52,7 @@ class GaugeChart extends Component {
 
     return (
 
-      <div className="donut">  
+      <div className="donut DQIprojectGauge">  
         <Chart options={options} series={options.series} type="radialBar" width={this.props.width ? this.props.width : 300}/>
       </div>
     );
