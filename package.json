@@ -11,8 +11,8 @@
         "test": "jest",
         "test:watch": "yarn run test --watch",
         "test:cover": "yarn run test --coverage",
-        "precommit": "yarn run lint && yarn test",
-        "prepush": "yarn run lint"
+        "precommit": "",
+        "prepush": ""
     },
     "keywords": [
         "react",
