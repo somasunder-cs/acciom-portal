@@ -1,30 +1,39 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 
-function TimeLineComponent() {
+class TimeLineComponent extends Component {
+  constructor(props){
+		super(props);
+		this.state = {
+			open: true
+		}
+		this.togglePanel = this.togglePanel.bind(this);
+	}
+
+	togglePanel(e){
+		this.setState({open: !this.state.open})
+	}
+  render() {
     return (
             <div className="col-md-4 col-sm-4 col-xs-12">
               <div className="x_panel">
                 <div className="x_title">
                   <h2 className="activityHeading">Recent Activities <small>Sessions</small></h2>
                   <ul className="nav navbar-right panel_toolbox">
-                    <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
+                    <li>
+                      <a className="collapse-link">
+                        {this.state.open ? (<i className="fa fa-chevron-up" onClick={(e)=>this.togglePanel(e)}></i>) : (<i className="fa fa-chevron-down" onClick={(e)=>this.togglePanel(e)}></i>)}
+                      </a>
                     </li>
                     <li className="dropdown">
                       <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
                       <ul className="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
                       </ul>
-                    </li>
-                    <li><a className="close-link"><i className="fas fa-times"></i></a>
                     </li>
                   </ul>
                   <div className="clearfix"></div>
                 </div>
-                <div className="x_content">
+                { this.state.open ?  (<div className="x_content">
                   <div className="dashboard-widget-content">
 
                     <ul className="list-unstyled timeline widget">
@@ -86,10 +95,11 @@ function TimeLineComponent() {
                       </li>
                     </ul>
                   </div>
-                </div>
+                </div>) : null}
               </div>
             </div>
     )
+  }
 }
 
 export default TimeLineComponent;

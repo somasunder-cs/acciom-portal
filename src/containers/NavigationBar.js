@@ -160,9 +160,6 @@ function NavigationBar(props) {
 						})}>
 						<MenuIcon />
 					</IconButton>
-					{/* <Typography variant="h6" noWrap className={classes.acciom}>
-						Acciom
-					</Typography> */}
 					<img className="logo" src={logo} alt="logo" />
 					<div className="loginOptions">
 						{ getLoginOptions(props, classes) }
