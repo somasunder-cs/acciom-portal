@@ -22,6 +22,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Icon from '@material-ui/core/Icon';
 
 import { logoutFromPortal } from '../actions/loginActions';
+import logo from '../assets/images/logo.jpeg';
 
 const drawerWidth = 240;
 
@@ -35,6 +36,7 @@ const useStyles = makeStyles(theme => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
 		}),
+		height: `70px`
 	},
 	appBarShift: {
 		marginLeft: drawerWidth,
@@ -158,9 +160,10 @@ function NavigationBar(props) {
 						})}>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap className={classes.acciom}>
+					{/* <Typography variant="h6" noWrap className={classes.acciom}>
 						Acciom
-					</Typography>
+					</Typography> */}
+					<img className="logo" src={logo} alt="logo" />
 					<div className="loginOptions">
 						{ getLoginOptions(props, classes) }
 					</div>

@@ -8,6 +8,10 @@ html
     color: darkred;
 }
 
+.logo {
+    width: 95px;
+    height: 70px;
+}
 
 .loginOptions {
     font-weight: bold;
@@ -4182,6 +4186,7 @@ html
        padding: 2px !important;
    }
 
+   
 
 .MuiSvgIcon-colorPrimary {
     color: #E7E7E7 !important;
@@ -4196,7 +4201,8 @@ html
 }
 
 .MuiAppBar-colorPrimary {
-    background-color: #dcdcdc !important;
+    /* background-color: #dcdcdc !important; */
+    background-image: linear-gradient(to right, white, #e6e1e1);
 }
 
 .activityHeading, .chartHeading {
@@ -4346,3 +4352,11 @@ html
   .cardContainer {
       padding-bottom: 40px;
   }
+
+  .MuiAppBar-root .MuiIconButton-root {
+    background-color: lightgrey;
+  }
+
+  /* .MuiAppBar-root .MuiIconButton-root:hover {
+
+  } */
