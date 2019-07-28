@@ -20,23 +20,23 @@ class GaugeChart extends Component {
                 track: {
                     background: "#e7e7e7",
                     strokeWidth: '97%',
-                    margin: 5, // margin is in pixels
+                    margin: 5,
                     shadow: {
                         enabled: true,
                         top: 2,
                         left: 0,
-                        color: this.props.color,
+                        color: '#000000',
                         opacity: 1,
                         blur: 2
                     }
                 },
                 dataLabels: {
                     name: {
-                        show: false
+                        show: true
                     },   
                     value: {
                         offsetY: 15,
-                        fontSize: '22px'
+                        fontSize: '0px'
                     }                     
                 }
             }
@@ -46,14 +46,15 @@ class GaugeChart extends Component {
             colors: this.props.color
         },
         series: [this.props.percentage],
-        labels: ['Average Results']
+        labels: [this.props.percentage + '%']
         
     };
 
     return (
 
-      <div className="donut DQIprojectGauge">  
+      <div className="DQIprojectGauge ">  
         <Chart options={options} series={options.series} type="radialBar" width={this.props.width ? this.props.width : 300}/>
+        <span className={this.props.class}>{this.props.name}</span>
       </div>
     );
   }

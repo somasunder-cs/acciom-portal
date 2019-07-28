@@ -14,31 +14,54 @@ class BarChart extends Component {
 
     const options = {
         chart: {
-          height: 50,
+          height: 350,
           type: 'line',
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'straight'
-        },
-        series: [{
-          name: "Desktops",
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-        }],
-        grid: {
-          row: {
-            colors: ['#f3f3f3', 'transparent'],
-            opacity: 0.5
+          shadow: {
+              enabled: true,
+              color: '#000',
+              top: 18,
+              left: 7,
+              blur: 10,
+              opacity: 1
           },
-        },
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        }
+          toolbar: {
+              show: false
+          }
+      },
+      colors: ['#77B6EA', '#545454'],
+      dataLabels: {
+          enabled: true,
+      },
+      stroke: {
+          curve: 'smooth'
+      },
+      series: [{
+              name: "DQI-Result",
+              data: [95.38, 95.17, 95.13, 95.15, 95.14, 33]
+          }
+      ],
+      grid: {
+          borderColor: '#e7e7e7',
+          row: {
+              colors: ['#f3f3f3', 'transparent'],
+              opacity: 0.5
+          },
+      },
+      markers: {
+          
+          size: 6
+      },
+      xaxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          title: {
+              text: 'DQI Score'
+          }
+      },
+      yaxis: {
+          title: {
+              text: 'Data Quality Index'
+          }
+      }
     }
   
 
