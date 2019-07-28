@@ -19,7 +19,7 @@ class Startup extends React.Component {
 		console.log('Startup.render() ==> ', this.props);
 		return (
 			<div>
-				<h1>Start up...</h1>
+				<h2 className="activityHeading">Test Suite List</h2><br></br>
 				<TestSuiteList />
 			</div>
 		);

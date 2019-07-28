@@ -4291,6 +4291,42 @@ html
     padding: 10px 6px 6px 10px !important;
 }
 
+.ModalMargin {
+    margin-top: 80px !important;
+}
+
+.modal-body {
+    padding:0px !important;
+}
+
+.manageConnectionLabel {
+    width:190px;
+}
+
+.manageSelectConnection .MuiSelect-root {
+    width:160px;
+}
+
+.table>tbody>tr>td { 
+    border-top: 0px !important; 
+}
+
+.testLogHeading {
+    font-size: 0.8125rem;
+    flex-basis: 33.33%;
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+.testLogData{
+    font-size: 0.8125rem;
+    flex-shrink: 0;
+}
+
+.makeStyles-innerPanelWidth-165 {
+    width:1085px !important;
+}
+
 .detailsChart li {
     list-style: none;
     width: 245px;

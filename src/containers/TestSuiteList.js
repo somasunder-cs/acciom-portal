@@ -7,11 +7,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { Table } from 'react-bootstrap';
 import ManageConnection from '../components/ManageConnection';
 import ViewLogs from '../components/ViewLogs';
 import ViewTestCase from '../components/ViewTestCase';
@@ -25,30 +21,30 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 	},
 	heading: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		fontWeight: 'bold',
 		flexBasis: '33.33%',
 		flexShrink: 0,
 	},
 	secondaryHeading: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		flexBasis: '33.33%',
 		color: theme.palette.text.secondary,
 	},
 	subHeading: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		fontWeight: 'bold',
 		flexBasis: '40%',
 		flexShrink: 0,
 	},
 	suiteID: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 		flexShrink: 0,
 	},
 	manageConnection: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		flexBasis: '23.33%',
 		color: 'brown',
 	},
@@ -60,39 +56,40 @@ const useStyles = makeStyles(theme => ({
 		boxShadow: '4px',
 	},
 	viewConnection: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		flexBasis: '18.33%',
 		flexShrink: 0,
 		color: 'brown',
 	},
 	status: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		flexBasis: '18.33%',
 		flexShrink: 0,
+		fontWeight: 'bold'
 	},
 	statusImg: {flexBasis: '20%'},
 	noRecord: {color: 'red', textAlign: 'center'},
-	innerPanelWidth: {width:'950px'},
+	innerPanelWidth: {width:'1080px'},
 	statusBg: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		color: '#2ecca4',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
 	statusBgBlue: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		color: 'blue',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
 	statusBgRed: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		color:'rgb(245, 124, 76)',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
 	statusBgOrange: {
-		fontSize: theme.typography.pxToRem(15),
+		fontSize: theme.typography.pxToRem(13),
 		color: '#F7861B',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
@@ -128,7 +125,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 		testCaseLogs();
 	};
 
-	const renderTestStatus = (status) => {
+	const renderTestName = (status) => {
 		switch(status) {
 		case 0:
 			return classes.statusBgBlue;
@@ -140,6 +137,21 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 			return classes.statusBgOrange;
 		case 4:
 			return classes.statusBgRed;
+		default:
+			return '';
+		}
+	};
+
+	const renderTestStatus = (status) => {
+		switch(status) {
+		case 0:
+			return 'New';
+		case 1:
+			return <i className="fas fa-2x fa-check-circle" aria-hidden="true"></i>;
+		case 2:
+			return <i className="fas fa-2x fa-times-circle" aria-hidden="true"></i>;
+		case 3:
+			return <i className="fas fa-2x fa-stopwatch" aria-hidden="true"></i>;
 		default:
 			return '';
 		}
@@ -201,34 +213,33 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 											<Typography className={classes.subHeading}>{testCaseList.test_id}</Typography>
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, getTestCases)}>View</Typography>
-											<Typography className={classes.status}>Status</Typography>
-											<Typography className={renderTestStatus(testCaseList.test_status)}>{testCaseList.test_name}</Typography>
+											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
+											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_name}</Typography>
 											<Typography><i className="fa fa fa-play" aria-hidden="true"></i></Typography>
 										</ExpansionPanelSummary>
 										
 										<ExpansionPanelDetails>
-											<div className={classes.rcorners}>
-												<Table >
-													<TableHead>
-														<TableRow>
-															<TableCell>Run ID</TableCell>
-															<TableCell align="left">Execution Status</TableCell>
-															<TableCell align="left">Execution At</TableCell>
-															<TableCell align="left">Logs</TableCell>
-														</TableRow>
-													</TableHead>													
-													{  
-														testCaseList.test_case_log.map(testCaseLog => (
-														<TableBody key={testCaseLog.test_case_log_id}>
-															<TableRow>
-																<TableCell align="left"></TableCell>
-																<TableCell align="left">{renderExecutionStatus(testCaseLog.test_execution_status)}</TableCell>
-																<TableCell align="left">{testCaseLog.executed_at}</TableCell>
-																<TableCell align="left" className={classes.caseLog} onClick={e => viewTestCaseLogs(e, testCaseLogs)}><i className="fas fa-grip-lines"></i></TableCell>
-															</TableRow>
-														</TableBody>
+										<div>
+											    <Table striped bordered hover size="sm">
+												  <thead>
+													<tr>
+													  {/* <th className="testLogHeading">Run ID</th> */}
+													  <th className="testLogHeading">Execution Status</th>
+													  <th className="testLogHeading">Execution At</th>
+													  <th className="testLogHeading">Logs</th>	
+													</tr>
+												  </thead>
+												  <tbody>
+													{ testCaseList.test_case_log.map(testCaseLog => (
+														<tr key={testCaseLog.test_case_log_id}>
+														  {/* <td className="testLogData"></td> */}
+														  <td className="testLogData">{renderExecutionStatus(testCaseLog.test_execution_status)}</td>
+														  <td className="testLogData">{testCaseLog.executed_at}</td>
+														  <td className={classes.caseLog} onClick={e => viewTestCaseLogs(e, testCaseLogs)}><i className="far fa-sticky-note"></i></td>
+														</tr>
 													))}
-												</Table>
+												  </tbody>
+											    </Table>
 											</div>
 										</ExpansionPanelDetails>
 									</ExpansionPanel>
