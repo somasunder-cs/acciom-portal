@@ -22,9 +22,10 @@ const getSheetsDataOnLoad = (sheets) => {
 const getUpdatedSheetsDataOnSelectionChange = (sheets, selectedSheet) => {
 	return sheets.map((sheet) => {
 		if (sheet === selectedSheet) {
-			return { ...sheet, selected: !sheet.selected };
+			return { ...sheet, selected: true };
+		} else {
+			return { ...sheet, selected: false };
 		}
-		return sheet;
 	});
 };
 

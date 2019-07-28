@@ -87,7 +87,7 @@ const useStyles = makeStyles(theme => ({
 	loginbtn : {
 		position: 'absolute',
 		right: '20px',
-		color: 'cadetblue',
+		color: '#3b6d9e',
 		fontSize: '16px'
 	},
   	dashboard : {
@@ -118,10 +118,10 @@ const useStyles = makeStyles(theme => ({
 const getLoginOptions = (props, classes) => {
 	let options = null;
 	if (props.loginData && props.loginData.token) {
-		options = <Link to='/login' className={classes.loginbtn}>Login</Link>;
-		// options = <div className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</div>;
+		// options = <Link to='/login' className={classes.loginbtn}>Login</Link>;
+		options = <div id="logoutLink" className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</div>;
 	} else {
-		options = <Link to='/login' className={classes.loginbtn}>Login</Link>;
+		options = <Link id="loginLink" to='/login' className={classes.loginbtn}>Login</Link>;
 	}
 	return options;
 };
@@ -161,7 +161,9 @@ function NavigationBar(props) {
 					<Typography variant="h6" noWrap className={classes.acciom}>
 						Acciom
 					</Typography>
-					{ getLoginOptions(props, classes) }
+					<div className="loginOptions">
+						{ getLoginOptions(props, classes) }
+					</div>
 				</Toolbar>
 			</AppBar>
 			<Drawer

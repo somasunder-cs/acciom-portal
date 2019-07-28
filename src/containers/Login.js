@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { Row, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Row, Button, FormGroup, FormControl, ControlLabel, HelpBlock, Panel } from 'react-bootstrap';
 import { isEmail, isEmpty, isLength, isContainWhiteSpace } from '../shared/validator';
  
 import styled from 'styled-components';
@@ -88,26 +88,28 @@ class Login extends Component {
 
 		return (
 			<div className="loginForm">
-				<Row>
-					Login form 
-					<form onSubmit={this.login}>
-						<FormGroup controlId="email" validationState={ formSubmitted ? (errors.email ? 'error' : 'success') : null }>
-							<ControlLabel>Email</ControlLabel>
-							<FormControl type="text" name="email" placeholder="Enter your email" onChange={this.handleInputChange} />
-							{ errors.email && 
-								<HelpBlock>{errors.email}</HelpBlock> 
-							}
-						</FormGroup >
-						<FormGroup controlId="password" validationState={ formSubmitted ? (errors.password ? 'error' : 'success') : null }>
-							<ControlLabel>Password</ControlLabel>
-							<FormControl type="password" name="password" placeholder="Enter your password" onChange={this.handleInputChange} />
-							{ errors.password && 
-								<HelpBlock>{errors.password}</HelpBlock> 
-							}
-						</FormGroup>
-						<Button type="submit" bsStyle="primary">Sign-In</Button>
-					</form>
-				</Row>
+				<Panel>
+					<Panel.Heading>User Login</Panel.Heading>
+					<Panel.Body>
+						<form onSubmit={this.login}>
+							<FormGroup controlId="email" validationState={ formSubmitted ? (errors.email ? 'error' : 'success') : null }>
+								<ControlLabel>Email</ControlLabel>
+								<FormControl type="text" name="email" placeholder="Enter your email" onChange={this.handleInputChange} />
+								{ errors.email && 
+									<HelpBlock>{errors.email}</HelpBlock> 
+								}
+							</FormGroup >
+							<FormGroup controlId="password" validationState={ formSubmitted ? (errors.password ? 'error' : 'success') : null }>
+								<ControlLabel>Password</ControlLabel>
+								<FormControl type="password" name="password" placeholder="Enter your password" onChange={this.handleInputChange} />
+								{ errors.password && 
+									<HelpBlock>{errors.password}</HelpBlock> 
+								}
+							</FormGroup>
+							<Button type="submit" bsStyle="primary">Sign-In</Button>
+						</form>
+					</Panel.Body>
+				</Panel>
 			</div>
 		)
 	}

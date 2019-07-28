@@ -1,6 +1,6 @@
 import XLSX from 'xlsx';
 import { TEST_SUITE_FILE_UPLOAD_SUCCESS } from '../constants/ActionTypes';
-// import { testSuiteFileUploadSuccess, testSuiteSheetloadSuccess } from '../actions';
+import { BASE_URL, headers } from '../middleware';
 
 let pages = [];
 let workbook = {};
@@ -17,21 +17,23 @@ let temp_table_detail = [];
 let temp_column_detail = [];
 let all_cases = [];
 
-const headers = {
-	'Accept': 'application/json, text/plain, */*',
-	'Content-Type': 'application/json',
-	'Authorization':''
-};
+// const headers = {
+// 	'Accept': 'application/json, text/plain, */*',
+// 	'Content-Type': 'application/json',
+// 	'Authorization':''
+// };
 
 const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue) => {
 	const payload = {
 		'inputFile': fileToUpload,
-		'sheet': selectedSheet,
-		'selectedcase': selectedCase,
+		// 'sheet': selectedSheet,
+		'sheet_name':selectedSheet,
+		// 'selectedcase': selectedCase,
+		'selected_case': selectedCase,
 		'suitename': suiteName,
 		'exvalue': executeValue
 	}
-	return payload;
+	return JSON.stringify(payload);
 };
 
 const testSuiteFileUploadSuccess = sheets => ({

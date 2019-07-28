@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { Table } from 'react-bootstrap';
+import { Panel, Button, Table } from 'react-bootstrap';
 
 // import { loadTestSuiteFile,	loadTestSuiteSheet, uploadTestCases } from '../middleware/testSuiteUpload';
 import { 
@@ -22,6 +22,10 @@ class Home extends React.Component {
 	render() {
 		const MODE_UPLOAD = 0;
 		const MODE_UPLOAD_AND_EXECUTE = 1;
+
+		const handleTestSuiteUploadClick = () => {
+			document.getElementById("testSuiteUploadFile").click();
+		};
 
 		const handleChange = (selectedFiles) => {
 			console.log('handleChange ', selectedFiles);
@@ -51,32 +55,38 @@ class Home extends React.Component {
 		};
 
 		const getSheetsList = () => {
-			let sheetList = [];
+			let element;
 			if (this.props.pages.length > 0) {
-				sheetList = this.props.pages.map((page, index) => {
+				const sheetList = this.props.pages.map((page, index) => {
 					return (
-						<div key={index}>
-							<div>
-								<span>Please select sheet to be loaded</span> <br /> 
+						<div key={index} class='sheetListItem'>
+							<label className="form-check-label">
 								<input
-									type="checkbox"
+									type="radio"
 									value={page.name}
-									id={page.name}
-									name={page.name}
 									checked={page.selected}
 									onChange={ (e) => handleSheetCheckChange(page)}
 								/>
-								<label className="form-check-label">{page.name}</label>
-							</div>
-							<br />
-							<div>
-								<input type='button' name="Continue" value="Continue" onClick = { (e) => onContinueClick(page)}/>
-							</div>
+								{page.name}
+							</label>
 						</div>
 					);
 				});
+
+				element = (
+					<Panel className='testSuiteSheetListPanel'>
+						<Panel.Heading>Please select the sheet to be loaded</Panel.Heading>
+						<Panel.Body>
+							<div>{ sheetList } </div>
+							<div>
+								<Button bsStyle="primary" onClick={ (e) => onContinueClick()}>Load Test Cases</Button> 
+							</div>
+						</Panel.Body>
+					</Panel>
+				);
 			}
-			return sheetList;
+
+			return element;
 		}
 
 		const onUploadBtnClick = (mode) => {
@@ -107,52 +117,57 @@ class Home extends React.Component {
 				});			
 				
 				return (
-					<div>
-						<Table responsive>
-							<thead>
-								<tr>
-									<th>Test Case Description</th>
-									<th>Test Class</th>
-									<th>
-										<input
-											type="checkbox"
-											value="Select All"
-											id="Select All"
-											name="Select All"
-											checked= {this.props.selectAll}
-											onChange={ (e) => handleSelectAllChange()}
-										/> Select All
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{testCasesList}
-							</tbody>
-						</Table>
-						<div>
-							<input type='button' name="Upload" value="Upload" onClick = { (e) => onUploadBtnClick(MODE_UPLOAD)}/>
-							<input type='button' name="Upload and Execute" value="Upload and Execute" onClick = { (e) => onUploadBtnClick(MODE_UPLOAD_AND_EXECUTE)}/>
-						</div>
+					<div class='testCaseListContainer'>
+						<Panel className='testCaseListPanel'>
+							<Panel.Body>
+								<Table responsive>
+									<thead>
+										<tr>
+											<th>Test Case Description</th>
+											<th>Test Class</th>
+											<th>
+												<input
+													type="checkbox"
+													value="Select All"
+													id="Select All"
+													name="Select All"
+													checked= {this.props.selectAll}
+													onChange={ (e) => handleSelectAllChange()}
+												/> Select All
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										{testCasesList}
+									</tbody>
+								</Table>
+								<div>
+									<Button bsStyle="primary" onClick={ (e) => onUploadBtnClick(MODE_UPLOAD_AND_EXECUTE)}>Upload and Execute</Button>								
+									<Button bsStyle="primary" onClick={ (e) => onUploadBtnClick(MODE_UPLOAD)}>Upload</Button> 
+								</div>
+							</Panel.Body>
+						</Panel>
 					</div>
 				)
 			}
 		};
 
 		return (
-			<div>
-				<h1>Upload Test Suite</h1>
+			<div id="testSuiteUploadContainer">
+				<div class='testSuiteUploadOptions'>
+					<Panel className='testSuiteUploadPanel'>
+						<Panel.Heading>Upload Test Suite</Panel.Heading>
+						<Panel.Body>
+							<div className="hideElement">
+								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
+									onChange={ (e) => handleChange(e.target.files)}/>
+							</div>
+							<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick(e.target.files)}>Browse Test Suite File (.xslx)</Button> 
+						</Panel.Body>
+					</Panel>
 
-				<div>
-					<input type="file" className="file" placeholder="Upload file" accept=".xlsx" onChange={ (e) => handleChange(e.target.files)} />
+					{ getSheetsList() }
 				</div>
-
-				<br />
-				<br />
-				
-				{ getSheetsList() }
-
-				<br />
-				<br />
 
 				{ getTestCasesList() }
 			</div>
