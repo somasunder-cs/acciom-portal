@@ -24,35 +24,21 @@ export default function FormControlLabelPosition() {
                     <input
                       type="radio"
                       value="source"
+                      checked={true}
                       name="connectionType"
-                      onChange={ (e) => handleConnectionChange()}
-                    />&nbsp;
-                    Source&nbsp;
-                  </label>
-
+                      onChange={ (e) => handleConnectionChange(e)}
+                    />
+                  </label>&nbsp; Source &nbsp;
                   <label className="form-check-label">
                     <input
                       type="radio"
                       value="target"
                       name="connectionType"
-                      onChange={ (e) => handleConnectionChange()}
-                    />&nbsp;
-                    Target
-                  </label>
+                      onChange={ (e) => handleConnectionChange(e)}
+                    />
+                  </label>&nbsp; Target
 						    </div>
-                    {/* <RadioGroup aria-label="position" name="position" value={value} onChange={handleChange} row>
-                      <FormControlLabel
-                        value="source"
-                        control={<Radio color="primary" />}
-                        label="Source"
-                      />
-                      <FormControlLabel
-                        value="target"
-                        control={<Radio color="primary" />}
-                        label="Target"
-                      />
-                    </RadioGroup>                     */}
-                  </td>
+              </td>
               </tr>
           </tbody>
           </Table>

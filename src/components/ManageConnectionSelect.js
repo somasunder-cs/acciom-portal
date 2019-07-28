@@ -1,13 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
-import Checkbox from '@material-ui/core/Checkbox';
+
 import { Table } from 'react-bootstrap';
 
 import { manageConnectionsCaseUpdate } from '../actions';
@@ -79,38 +74,36 @@ function ManageConnectionSelect({connectionsList}) {
       <Table className="manageSelectConnection">
       <tbody>
         <tr>
-        <td className="manageConnectionLabel"><label>Select Connection:</label></td>
+        <td className="manageConnectionLabel"><label className="manageConnectionHeading">Select Connection:</label></td>
          <td>
-            <Select className={classes.MuiSelect}
-              value={connection}
-              onChange={handleChange}
-              name="selectConnection"
-              displayEmpty
-              className={classes.selectEmpty}
-            >
-              <MenuItem value="" disabled>
-                Select Connection
-              </MenuItem>
-              {
-                connectionsList.all_connections.map(connection => (
-                connection[1] ?
-                  <MenuItem key={connection[0]} value={connection[0]}>{connection[1]}</MenuItem> : null
-              ))
-              }
-            </Select>
+         <select className="form-control selectconnection"
+           value={connection}
+           onChange={handleChange}
+           name="selectConnection"
+         >
+          { connectionsList.all_connections.map(connection => (
+             connection[1] ?
+             <option key={connection[0]} value={connection[0]}>{connection[1]}</option> : null
+          ))
+          }
+         </select>
          </td>
          </tr> 
          <tr>
-            <td className="manageConnectionLabel"><label>Select Cases:</label></td>
+            <td className="manageConnectionLabel"><label className="manageConnectionHeading">Select Cases:</label></td>
             <td>
             {
               connectionsList.all_cases.map(cases => (
-                  <div key={cases[0]} className="manageconnectionTestCase">
-                      <Checkbox  color="default"
-                      onChange={handleManageConnectionCaseUpdate(cases[0])}
+                <div key={cases[0]} className="manageconnectionTestCase">
+                    <label className="form-check-label">
+                    <input
+                      type="checkbox"
                       value={cases[0]}
-                    /> {cases[1]}
-                  </div>
+                      name={cases[0]}
+                      onChange={handleManageConnectionCaseUpdate(cases[0])}
+                    />
+                  </label> {cases[1]}
+                </div>
             ))
             }
             </td>

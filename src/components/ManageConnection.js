@@ -31,7 +31,7 @@ class ManageConnection extends React.Component {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-         <label>Manage Connections</label>
+         <label className="manageConnectionHeading">Manage Connections</label>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
