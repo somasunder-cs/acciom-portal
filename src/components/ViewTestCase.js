@@ -1,22 +1,14 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
+import { Modal, Button } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
+import { Table } from 'react-bootstrap';
 
 import { hideTestCaseDialog } from '../actions';
 import { showTestCaseEditEnabled } from '../actions';
@@ -43,32 +35,6 @@ const styles = theme => ({
   selectWidth: {width: 156},
 });
 
-const DialogTitle = withStyles(styles)(props => {
-  const { children, classes, onClose } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="Close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles(theme => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles(theme => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
 
 const handleChange = event => {
  // setConnection(event.target.value);
@@ -94,144 +60,152 @@ class TestCaseDetails extends React.Component {
     console.log("ViewTestCaseDialogs==>", this.props);
     return (
       <div>
-       { this.props.viewTestCase ? 
-        <Dialog
-          onClose={this.handleCaseDialogBoxClose}
-          aria-labelledby="customized-dialog-title"
-          open= {this.props.showTestCaseDialog}
-        >
-          <DialogTitle id="customized-dialog-title" onClose={this.handleCaseDialogBoxClose}>
-          <label>Case-Detail:</label>  {this.props.viewTestCase.test_name}  
-          { this.props.showTestCaseEdit ? <label onClick={this.handleManageConnectionViewMode} className="viewEditLabel"><i className="fas fa-long-arrow-alt-left"></i>&nbsp;View Details</label> :
-             <label onClick={this.handleManageConnectionEditMode} className="viewEditLabel">Edit&nbsp;
-           <i className="fas fa-pencil-alt"></i></label>
-          } 
-          </DialogTitle>
-          <DialogContent dividers>
-            { this.props.showTestCaseEdit ?
-              <Table id='editMode'>
-              <TableBody>
-                 <TableRow>
-                   <TableCell align="left">Source Connection:</TableCell>
-                   <TableCell align="left" className={styles.selectWidth}>
-                   <Select
-                       onChange={handleChange}
-                       name="selectConnection"
-                       displayEmpty
-                     >
-                       <MenuItem value="" disabled>
-                         Select Connection
-                       </MenuItem>
-                        <MenuItem></MenuItem>
-                     </Select>
-                   </TableCell>
-                 </TableRow>
-                 <TableRow>
-                   <TableCell align="left">Target Connection:</TableCell>
-                   <TableCell align="left" className={styles.selectWidth}>
-                   <Select
-                       onChange={handleChange}
-                       name="selectConnection"
-                       displayEmpty
-                     >
-                       <MenuItem value="" disabled>
-                         Select Connection
-                       </MenuItem>
-                        <MenuItem></MenuItem>
-                     </Select>
-                   </TableCell>
-                 </TableRow>
-                 <TableRow>
-                   <TableCell align="left">Source Table:</TableCell>
-                   <TableCell align="left">
-                   <TextField
+      { 
+        this.props.viewTestCase ?
+              <Modal
+              show={this.props.showTestCaseDialog}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              onHide={this.handleCaseDialogBoxClose}
+              className="ModalMargin"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                <label>Case-Detail:</label>  {this.props.viewTestCase.test_name}
+                { this.props.showTestCaseEdit ? <label onClick={this.handleManageConnectionViewMode} className="viewEditLabel"><i className="fas fa-long-arrow-alt-left"></i>&nbsp;View Details</label> :
+                  <label onClick={this.handleManageConnectionEditMode} className="viewEditLabel">Edit&nbsp;
+                  <i className="fas fa-pencil-alt"></i></label>
+                }  
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+              { this.props.showTestCaseEdit ?
+                <Table striped bordered hover size="sm" id="editMode">
+                  <tbody>
+                      <tr>
+                      <td className="manageConnectionLabel"><label>Source Connection:</label></td>
+                      <td>             
+                          <Select
+                        onChange={handleChange}
+                        name="selectConnection"
+                        displayEmpty
+                      >
+                        <MenuItem value="" disabled>
+                          Select Connection
+                        </MenuItem>
+                          <MenuItem></MenuItem>
+                      </Select>
+                     </td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Target Connection:</label></td>
+                      <td>             
+                          <Select
+                        onChange={handleChange}
+                        name="targetConnection"
+                        displayEmpty
+                      >
+                        <MenuItem value="" disabled>
+                          Select Connection
+                        </MenuItem>
+                          <MenuItem></MenuItem>
+                      </Select>
+                     </td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Source Table:</label></td>
+                      <td>
+                      <TextField
                         required
                         id="standard-required"
                         value={this.props.viewTestCase.src_table}
                         className={styles.textField}
                         margin="normal"
                       />
-                   </TableCell>
-                 </TableRow>
-                 <TableRow>
-                   <TableCell align="left">Target Table:</TableCell>
-                   <TableCell align="left">
-                   <TextField
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Target Table:</label></td>
+                      <td>
+                      <TextField
                         required
                         id="standard-required"
                         value={this.props.viewTestCase.target_table}
                         className={styles.textField}
                         margin="normal"
                       />
-                   </TableCell>
-                 </TableRow>
-                 <TableRow>
-                   <TableCell align="left">Source Query:</TableCell>
-                   <TableCell align="left">
-                   <TextField
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Source Query:</label></td>
+                      <td><TextField
+                        required
+                        id="standard-required"
+                        value={this.props.viewTestCase.src_qry}
+                        className={styles.textField}
+                        margin="normal"
+                      /></td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Target Query:</label></td>
+                      <td><TextField
                         required
                         id="standard-required"
                         value={this.props.viewTestCase.des_qry}
                         className={styles.textField}
                         margin="normal"
-                      />
-                   </TableCell>
-                 </TableRow>
-                 <TableRow>
-                   <TableCell align="left">Target Query:</TableCell>
-                   <TableCell align="left">      
-                   <TextField
-                        required
-                        id="standard-required"
-                        value={this.props.viewTestCase.des_qry}
-                        className={styles.textField}
-                        margin="normal"
-                      />
-                    </TableCell>
-                 </TableRow>
-                 <TableRow>
-											<TableCell align="left" width="224px"></TableCell>
-											<TableCell align="left"> 
-                      <Button variant="contained" color="primary" onClick={e => handleManageConnectionSave(e)}>
-                           Update
-                      </Button>
-                      </TableCell>
-										</TableRow> 
-                 </TableBody>
-              </Table> : 
-              <Table id='viewMode'>
-                 <TableBody>
-										<TableRow>
-											<TableCell width="195px" align="left">Source Connection:</TableCell>
-											<TableCell align="left">{this.props.viewTestCase.src_db_id}</TableCell>
-										</TableRow>
-                    <TableRow>
-											<TableCell align="left">Target Connection:</TableCell>
-											<TableCell align="left">{this.props.viewTestCase.target_db_id}</TableCell>
-										</TableRow>
-                    <TableRow>
-											<TableCell align="left">Source Table:</TableCell>
-											<TableCell align="left">{this.props.viewTestCase.src_table}</TableCell>
-										</TableRow>
-                    <TableRow>
-											<TableCell align="left">Target Table:</TableCell>
-											<TableCell align="left">{this.props.viewTestCase.target_table}</TableCell>
-										</TableRow>
-                    <TableRow>
-											<TableCell align="left">Source Query:</TableCell>
-											<TableCell align="left">{this.props.viewTestCase.src_qry}</TableCell>
-										</TableRow>
-                    <TableRow>
-											<TableCell align="left">Target Query:</TableCell>
-											<TableCell align="left">{this.props.viewTestCase.des_qry}</TableCell>
-										</TableRow>
-									</TableBody>
+                      /></td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"></td>
+                      <td><Button className="btn btn-primary" onClick={e => this.handleManageConnectionUpdate(e)}>
+                          Update
+                          </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </Table>
+              :  
+              <Table className="manageConnection" id="editMode">
+                  <tbody>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Source Connection:</label></td>
+                      <td>{this.props.viewTestCase.src_db_id}</td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Target Connection:</label></td>
+                      <td>{this.props.viewTestCase.target_db_id}</td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Source Table:</label></td>
+                      <td>{this.props.viewTestCase.src_table}</td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Target Table:</label></td>
+                      <td>{this.props.viewTestCase.target_table}</td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Source Query:</label></td>
+                      <td>{this.props.viewTestCase.src_qry}</td>
+                    </tr>
+                    <tr>
+                      <td className="manageConnectionLabel"><label>Target Query:</label></td>
+                      <td>{this.props.viewTestCase.des_qry}</td>
+                    </tr>
+                  </tbody>
               </Table>
               }
-          </DialogContent>
-        </Dialog>
-       : null }
-      </div>
+              </Modal.Body>
+              <Modal.Footer>
+              {/* <Button className="btn btn-primary" onClick={e => this.handleManageConnectionSave(e)}>
+              Save
+              </Button>
+              <Button className="btn btn-primary">Reset</Button> */}
+              </Modal.Footer>
+            </Modal> : null
+           }
+        </div>
     );
   }
 }
@@ -245,11 +219,6 @@ const mapStateToProps = function (state) {
 	}
 };
 
-// const mapDispatchToProps = function (dispatch) {
-// 	return {
-//     hideTestCaseDialog: () => dispatch(hideTestCaseDialog())
-// 	}
-// }
 export default connect(mapStateToProps, {
 	showTestCaseEditEnabled, showTestCaseViewEnabled, hideTestCaseDialog
 })(TestCaseDetails);
