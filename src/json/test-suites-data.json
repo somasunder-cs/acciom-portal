@@ -1,6 +1,6 @@
 {
 		"suites": {
-				"user": [
+				"test_suite_data": [
 						{
 								"test_suite_id": 153,
 								"excel_name": "Positive Test Cases (1).xlsx",

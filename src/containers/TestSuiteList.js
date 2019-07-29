@@ -147,11 +147,11 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 		case 0:
 			return 'New';
 		case 1:
-			return <i className="fas fa-2x fa-check-circle" aria-hidden="true"></i>;
+			return <i className="fas fa-2x fa-check-circle statusCheckIcon" aria-hidden="true"></i>;
 		case 2:
-			return <i className="fas fa-2x fa-times-circle" aria-hidden="true"></i>;
+			return <i className="fas fa-2x fa-times-circle statusDelIcon" aria-hidden="true"></i>;
 		case 3:
-			return <i className="fas fa-2x fa-stopwatch" aria-hidden="true"></i>;
+			return <i className="fas fa-2x fa-stopwatch statusStopIcon" aria-hidden="true"></i>;
 		default:
 			return '';
 		}
@@ -190,8 +190,8 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 	return (
 		<div className={classes.root}>
 			{ 
-				(testSuiteDataLen > 0 && testSuites.suites && testSuites.suites.user) ?
-				testSuites.suites.user.map(testSuite => (
+				(testSuiteDataLen > 0 && testSuites.suites && testSuites.suites.test_suite_data) ?
+				testSuites.suites.test_suite_data.map(testSuite => (
 					<ExpansionPanel key={testSuite.test_suite_id} expanded={expanded === testSuite.test_suite_id} onChange={handleChange(testSuite.test_suite_id)}>
 						
 						<ExpansionPanelSummary
@@ -220,7 +220,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 										
 										<ExpansionPanelDetails>
 										<div>
-											    <Table striped bordered hover size="sm">
+											    <Table striped bordered hover size="sm" id="RoundedTable">
 												  <thead>
 													<tr>
 													  {/* <th className="testLogHeading">Run ID</th> */}

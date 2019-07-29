@@ -4301,31 +4301,56 @@ html
 
 .manageConnectionLabel {
     width:190px;
-}
-
-.manageSelectConnection .MuiSelect-root {
-    width:160px;
-}
-
-.table>tbody>tr>td { 
-    border-top: 0px !important; 
-}
-
-.testLogHeading {
     font-size: 0.8125rem;
     flex-basis: 33.33%;
     flex-shrink: 0;
     font-weight: bold;
 }
 
-.testLogData{
+.manageSelectConnection .MuiSelect-root {
+    width:160px;
+}
+
+.selectconnection {width:70% !important;}
+
+.table>tbody>tr>td { 
+    border-top: 0px !important;
+    padding: 4px !important;
+}
+
+.manageConnectionHeading, .testLogHeading, .testViewHeading {
+    font-size: 0.8125rem;
+    flex-basis: 33.33%;
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+.testLogData, .testViewData {
     font-size: 0.8125rem;
     flex-shrink: 0;
+    font-weight: normal;
 }
+
+.table {margin-bottom: 0px !important;}
 
 .makeStyles-innerPanelWidth-165 {
     width:1085px !important;
 }
+
+.testViewDataLabel {
+    padding-left:8px;
+}
+
+textarea {width:280px;}
+
+#testEditMode .form-control {
+    width:70%;
+}
+
+.statusDelIcon {color:red !important;}
+.statusCheckIcon {color:#2ecca4 !important;}
+.statusStopIcon {color:rgb(245, 124, 76) !important;}
+
 
 .detailsChart li {
     list-style: none;

@@ -1,14 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import { Modal, Button } from 'react-bootstrap';
-import TextField from '@material-ui/core/TextField';
-import { Table } from 'react-bootstrap';
+import { Table, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 
 import { hideTestCaseDialog } from '../actions';
 import { showTestCaseEditEnabled } from '../actions';
@@ -40,7 +34,8 @@ const handleChange = event => {
  // setConnection(event.target.value);
 };
 
-class TestCaseDetails extends React.Component {  
+
+class TestCaseDetails extends React.Component {
   handleCaseDialogBoxClose = () => {
      console.log("handleCaseDialogBoxClose ==>", this.props);
      this.props.hideTestCaseDialog();
@@ -55,6 +50,10 @@ class TestCaseDetails extends React.Component {
   console.log("handleManageConnectionViewMode ==>", this.props);
   this.props.showTestCaseViewEnabled();
 };
+
+handleViewTestCaseChange = ({target}) => {
+  console.log("handleViewTestCaseChange ==>", this.props);
+}
 
   render() {
     console.log("ViewTestCaseDialogs==>", this.props);
@@ -71,7 +70,7 @@ class TestCaseDetails extends React.Component {
             >
               <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                <label>Case-Detail:</label>  {this.props.viewTestCase.test_name}
+                <label className="testViewHeading">Case-Details:</label>  <label className="testViewData">{this.props.viewTestCase.test_name}</label>
                 { this.props.showTestCaseEdit ? <label onClick={this.handleManageConnectionViewMode} className="viewEditLabel"><i className="fas fa-long-arrow-alt-left"></i>&nbsp;View Details</label> :
                   <label onClick={this.handleManageConnectionEditMode} className="viewEditLabel">Edit&nbsp;
                   <i className="fas fa-pencil-alt"></i></label>
@@ -80,117 +79,113 @@ class TestCaseDetails extends React.Component {
               </Modal.Header>
               <Modal.Body>
               { this.props.showTestCaseEdit ?
-                <Table striped bordered hover size="sm" id="editMode">
+               <form id="testEditMode">
+                <Table id="editMode">
                   <tbody>
                       <tr>
-                      <td className="manageConnectionLabel"><label>Source Connection:</label></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Source Connection:</label></td>
                       <td>             
-                          <Select
+                      <select className="form-control selectconnection"
+                        value=""
                         onChange={handleChange}
                         name="selectConnection"
-                        displayEmpty
                       >
-                        <MenuItem value="" disabled>
-                          Select Connection
-                        </MenuItem>
-                          <MenuItem></MenuItem>
-                      </Select>
+                        {/* { connectionsList.all_connections.map(connection => (
+                          connection[1] ?
+                          <option key={connection[0]} value={connection[0]}>{connection[1]}</option> : null
+                        ))
+                        } */}
+                      </select>
                      </td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Target Connection:</label></td>
+                      <td className="manageConnectionLabel">
+                        <label className="testViewDataLabel">Target Connection:</label>
+                      </td>
                       <td>             
-                          <Select
+                      <select className="form-control selectconnection"
+                        value=""
                         onChange={handleChange}
-                        name="targetConnection"
-                        displayEmpty
+                        name="selectConnection"
                       >
-                        <MenuItem value="" disabled>
-                          Select Connection
-                        </MenuItem>
-                          <MenuItem></MenuItem>
-                      </Select>
+                        {/* { connectionsList.all_connections.map(connection => (
+                          connection[1] ?
+                          <option key={connection[0]} value={connection[0]}>{connection[1]}</option> : null
+                        ))
+                        } */}
+                      </select>
                      </td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Source Table:</label></td>
+                      <td className="manageConnectionLabel">
+                        <label className="testViewDataLabel">Source Table:</label>
+                      </td>
                       <td>
-                      <TextField
-                        required
-                        id="standard-required"
-                        value={this.props.viewTestCase.src_table}
-                        className={styles.textField}
-                        margin="normal"
-                      />
-
+                      <FormGroup>
+                        <FormControl type="textbox" name="sourcetable" value={this.props.viewTestCase.src_table} onChange={this.handleViewTestCaseChange}/>
+                      </FormGroup>
                       </td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Target Table:</label></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Target Table:</label></td>
                       <td>
-                      <TextField
-                        required
-                        id="standard-required"
-                        value={this.props.viewTestCase.target_table}
-                        className={styles.textField}
-                        margin="normal"
-                      />
+                      <FormGroup>
+                        <FormControl type="textbox" name="targettable" value={this.props.viewTestCase.target_table} onChange={this.handleViewTestCaseChange}/>
+                      </FormGroup>
                       </td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Source Query:</label></td>
-                      <td><TextField
-                        required
-                        id="standard-required"
-                        value={this.props.viewTestCase.src_qry}
-                        className={styles.textField}
-                        margin="normal"
-                      /></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Source Query:</label></td>
+                      <td>
+                      <FormGroup>
+                        <textarea name="srcqry" value={this.props.viewTestCase.src_qry} onChange={this.handleViewTestCaseChange}/>
+                      </FormGroup>
+                      </td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Target Query:</label></td>
-                      <td><TextField
-                        required
-                        id="standard-required"
-                        value={this.props.viewTestCase.des_qry}
-                        className={styles.textField}
-                        margin="normal"
-                      /></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Target Query:</label></td>
+                      <td>
+                      <FormGroup>
+                        <textarea name="descqry" value={this.props.viewTestCase.des_qry} onChange={this.handleViewTestCaseChange}/>
+                      </FormGroup>
+                      </td>
                     </tr>
                     <tr>
                       <td className="manageConnectionLabel"></td>
-                      <td><Button className="btn btn-primary" onClick={e => this.handleManageConnectionUpdate(e)}>
+                      <td>
+                        <Button className="btn btn-primary" onClick={e => this.handleManageConnectionUpdate(e)}>
                           Update
-                          </Button>
+                        </Button>
                       </td>
                     </tr>
                   </tbody>
               </Table>
+              </form>
               :  
-              <Table className="manageConnection" id="editMode">
+              <Table className="manageConnection" id="viewMode">
                   <tbody>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Source Connection:</label></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Source Connection:</label></td>
                       <td>{this.props.viewTestCase.src_db_id}</td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Target Connection:</label></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Target Connection:</label></td>
                       <td>{this.props.viewTestCase.target_db_id}</td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Source Table:</label></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Source Table:</label></td>
                       <td>{this.props.viewTestCase.src_table}</td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Target Table:</label></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Target Table:</label></td>
                       <td>{this.props.viewTestCase.target_table}</td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Source Query:</label></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Source Query:</label></td>
                       <td>{this.props.viewTestCase.src_qry}</td>
                     </tr>
                     <tr>
-                      <td className="manageConnectionLabel"><label>Target Query:</label></td>
+                      <td className="manageConnectionLabel"><label className="testViewDataLabel">Target Query:</label></td>
                       <td>{this.props.viewTestCase.des_qry}</td>
                     </tr>
                   </tbody>
