@@ -4260,3 +4260,12 @@ textarea {width:280px;}
     display: inline-block;
     font-weight: bold;
   }
+
+  .block_content a {
+    color: #2A3F54 !important;
+    font-size: 14px;
+  }
+
+  .excerpt {
+    font-size: 12px;
+  }
