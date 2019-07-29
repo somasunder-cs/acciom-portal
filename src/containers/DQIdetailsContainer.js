@@ -16,10 +16,11 @@ class DQIDetailsContainer extends Component {
 		console.log("detailContainer", this.props.projectDataQuality);
 
 		const colorsArray = [
-			['#99cc00', '#cc9900'],
-			['#cc00cc', '#ffddff'],
-			['#131386', '#ff00dd'],
-			['#0000ff', '#ff00aa'],
+			['#99cc00'],
+			['#cc00cc'],
+			['#ff9933'],
+			['#9933ff'],
+			['#cc6600']
 		];
 
 		const getGaugeChart = () => {
