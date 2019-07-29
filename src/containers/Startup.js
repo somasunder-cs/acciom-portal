@@ -16,7 +16,7 @@ class Startup extends React.Component {
 	render() {
 		return (
 			<div>
-				<h2 className="activityHeading">Test Suite List</h2><br></br>
+				<h2 className="activityHeading">Data Profiling</h2><br></br>
 				<TestSuiteList />
 			</div>
 		);
