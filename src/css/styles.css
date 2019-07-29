@@ -4102,10 +4102,10 @@ html
     padding-top: 0px !important;
 }
 .viewEditLabel {
-    font-size: 16px; 
+    font-size: 12px; 
     cursor: pointer; 
     margin-left: 32px;
-    color:red;
+    color:#337ab7;
 }
 
 .MuiTableCell-root {
@@ -4134,6 +4134,12 @@ html
 
 .selectconnection {width:70% !important;}
 
+
+ #editMode>tbody>tr>td, .manageConnection>tbody>tr>td { 
+    border-top: 0px !important;
+    padding: 4px !important;
+}
+
 .manageConnectionHeading, .testLogHeading, .testViewHeading {
     font-size: 0.8125rem;
     flex-basis: 33.33%;
@@ -4151,7 +4157,7 @@ html
     width:1085px !important;
 }
 
-.testViewDataLabel {
+.testViewDataLabel, .manageConnectionsLabel {
     padding-left:8px;
 }
 
@@ -4160,10 +4166,13 @@ textarea {width:280px;}
 #testEditMode .form-control {
     width:70%;
 }
+.manageConnection {margin-bottom:0px !important;}
 
-.statusDelIcon {color:red !important;}
-.statusCheckIcon {color:#2ecca4 !important;}
-.statusStopIcon {color:rgb(245, 124, 76) !important;}
+.statusDelIcon {font-size:  1.2rem; color:red !important;}
+.statusCheckIcon {font-size:  1.2rem; color:green !important;}
+.statusStopIcon {font-size:  1.2rem; color:rgb(245, 124, 76) !important;}
+.statusPlayIcon {font-size:  1rem;}
+.logsIcon {font-size:  1.2rem;}
 
 
 .detailsChart li {

@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
 	innerPanelWidth: {width:'1080px'},
 	statusBg: {
 		fontSize: theme.typography.pxToRem(13),
-		color: '#2ecca4',
+		color: 'green',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
@@ -82,7 +82,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	statusBgRed: {
 		fontSize: theme.typography.pxToRem(13),
-		color:'rgb(245, 124, 76)',
+		color: 'red',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
@@ -145,11 +145,11 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 		case 0:
 			return 'New';
 		case 1:
-			return <i className="fas fa-2x fa-check-circle statusCheckIcon" aria-hidden="true"></i>;
+			return <i className="fas fa-check-circle statusCheckIcon" aria-hidden="true"></i>;
 		case 2:
-			return <i className="fas fa-2x fa-times-circle statusDelIcon" aria-hidden="true"></i>;
+			return <i className="fas fa-times-circle statusDelIcon" aria-hidden="true"></i>;
 		case 3:
-			return <i className="fas fa-2x fa-stopwatch statusStopIcon" aria-hidden="true"></i>;
+			return <i className="fas fa-stopwatch statusStopIcon" aria-hidden="true"></i>;
 		default:
 			return '';
 		}
@@ -163,11 +163,11 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 			label = 'New';
 			return <label style={{ color: labelColor }}>{label}</label>;
 		case 1:
-			labelColor = '#4ac69b';
+			labelColor = 'green';
 			label = 'Pass';
 			return <label style={{ color: labelColor }}>{label}</label>;
 		case 2:
-			labelColor = '#ef8160';
+			labelColor = 'red';
 			label = 'Fail';
 			return <label style={{ color: labelColor }}>{label}</label>;
 		case 3:
@@ -175,7 +175,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 			label = 'In Progress';
 			return <label style={{ color: labelColor }}>{label}</label>;
 		case 4:
-			labelColor = '#e56868';
+			labelColor = 'red';
 			label = 'Error';
 			return <label style={{ color: labelColor }}>{label}</label>;
 		default:
@@ -200,7 +200,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, getAllConnections)}>Manage Connections</Typography>
 							<Typography className={classes.suiteID}>SuiteID:{testSuite.test_suite_id}</Typography>
 							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created}</Typography>
-							<i className="fa fa fa-play" aria-hidden="true"></i>
+							<i className="fa fa fa-play statusPlayIcon" aria-hidden="true"></i>
 						</ExpansionPanelSummary>
 
 						<ExpansionPanelDetails>
@@ -213,7 +213,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, getTestCases)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_name}</Typography>
-											<Typography><i className="fa fa fa-play" aria-hidden="true"></i></Typography>
+											<Typography><i className="fa fa fa-play statusPlayIcon" aria-hidden="true"></i></Typography>
 										</ExpansionPanelSummary>
 										
 										<ExpansionPanelDetails>
@@ -233,7 +233,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 														  {/* <td className="testLogData"></td> */}
 														  <td className="testLogData">{renderExecutionStatus(testCaseLog.test_execution_status)}</td>
 														  <td className="testLogData">{testCaseLog.executed_at}</td>
-														  <td className={classes.caseLog} onClick={e => viewTestCaseLogs(e, testCaseLogs)}><i className="far fa-sticky-note"></i></td>
+														  <td className={classes.caseLog} onClick={e => viewTestCaseLogs(e, testCaseLogs)}><i className="far fa-sticky-note logsIcon"></i></td>
 														</tr>
 													))}
 												  </tbody>

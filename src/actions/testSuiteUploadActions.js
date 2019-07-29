@@ -75,7 +75,7 @@ const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suite
 	payload.append('selected_case',selectedCase);
 	payload.append('suite_name',suiteName);
 	payload.append('execute',executeValue);
-	payload.append('project_id', 2);
+	payload.append('project_id', 1);
 	// return JSON.stringify(payload);
 	return payload;
 };
@@ -226,9 +226,13 @@ export const uploadTestCases = (executeValue) => (dispatch, getState) => {
 
 	const body = getPostFilePayloadData(testSuiteFile, selectedSheet, selectedTestCases, suiteName, executeValue);
 	const _headers = {...headers};
-	// delete(_headers['Content-Type']);
-	_headers['Content-Type'] = 'text/plain;charset=UTF-8';
-	_headers['content-disposition'] = 'form-data;name="textfield"';
+	delete(_headers['Content-Type']);
+	// _headers['Content-Type'] = 'text/plain;charset=UTF-8';
+	// _headers['Content-Type'] = 'multipart/form-data';
+	// _headers['content-disposition'] = 'form-data;name="textfield"';
+
+	_headers['Content-Type'] = "Content-Disposition: form-data"; 
+// Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
 
 	fetch(`${BASE_URL}/test-suite`, {
 		method: 'post',
