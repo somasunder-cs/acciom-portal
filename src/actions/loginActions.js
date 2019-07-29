@@ -1,4 +1,4 @@
-import { BASE_URL, headers, updateHeaders } from '../middleware';
+import { BASE_URL, headers, updateHeaders } from '.';
 import {
 	LOGIN_TO_PORTAL_SUCCESS,
 	LOGIN_TO_PORTAL_ERROR,

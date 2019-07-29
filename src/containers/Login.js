@@ -25,7 +25,7 @@ class Login extends Component {
 
 	static getDerivedStateFromProps = (nextProps) => {
 		if (nextProps.loginData.token) {
-			nextProps.history.push('./startup');
+			nextProps.history.push('./dashboard');
 		}
 		return null;
 	}

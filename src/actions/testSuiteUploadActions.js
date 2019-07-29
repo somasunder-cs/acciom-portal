@@ -1,6 +1,6 @@
 import XLSX from 'xlsx';
 import { TEST_SUITE_FILE_UPLOAD_SUCCESS } from '../constants/ActionTypes';
-import { BASE_URL, headers } from '../middleware';
+import { BASE_URL, headers } from '.';
 
 let pages = [];
 let workbook = {};
@@ -23,19 +23,6 @@ let all_cases = [];
 // 	'Authorization':''
 // };
 
-const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue) => {
-	const payload = {
-		'inputFile': fileToUpload,
-		// 'sheet': selectedSheet,
-		'sheet_name':selectedSheet,
-		// 'selectedcase': selectedCase,
-		'selected_case': selectedCase,
-		'suitename': suiteName,
-		'exvalue': executeValue
-	}
-	return JSON.stringify(payload);
-};
-
 const testSuiteFileUploadSuccess = sheets => ({
 	type: TEST_SUITE_FILE_UPLOAD_SUCCESS,
 	sheets
@@ -55,7 +42,10 @@ const uploadTestCasesError = data => ({
 	type: 'UPLOAD_TESTCASES_ERROR',
 	data
 });
-
+export const resetTestSuiteUploadData = (sheet) => ({
+	type: 'RESET_TEST_SUITE_UPLOAD_DATA',
+	sheet
+});
 export const onTestSuiteSheetSelect = (sheet) => ({
 	type: 'TEST_SUITE_SHEET_SELECT',
 	sheet
@@ -69,6 +59,26 @@ export const testCaseSelectionChange = (testCase) => ({
 export const testCaseSelectAllToggle = () => ({
 	type: 'TEST_CASE_SELECT_ALL_TOGGLE'
 });	
+
+const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue) => {
+	// const payload = {
+	// 	'inputFile': fileToUpload,
+	// 	'sheet_name':selectedSheet,
+	// 	'selected_case': selectedCase,
+	// 	'suite_name': suiteName,
+	// 	'execute': executeValue,
+	// 	'project_id':'2',// to be passed 
+	// };
+	const payload = new FormData();
+	payload.append('inputFile',fileToUpload);
+	payload.append('sheet_name',selectedSheet);
+	payload.append('selected_case',selectedCase);
+	payload.append('suite_name',suiteName);
+	payload.append('execute',executeValue);
+	payload.append('project_id', 2);
+	// return JSON.stringify(payload);
+	return payload;
+};
 
 export const loadTestSuiteFile = (selectedFiles) => dispatch => {
 	console.log('loadTestSuiteFile ', selectedFiles);
@@ -215,9 +225,14 @@ export const uploadTestCases = (executeValue) => (dispatch, getState) => {
 	//   });
 
 	const body = getPostFilePayloadData(testSuiteFile, selectedSheet, selectedTestCases, suiteName, executeValue);
+	const _headers = {...headers};
+	// delete(_headers['Content-Type']);
+	_headers['Content-Type'] = 'text/plain;charset=UTF-8';
+	_headers['content-disposition'] = 'form-data;name="textfield"';
+
 	fetch(`${BASE_URL}/test-suite`, {
 		method: 'post',
-		headers,
+		headers: _headers,
 		body
 	})
 		.then(res => res.json())

@@ -4,7 +4,8 @@ import {
 	TEST_SUITE_SHEET_LOAD_SUCCESS,
 	UPLOAD_TESTCASES_SUCCESS,
 	TEST_CASE_SELECTION_CHANGE,
-	TEST_CASE_SELECT_ALL_TOGGLE
+	TEST_CASE_SELECT_ALL_TOGGLE,
+	RESET_TEST_SUITE_UPLOAD_DATA
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -92,6 +93,9 @@ const testSuiteUploadData = (state = initialState, action) => {
 		return {
 			...state,
 		};
+	
+	case RESET_TEST_SUITE_UPLOAD_DATA:
+		return initialState;
 
 	default:
 		return state;

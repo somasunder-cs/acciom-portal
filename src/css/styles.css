@@ -18,16 +18,41 @@ html
     cursor: pointer;  
 }
 
+.loginForm, .addDbDetailsForm {
+    width: 500px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.viewDbDetailsForm .btnContainer {
+    width: 100%;
+    display: inline-block;
+}
+
+.viewDbDetailsForm .addDbBtn {
+    width: 200px;
+    float: right;
+}
+
+.addDbDetailsForm {
+    position: absolute;
+    top: 200px;
+}
+.addDbDetailsForm .formFooter {
+    float: right;
+}
+
 .loginForm {
     position: absolute;
     top: 200px;
-    left: 50%;
-    transform: translate(-50%,-50%);
     height: 200px;
-    width: 450px;
 }
 
-.loginForm .panel-heading, #testSuiteUploadContainer .panel-heading {
+.loginForm .panel-heading, 
+    #testSuiteUploadContainer .panel-heading, 
+    .viewDbDetailsForm .panel-heading,
+    .addDbDetailsForm .panel-heading
+{
     font-weight: bold;
     text-align: center; 
 }
@@ -4313,10 +4338,11 @@ html
 
 .selectconnection {width:70% !important;}
 
-.table>tbody>tr>td { 
+/* .table>tbody>tr>td { 
     border-top: 0px !important;
     padding: 4px !important;
 }
+.table {margin-bottom: 0px !important;} */
 
 .manageConnectionHeading, .testLogHeading, .testViewHeading {
     font-size: 0.8125rem;
@@ -4330,8 +4356,6 @@ html
     flex-shrink: 0;
     font-weight: normal;
 }
-
-.table {margin-bottom: 0px !important;}
 
 .makeStyles-innerPanelWidth-165 {
     width:1085px !important;
@@ -4417,10 +4441,6 @@ textarea {width:280px;}
   .MuiAppBar-root .MuiIconButton-root {
     background-color: lightgrey;
   }
-
-  /* .MuiAppBar-root .MuiIconButton-root:hover {
-
-  } */
 
   .panel_toolbox>li {
       float: right !important;

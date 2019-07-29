@@ -12,9 +12,7 @@ import ManageConnection from '../components/ManageConnection';
 import ViewLogs from '../components/ViewLogs';
 import ViewTestCase from '../components/ViewTestCase';
 
-import { getAllConnections } from '../middleware';
-import { getTestCases } from '../middleware';
-import { testCaseLogs } from '../middleware';
+import { getAllConnections, getTestCases, testCaseLogs } from '../actions/testSuiteListActions';
 
 const useStyles = makeStyles(theme => ({
 	root: {

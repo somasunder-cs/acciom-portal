@@ -7,7 +7,9 @@ import Home from '../containers/Home';
 import Dashboard from '../containers/Dashboard';
 import NavigationBar from '../containers/NavigationBar';
 import Login from '../containers/Login';
-import DQIDetailsContainer from '../containers/DQIdetailsContainer'
+import DQIDetailsContainer from '../containers/DQIdetailsContainer';
+import ViewDbDetails from '../containers/ViewDbDetails';
+import AddDbDetails from '../containers/AddDbDetails';
 
 const RootContainer = styled.div`
 	font-size: 2rem;	
@@ -40,6 +42,8 @@ const App = () => (
 				<Route path="/home" component={Home} />
 				<Route path="/login" component={Login} />
 				<Route path="/dqi_details/:id"  exact component={DQIDetailsContainer} />
+				<Route path="/add_db_details" component={AddDbDetails} />
+				<Route path="/view_db_details" component={ViewDbDetails} />
 			</Content>
 		</Router>
 	</RootContainer>

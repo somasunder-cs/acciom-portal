@@ -5,40 +5,129 @@ import _testSuitesData from '../json/test-suites-data.json';
 import _getAllConnections from '../json/getAllConnections.json';
 import _viewTestCase from '../json/viewTestCase.json';
 import _viewTestCaseLog from '../json/viewLogs.json';
+import { BASE_URL, headers, TIMEOUT } from '.';
+import { 
+	GET_ALL_TEST_SUITES_SUCCESS,
+	GET_ALL_TEST_SUITES_ERROR,
+	EXECUTE_TEST_BY_SUITE_ID_SUCCESS,
+	EXECUTE_TEST_BY_SUITE_ID_ERROR,
+	EXECUTE_TEST_BY_CASE_ID_SUCCESS,
+	EXECUTE_TEST_BY_CASE_ID_ERROR,
+	GET_ALL_CONNECTIONS_SUCCESS, 
+	GET_ALL_CONNECTIONS_ERROR,
+	SELECT_CONNECTIONS_SUCCESS,
+	SELECT_CONNECTIONS_ERROR,
+	GET_TESTCASE_LOG_BY_ID_SUCCESS,
+	MANAGE_CONNECTIONS_CASE_UPDATE,
+	HIDE_MANAGE_CONNECTIONS_DIALOG,
+	VIEW_TEST_CASE_LOG,
+	HIDE_CASE_LOG_DIALOG,
+	VIEW_TEST_CASE,
+	HIDE_TEST_CASE_DIALOG,
+	SHOW_TEST_CASE_EDIT_ENABLED,
+	SAVE_MANAGE_CONNECTION_DETAILS,
+	SHOW_TEST_CASE_VIEW_ENABLED
+} from "../constants/ActionTypes"; 
 
-import {
-	getAllTestSuitesSuccess,
-	getAllTestSuitesError,
-	executeTestBySuiteIdSuccess,
-	executeTestBySuiteIdError,
-	executeTestByCaseIdSuccess,
-	executeTestByCaseIdError,
-	getAllConnectionsSuccess, 
-	getAllConnectionsError,
-	selectConnectionsSuccess,
-	selectConnectionsError,
-	getAllDBDetailsSuccess,
-	getAllDBDetailsError,
-	getDBDetailsByIdSuccess,
-	getDBDetailsByIdError,
-	updateDBDetailsError,
-	updateDBDetailsSuccess,
-	getTestCaseLogByIdSuccess,
-	getTestCaseLogByIdError,
-	viewTestCaseLog,
-	viewTestCase
-} from '../actions';
+const getAllTestSuitesSuccess = testSuiteList => ({
+	type: GET_ALL_TEST_SUITES_SUCCESS,
+	testSuiteList
+});
 
-const TIMEOUT = 100;
-export const BASE_URL= 'http://172.16.21.192:5000/api';
-export const headers = {
-	'Content-Type': 'application/json',
-	'Authorization':''
-};
+const getAllTestSuitesError = testSuiteList => ({
+	type: GET_ALL_TEST_SUITES_ERROR,
+	testSuiteList
+});
 
-export const updateHeaders = (authToken) => {
-	headers.Authorization = `Bearer ${authToken}`;
-};
+const executeTestBySuiteIdSuccess = data => ({
+	type: EXECUTE_TEST_BY_SUITE_ID_SUCCESS,
+	data
+});
+
+const executeTestBySuiteIdError = error => ({
+	type: EXECUTE_TEST_BY_SUITE_ID_ERROR,
+	error
+});
+
+const executeTestByCaseIdSuccess = data => ({
+	type: EXECUTE_TEST_BY_CASE_ID_SUCCESS,
+	data
+});
+
+const executeTestByCaseIdError = error => ({
+	type: EXECUTE_TEST_BY_CASE_ID_ERROR,
+	error
+});
+
+const getAllConnectionsSuccess = connectionsList => ({
+	type: GET_ALL_CONNECTIONS_SUCCESS,
+	connectionsList
+});
+
+const getAllConnectionsError = error => ({
+	type: GET_ALL_CONNECTIONS_ERROR,
+	error
+});
+
+const selectConnectionsSuccess = data => ({
+	type: SELECT_CONNECTIONS_SUCCESS,
+	data
+});
+
+const selectConnectionsError = error => ({
+	type: SELECT_CONNECTIONS_ERROR,
+	error
+});
+
+const getTestCaseLogByIdSuccess = data => ({
+	type: GET_TESTCASE_LOG_BY_ID_SUCCESS,
+	data
+});
+
+const getTestCaseLogByIdError = error => ({
+	type: GET_ALL_CONNECTIONS_ERROR,
+	error
+});
+
+export const hideManageConnectionsDialog = () => ({
+	type: HIDE_MANAGE_CONNECTIONS_DIALOG
+});
+
+export const manageConnectionsCaseUpdate = data => ({
+	type: MANAGE_CONNECTIONS_CASE_UPDATE,
+	data
+});
+
+export const viewTestCase = testCase => ({
+	type: VIEW_TEST_CASE,
+	testCase
+});
+
+export const viewTestCaseLog = testCaseLog => ({
+	type: VIEW_TEST_CASE_LOG,
+	testCaseLog
+});
+
+export const hideCaseLogDialog = () => ({
+	type: HIDE_CASE_LOG_DIALOG
+});
+
+export const hideTestCaseDialog = () => ({
+	type: HIDE_TEST_CASE_DIALOG
+});
+
+export const showTestCaseEditEnabled = () => ({
+	type: SHOW_TEST_CASE_EDIT_ENABLED
+});
+
+export const showTestCaseViewEnabled = () => ({		
+	type: SHOW_TEST_CASE_VIEW_ENABLED		
+});
+
+export const saveManageConnectionDetails = data => ({
+	type: SAVE_MANAGE_CONNECTION_DETAILS,
+	data
+});
 
 export const getAllTestSuites = () => (dispatch, getState)  => {
 	setTimeout(() => {
@@ -154,58 +243,6 @@ export const selectConnections = (type, cases, connectionID) => dispatch => {
 		})
 		.catch(error => {
 			dispatch(selectConnectionsError(error));
-		});
-};
-
-export const getAllDBDetails = () => dispatch => {
-	fetch(`${BASE_URL}/db-detail`, {
-		method: 'get',
-		headers
-	})
-		.then(res => res.json())
-		.then(res => {
-			if(res.error) {
-				dispatch(getAllDBDetailsError(res.error));
-			}
-			dispatch(getAllDBDetailsSuccess(res.data));
-		})
-		.catch(error => {
-			dispatch(getAllDBDetailsError(error));
-		});
-};
-
-export const getDBDetailsById = (dbID) => dispatch => {
-	fetch(`${BASE_URL}/db-detail/${dbID}`, {
-		method: 'get',
-		headers
-	})
-		.then(res => res.json())
-		.then(res => {
-			if(res.error) {
-				dispatch(getDBDetailsByIdError(res.error));
-			}
-			dispatch(getDBDetailsByIdSuccess(res.data));
-		})
-		.catch(error => {
-			dispatch(getDBDetailsByIdError(error));
-		});
-};
-
-export const updateDBDetails = (dbID, formData) => dispatch => {
-	fetch(`${BASE_URL}/db-detail-update/${dbID}`, {
-		method: 'put',
-		headers,
-		body: formData
-	})
-		.then(res => res.json())
-		.then(res => {
-			if(res.error) {
-				dispatch(updateDBDetailsError(res.error));
-			}
-			dispatch(updateDBDetailsSuccess(res.data));
-		})
-		.catch(error => {
-			dispatch(updateDBDetailsError(error));
 		});
 };
 

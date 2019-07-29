@@ -213,6 +213,14 @@ function NavigationBar(props) {
 							</ListItemIcon>
 							<Link to={`/startup`} className = {classes.startup}>Test Suites</Link>
 						</MenuItem>
+						<MenuItem>
+							<ListItemIcon>
+								<Link to ={`/view_db_details`} className = {classes.startup}>
+									<Icon className={clsx(classes.icon, 'fas fa-database fa-2x')} color="primary" />
+								</Link>
+							</ListItemIcon>
+							<Link to={`/view_db_details`} className = {classes.startup}>View DB Details</Link>
+						</MenuItem>
 					</MenuList>
 				</List>
 			</Drawer>

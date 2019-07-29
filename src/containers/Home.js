@@ -3,20 +3,21 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { Panel, Button, Table } from 'react-bootstrap';
 
-// import { loadTestSuiteFile,	loadTestSuiteSheet, uploadTestCases } from '../middleware/testSuiteUpload';
 import { 
 	onTestSuiteSheetSelect, 
 	testCaseSelectionChange, 
 	testCaseSelectAllToggle,
 	loadTestSuiteFile,
 	loadTestSuiteSheet,
-	uploadTestCases 
+	uploadTestCases,
+	resetTestSuiteUploadData 
 } from '../actions/testSuiteUploadActions';
 
 class Home extends React.Component {
 
 	componentDidMount() {
 		console.log('Home.componentDidMount() ===>', this.props);
+		this.props.resetTestSuiteUploadData();
 	}
 
 	render() {
@@ -27,8 +28,9 @@ class Home extends React.Component {
 			document.getElementById("testSuiteUploadFile").click();
 		};
 
-		const handleChange = (selectedFiles) => {
-			console.log('handleChange ', selectedFiles);
+		const handleChange = (event) => {
+			const selectedFiles = event.target.files;
+			console.log('handleChange ', selectedFiles);	
 			if (selectedFiles) {
 				this.props.loadTestSuiteFile(selectedFiles);	
 			}
@@ -59,7 +61,7 @@ class Home extends React.Component {
 			if (this.props.pages.length > 0) {
 				const sheetList = this.props.pages.map((page, index) => {
 					return (
-						<div key={index} class='sheetListItem'>
+						<div key={index} className='sheetListItem'>
 							<label className="form-check-label">
 								<input
 									type="radio"
@@ -117,7 +119,7 @@ class Home extends React.Component {
 				});			
 				
 				return (
-					<div class='testCaseListContainer'>
+					<div className='testCaseListContainer'>
 						<Panel className='testCaseListPanel'>
 							<Panel.Body>
 								<Table responsive>
@@ -154,15 +156,15 @@ class Home extends React.Component {
 
 		return (
 			<div id="testSuiteUploadContainer">
-				<div class='testSuiteUploadOptions'>
+				<div className='testSuiteUploadOptions'>
 					<Panel className='testSuiteUploadPanel'>
 						<Panel.Heading>Upload Test Suite</Panel.Heading>
 						<Panel.Body>
 							<div className="hideElement">
 								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
-									onChange={ (e) => handleChange(e.target.files)}/>
+									onChange={ (e) => handleChange(e)}/>
 							</div>
-							<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick(e.target.files)}>Browse Test Suite File (.xslx)</Button> 
+							<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button> 
 						</Panel.Body>
 					</Panel>
 
@@ -191,8 +193,9 @@ const mapDispatchToProps = dispatch => ({
 	loadTestSuiteSheet: (data) => dispatch(loadTestSuiteSheet(data)),
 	uploadTestCases: (data) => dispatch(uploadTestCases(data)),
 	testCaseSelectionChange: (data) => dispatch(testCaseSelectionChange(data)),
-	testCaseSelectAllToggle: () => dispatch(testCaseSelectAllToggle())
-})
+	testCaseSelectAllToggle: () => dispatch(testCaseSelectAllToggle()),
+	resetTestSuiteUploadData: () => dispatch(resetTestSuiteUploadData())
+});
 
 export default connect(
 	mapStateToProps,
