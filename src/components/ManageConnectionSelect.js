@@ -74,7 +74,7 @@ function ManageConnectionSelect({connectionsList}) {
 			<Table className="manageSelectConnection">
 				<tbody>
 					<tr>
-						<td className="manageConnectionLabel"><label className="manageConnectionHeading">Select Connection:</label></td>
+						<td className="manageConnectionLabel"><label className="manageConnectionHeading manageConnectionsLabel">Select Connection:</label></td>
 						<td>
 							<select className="form-control selectconnection"
 								value={connection}
@@ -90,7 +90,7 @@ function ManageConnectionSelect({connectionsList}) {
 						</td>
 					</tr> 
 					<tr>
-						<td className="manageConnectionLabel"><label className="manageConnectionHeading">Select Cases:</label></td>
+						<td className="manageConnectionLabel"><label className="manageConnectionHeading manageConnectionsLabel">Select Cases:</label></td>
 						<td>
 							{
 								connectionsList.all_cases.map(cases => (

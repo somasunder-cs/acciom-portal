@@ -16,7 +16,7 @@ export default function FormControlLabelPosition() {
 		<Table className="manageConnection">
 			<tbody>
 				<tr>
-					<td className="manageConnectionLabel"><label className="manageConnectionHeading">Select Connection Type:</label></td>
+					<td className="manageConnectionLabel"><label className="manageConnectionHeading manageConnectionsLabel">Select Connection Type:</label></td>
 					<td>
 						<div >
 							<label className="form-check-label">
