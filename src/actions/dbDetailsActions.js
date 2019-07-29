@@ -55,24 +55,25 @@ const getDBDetailsByIdError = error => ({
 });
 
 export const addDatabaseDetails = (formData) => (dispatch) => {
-	setTimeout(() => {
-		dispatch(addDatabaseDetailsSuccess(_add_db_details_success.data));
-	}, TIMEOUT);
-	// fetch(`${BASE_URL}/db-detail`, {
-	// 	method: 'post',
-	// 	headers,
-	// 	body: formData
-	// })
-	// 	.then(res => res.json())
-	// 	.then(res => {
-	// 		if(res.error) {
-	// 			dispatch(addDatabaseDetailsError(res.error));
-	// 		}
-	// 		dispatch(addDatabaseDetailsSuccess(res.data));
-	// 	})
-	// 	.catch(error => {
-	// 		dispatch(addDatabaseDetailsError(error));
-	// 	});
+	// setTimeout(() => {
+	// 	dispatch(addDatabaseDetailsSuccess(_add_db_details_success.data));
+	// }, TIMEOUT);
+
+	fetch(`${BASE_URL}/db-detail`, {
+		method: 'post',
+		headers,
+		body: formData
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(addDatabaseDetailsError(res.error));
+			}
+			dispatch(addDatabaseDetailsSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(addDatabaseDetailsError(error));
+		});
 };
 
 export const updateDBDetails = (dbID, formData) => dispatch => {
@@ -94,24 +95,24 @@ export const updateDBDetails = (dbID, formData) => dispatch => {
 };
 
 export const getAllDBDetails = () => dispatch => {
-	setTimeout(() => {
-		dispatch(getAllDBDetailsSuccess(_db_details_list_success.data));
-	}, TIMEOUT);
+	// setTimeout(() => {
+	// 	dispatch(getAllDBDetailsSuccess(_db_details_list_success.data));
+	// }, TIMEOUT);
 
-	// fetch(`${BASE_URL}/db-detail`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(res => res.json())
-	// 	.then(res => {
-	// 		if(res.error) {
-	// 			dispatch(getAllDBDetailsError(res.error));
-	// 		}
-	// 		dispatch(getAllDBDetailsSuccess(res.data));
-	// 	})
-	// 	.catch(error => {
-	// 		dispatch(getAllDBDetailsError(error));
-	// 	});
+	fetch(`${BASE_URL}/db-detail?project_id=2`, {
+		method: 'get',
+		headers
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(getAllDBDetailsError(res.error));
+			}
+			dispatch(getAllDBDetailsSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(getAllDBDetailsError(error));
+		});
 };
 
 export const getDBDetailsById = (dbID) => dispatch => {

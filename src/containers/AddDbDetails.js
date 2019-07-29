@@ -11,14 +11,23 @@ class AddDbDetails extends Component {
 
 		this.state = {
 			formData: {
-				'project_id': 1 // remove hardcoded project later
-			}, // Contains login form data
-			errors: {}, // Contains login field errors
-			formSubmitted: false, // Indicates submit status of login form 
-			loading: false // Indicates in progress state of login form
+				'project_id': 2 // remove hardcoded project later
+			},
+			errors: {}, 
+			formSubmitted: false, 
+			loading: false
 		}
 	}
-	
+
+	componentDidUpdate(prevProps, prevState, snapshot)  {
+		console.log('AddDbDetails.componentDidUpdate prevProps ', prevProps );
+		console.log('AddDbDetails.componentDidUpdate prevState ', prevState );
+		console.log('AddDbDetails.componentDidUpdate props ', this.props);
+		if (this.props.updatedDbDetails) {
+			// redirect to db details view page 
+		}
+	}
+
 	handleInputChange = ({target}) => {
 		const { value, name } = target;
 
@@ -32,7 +41,6 @@ class AddDbDetails extends Component {
 
 	formSubmit = (e) => {
 		e.preventDefault();
-		// const errors = this.validateLoginForm();
 		const errors = true;
 
 		if (errors === true){
@@ -114,7 +122,7 @@ class AddDbDetails extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		// loginData: state.loginData
+		updatedDbDetails: state.dbDetailsData.updatedDbDetails
 	};
 };
 
