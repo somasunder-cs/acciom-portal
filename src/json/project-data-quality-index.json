@@ -7,15 +7,15 @@
     "project_dqi_percentage": 99.89,
     "project_dqi_detail": [
       {
-        "name": "correcteness",
+        "name": "Correctness",
         "value": 89.32
       },
       {
-        "name": "consistency",
+        "name": "Consistency",
         "value": 89.32
       },
       {
-        "name": "duplicates",
+        "name": "Duplicates",
         "value": 89.32
       },
       {
@@ -23,7 +23,7 @@
         "value": 89.32
       },
       {
-        "name": "completeness",
+        "name": "Completeness",
         "value": 89.32
       }
     ],

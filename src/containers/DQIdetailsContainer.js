@@ -25,7 +25,7 @@ class DQIDetailsContainer extends Component {
 		const getGaugeChart = () => {
 			console.log("getGaugeChart", this.props);
 			if (this.props.projectDataQuality && this.props.projectDataQuality.project_name) {
-				return (<GaugeChart class={'DQIprojectGauge'} percentage={this.props.projectDataQuality.project_dqi_percentage} />) 
+				return (<GaugeChart class={'DQIprojectGauge'} name={"DQI"} percentage={this.props.projectDataQuality.project_dqi_percentage} />) 
 			}
 		};
 		const getDPIdetailsChart = () => {
