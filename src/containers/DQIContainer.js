@@ -19,8 +19,8 @@ class DQIContainer extends Component {
 
 		this.colorsArray = [
 			['#99cc00', '#cc9900'],
-			['#cc00cc', '#ffddff'],
-			['#131386', '#ff00dd'],
+			['#ffcc00', '#ffddff'],
+			['#009999', '#ff00dd'],
 			['#0000ff', '#ff00aa'],
 		];
 
