@@ -4267,6 +4267,36 @@ textarea {width:280px;}
     color: #2A3F54 !important;
     font-size: 14px;
   }
+    .excerpt {
+        font-size: 12px;
+    }
+
+    .projectList {
+      min-height: 170px;
+    } 
+
+    .projectList .slick-slider {
+      min-height: 145px;
+      margin-left: 30px;
+    }
+
+    .projectList .slick-list {
+        min-height: 140px;
+        padding-left: 20px;
+        padding-bottom: 32px;
+    }  
+    
+    .projectList .donut {
+      padding-left: 45px !important;
+    } 
+
+    .slick-next:before, .slick-prev:before {
+        color: #000 !important;
+    }
+
+    .projectList .slick-next {
+        right: -103px !important;
+    }
 
   .excerpt {
     font-size: 12px;
@@ -4281,3 +4311,4 @@ textarea {width:280px;}
   .timeLineData li{
     border-bottom: unset !important;
   }
+

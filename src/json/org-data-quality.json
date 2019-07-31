@@ -26,7 +26,11 @@
         "project_id": 2,
         "project_name": "FPG Initial Test Run",
         "project_dqi_percentage": 91.76
-      }
-    ]
+      },
+      {
+        "project_id": 2,
+        "project_name": "FPG Initial Test Run",
+        "project_dqi_percentage": 91.76
+      }]
   }
 }

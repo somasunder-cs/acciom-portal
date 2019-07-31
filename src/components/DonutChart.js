@@ -72,9 +72,7 @@ class DonutChart extends Component {
 
 		return (
 			<div className="donut">
-				<Link to={`/dqi_details/${this.props.chartData.project_name}`}>
-					<Chart options={this.options.optionsRadial} series={this.options.seriesRadial} colors={this.options.optionsRadial.colors} type="radialBar" width="280" />
-				</Link>
+					<Chart options={this.options.optionsRadial} series={this.options.seriesRadial} colors={this.options.optionsRadial.colors} type="radialBar" width="250" />
 				<span className="chartProjectName">{this.props.chartData.project_name}</span>
 			</div>
 		);

@@ -8,7 +8,7 @@ class DQIDetailsContainer extends Component {
 
 	componentDidMount() {
 		console.log('Dashboard.componentDidMount() ===>', this.props);
-		this.props.getDQIprojectDetails(this.props.match.params.id);
+		this.props.getDQIprojectDetails(this.props.id);
 	}
 
 
@@ -42,10 +42,6 @@ class DQIDetailsContainer extends Component {
 		return (
 
 			<div className="donut DQIprojectChartContainer">
-					<div className="row projectChart">
-						<div className="DQIprojectdetailsHeading">Project Name: {this.props.projectDataQuality ? this.props.projectDataQuality.project_name : ""}</div>
-						{ getGaugeChart() }
-					</div>
 					<div className="row detailsChart">
 						{getDPIdetailsChart()}
 					</div>
