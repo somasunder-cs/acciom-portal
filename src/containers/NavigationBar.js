@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Button,  ButtonGroup, DropdownButton, Item , MenuItem as MenuItemBS  } from 'react-bootstrap';
 
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -86,12 +87,16 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 		padding: theme.spacing(3),
 	},
-	loginbtn : {
+	accountbtn : {
 		position: 'absolute',
-		right: '20px',
+		right: '37px',
+		width: '125px',
+		height: '30px',
 		color: '#3b6d9e',
-		fontSize: '16px'
+		fontSize: '16px',
+		// textAlign: "center"
 	},
+	
   	dashboard : {
 		color: 'white'
 	},
@@ -106,8 +111,10 @@ const useStyles = makeStyles(theme => ({
 	},
 	acciomimg : {
 		width: '70px'
-	}
-}));
+	},
+}
+
+));
 
 // function HomeIcon(props) {
 // 	return (
@@ -117,14 +124,45 @@ const useStyles = makeStyles(theme => ({
 // 	);
 // }
 
+
+const someHandler =() => {
+	// console.log('Hello');
+	return (
+		<div>
+			<a>Forget Password</a>
+			<a>Access Token</a>
+			<a>LogOut</a>
+		</div>
+	)
+}
+
 const getLoginOptions = (props, classes) => {
 	let options = null;
-	if (props.loginData && props.loginData.token) {
-		// options = <Link to='/login' className={classes.loginbtn}>Login</Link>;
-		options = <div id="logoutLink" className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</div>;
-	} else {
-		options = <Link id="loginLink" to='/login' className={classes.loginbtn}>Login</Link>;
-	}
+
+	const getLoginElements = () => {
+		if (props.loginData && props.loginData.token) {
+			return <Link id="logoutLink" className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</Link>;
+		} else {
+			return <Link to='/login'>Login</Link>;
+		}
+	};
+
+	options = 	(
+		<div className={classes.accountbtn}>
+			<DropdownButton variant="Secondary" title="Account" noCaret id="dropdown-no-caret loginLink" onClick={(event) => { event.preventDefault();}}>
+				<MenuItemBS eventKey="1" className={classes.width}>
+					<Link to="/access_token"  className={classes.width}>Access Token</Link>
+				</MenuItemBS>
+				<MenuItemBS eventKey="2">
+					<Link to="/change_password">Change Password</Link>
+				</MenuItemBS>
+				<MenuItemBS eventKey="3">
+					{ getLoginElements() }
+				</MenuItemBS>
+			</DropdownButton>
+		</div>
+    )
+
 	return options;
 };
 

@@ -30,6 +30,18 @@ const logoutFromPortalError = data =>({
 	data
 });
 
+
+const changePasswordSuccess = data =>({
+	type: CHANGE_PASSWORD_SUCCESS,
+	data
+});
+
+const changePasswordError = data =>({
+	type: CHANGE_PASSWORD_ERROR,
+	data
+});
+
+
 const storeUserData = ({token}) => {
 	localStorage.setItem('auth_token', token);
 	updateHeaders(token);
@@ -39,6 +51,8 @@ const clearUserData = () => {
 	localStorage.removeItem('auth_token');
 	updateHeaders('');
 };
+
+
 
 export const checkAuthentication = () => (dispatch) => {
 	let token = localStorage.getItem('auth_token') ;
@@ -85,5 +99,26 @@ export const logoutFromPortal = () => dispatch => {
 		.catch(error => {
 			console.log('logoutFromPortal error ', error);
 			dispatch(logoutFromPortalError(error));
+		});
+};
+
+
+export const changePassword = (body) => dispatch => {
+	console.log('logoutFromPortal ', headers);
+
+	fetch(`${BASE_URL}/change-password`, {
+		method: 'post',
+		headers,
+		body
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(changePasswordError(res.error));
+			}
+			dispatch(changePasswordSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(changePasswordError(error));
 		});
 };
