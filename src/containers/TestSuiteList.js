@@ -12,7 +12,7 @@ import ManageConnection from '../components/ManageConnection';
 import ViewLogs from '../components/ViewLogs';
 import ViewTestCase from '../components/ViewTestCase';
 
-import { getAllConnections, getTestCases, testCaseLogs } from '../actions/testSuiteListActions';
+import { getAllConnections, getTestCases, testCaseLogs, executeTestBySuiteId, executeTestByCaseId } from '../actions/testSuiteListActions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs, getTestCases}) {
+function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs, getTestCases, executeTestBySuiteId, executeTestByCaseId}) {
 	console.log('ControlledExpansionPanels constructor');
 	const testSuiteDataLen = testSuites && testSuites.suites ? Object.keys(testSuites.suites).length : 0;
 	const classes = useStyles();
@@ -185,6 +185,15 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 		}
 	};
 
+	const runTestSuite = (suiteID) => {
+		executeTestBySuiteId(suiteID);
+	};
+
+	const runTestCase = (caseID) => {
+		console.log(caseID);
+		executeTestByCaseId(caseID);
+	}
+
 	return (
 		<div className={classes.root}>
 			{ 
@@ -200,7 +209,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, getAllConnections)}>Manage Connections</Typography>
 							<Typography className={classes.suiteID}>SuiteID:{testSuite.test_suite_id}</Typography>
 							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created}</Typography>
-							<i className="fa fa fa-play statusPlayIcon" aria-hidden="true"></i>
+							<i className="far fa-play-circle statusPlayIcon" onClick={() => runTestSuite(testSuite.test_suite_id)} aria-hidden="true"></i>
 						</ExpansionPanelSummary>
 
 						<ExpansionPanelDetails>
@@ -213,7 +222,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, getTestCases)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_name}</Typography>
-											<Typography><i className="fa fa fa-play statusPlayIcon" aria-hidden="true"></i></Typography>
+											<Typography><i className="far fa-play-circle statusPlayIcon" onClick={() => runTestCase(testCaseList.test_case_id)} aria-hidden="true"></i></Typography>
 										</ExpansionPanelSummary>
 										
 										<ExpansionPanelDetails>
@@ -263,5 +272,5 @@ const mapStateToProps = function (state) {
 };
 
 export default connect(mapStateToProps, {
-	getAllConnections, testCaseLogs, getTestCases
+	getAllConnections, testCaseLogs, getTestCases, executeTestBySuiteId, executeTestByCaseId
 })(ControlledExpansionPanels);
