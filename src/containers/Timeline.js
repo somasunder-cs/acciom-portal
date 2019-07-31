@@ -41,12 +41,14 @@ class TimeLineComponent extends Component {
                         <div className="block">
                           <div className="block_content">
                             <h2 className="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+                                              <a>Project NRD</a>
                                           </h2>
-                            <div className="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p className="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
+                            <p className="excerpt">
+                              <ul className="timeLineData">
+                                <li>User Russel added (2 Mins ago)</li>
+                                <li>Data Profile NRD was Run (8 Mins ago)</li>
+                                <li>1 New Rule(s) added to NRD data profiling (1 Day(s) ago)</li>
+                              </ul>
                             </p>
                           </div>
                         </div>
@@ -55,12 +57,13 @@ class TimeLineComponent extends Component {
                         <div className="block">
                           <div className="block_content">
                             <h2 className="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+                                              <a>Project EPICOR Active Customers</a>
                                           </h2>
-                            <div className="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p className="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
+                            <p className="excerpt">
+                              <ul className="timeLineData">
+                                <li>Data Profile EPICOR Active was Run (1 Day(s) ago)</li>
+                                <li>2 New Rule(s) added to EPICOR Active data profiling (2 Day(s) ago)</li>
+                              </ul>
                             </p>
                           </div>
                         </div>
@@ -69,26 +72,13 @@ class TimeLineComponent extends Component {
                         <div className="block">
                           <div className="block_content">
                             <h2 className="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+                                              <a>Project EPICOR Georgia</a>
                                           </h2>
-                            <div className="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p className="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="block">
-                          <div className="block_content">
-                            <h2 className="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div className="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p className="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
+                            <p className="excerpt">
+                              <ul className="timeLineData">
+                                <li>Data Profile EPICOR Georgia was Run (2 Day(s) ago)</li>
+                                <li>4 New Rule(s) added to EPICOR Georgia data profiling (2 Day(s) ago)</li>
+                              </ul>
                             </p>
                           </div>
                         </div>

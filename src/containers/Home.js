@@ -158,7 +158,7 @@ class Home extends React.Component {
 			<div id="testSuiteUploadContainer">
 				<div className='testSuiteUploadOptions'>
 					<Panel className='testSuiteUploadPanel'>
-						<Panel.Heading>Upload Test Suite</Panel.Heading>
+						<Panel.Heading>Upload Data Profiling</Panel.Heading>
 						<Panel.Body>
 							<div className="hideElement">
 								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 

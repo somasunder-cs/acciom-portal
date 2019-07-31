@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { Row, Button, FormGroup, FormControl, ControlLabel, HelpBlock, Panel } from 'react-bootstrap';
 import { isEmail, isEmpty, isLength, isContainWhiteSpace } from '../shared/validator';
+import { Link } from 'react-router-dom';
  
 import styled from 'styled-components';
 
@@ -85,8 +86,16 @@ class Login extends Component {
 	render() {
 
 		const { errors, formSubmitted } = this.state;
-
+		//  const accesstoken = () => {
+		// 	 return <button>Generate Token</button>
+		//  }
 		return (
+			// <div>
+			// 	<Link to="/access_token">Access Token </Link><br></br>
+			// 	<Link to="/forget_password">Change Password</Link><br></br>
+			// 	<Link>LogOut</Link>
+				
+			// </div>
 			<div className="loginForm">
 				<Panel>
 					<Panel.Heading>User Login</Panel.Heading>

@@ -10,6 +10,9 @@ import Login from '../containers/Login';
 import DQIDetailsContainer from '../containers/DQIdetailsContainer';
 import ViewDbDetails from '../containers/ViewDbDetails';
 import AddDbDetails from '../containers/AddDbDetails';
+import ForgotPassword from './ForgotPassword';
+import Token from './token';
+import ChangePassword from './ChangePassword';
 
 const RootContainer = styled.div`
 	font-size: 2rem;	
@@ -43,6 +46,9 @@ const App = () => (
 				<Route path="/login" component={Login} />
 				<Route path="/add_db_details" component={AddDbDetails} />
 				<Route path="/view_db_details" component={ViewDbDetails} />
+				<Route path="/forgot_password" component={ForgotPassword} />
+				<Route path="/change_password" component={ChangePassword} />
+				<Route path="/access_token" component={Token} />
 			</Content>
 		</Router>
 	</RootContainer>
