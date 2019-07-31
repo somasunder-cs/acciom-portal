@@ -6,7 +6,6 @@ const initialState = {
 };
 
 const appData = (state = initialState, action) => {
-	console.log('appReducer', action.type);
 	switch (action.type) {
 
 	case 'GET_ORGANIZATION_LIST_SUCCESS':

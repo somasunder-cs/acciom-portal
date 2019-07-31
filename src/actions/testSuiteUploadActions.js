@@ -17,12 +17,6 @@ let temp_table_detail = [];
 let temp_column_detail = [];
 let all_cases = [];
 
-// const headers = {
-// 	'Accept': 'application/json, text/plain, */*',
-// 	'Content-Type': 'application/json',
-// 	'Authorization':''
-// };
-
 const testSuiteFileUploadSuccess = sheets => ({
 	type: TEST_SUITE_FILE_UPLOAD_SUCCESS,
 	sheets
@@ -61,22 +55,13 @@ export const testCaseSelectAllToggle = () => ({
 });	
 
 const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue) => {
-	// const payload = {
-	// 	'inputFile': fileToUpload,
-	// 	'sheet_name':selectedSheet,
-	// 	'selected_case': selectedCase,
-	// 	'suite_name': suiteName,
-	// 	'execute': executeValue,
-	// 	'project_id':'2',// to be passed 
-	// };
 	const payload = new FormData();
 	payload.append('inputFile',fileToUpload);
 	payload.append('sheet_name',selectedSheet);
-	payload.append('selected_case',selectedCase);
+	payload.append('case_id_list',selectedCase);
 	payload.append('suite_name',suiteName);
-	payload.append('execute',executeValue);
-	payload.append('project_id', 2);
-	// return JSON.stringify(payload);
+	payload.append('upload_and_execute',executeValue);
+	payload.append('project_id', 1);
 	return payload;
 };
 
@@ -225,15 +210,8 @@ export const uploadTestCases = (executeValue) => (dispatch, getState) => {
 	//   });
 
 	const body = getPostFilePayloadData(testSuiteFile, selectedSheet, selectedTestCases, suiteName, executeValue);
-	// const _headers = {...headers};
 	const _headers = new Headers({'Authorization': headers.Authorization});
-	// delete(_headers['Content-Type']);
-	// _headers['Content-Type'] = 'text/plain;charset=UTF-8';
-	// _headers['Content-Type'] = 'multipart/form-data';
-	// _headers['Content-Type'] = 'application/x-www-form-urlencoded';
-	// _headers['content-disposition'] = 'form-data;name="textfield"';
-	// _headers['Content-Type'] = "Content-Disposition: form-data"; 
-	// Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+	_headers['Content-Type'] = 'multipart/form-data; boundary=--------------------------451144711431384317288556';
 
 	fetch(`${BASE_URL}/test-suite`, {
 		method: 'post',

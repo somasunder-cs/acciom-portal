@@ -55,8 +55,6 @@ export const clearUserData = () => {
 	updateHeaders('');
 };
 
-
-
 export const checkAuthentication = () => (dispatch) => {
 	let token = localStorage.getItem('auth_token') ;
 	token = (token === 'undefined' || token === 'null') ? '' : token;

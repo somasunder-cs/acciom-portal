@@ -1,6 +1,7 @@
 import { authenticationExpired } from './loginActions';
 export const TIMEOUT = 100;
 export const BASE_URL= 'http://172.16.21.192:5000/api';
+// export const BASE_URL= 'http://172.16.19.156:7000/api';
 export const headers = {
 	'Content-Type': 'application/json',
 	'Authorization':''
@@ -21,7 +22,6 @@ const getOrganizationListError = error =>({
 });
 
 export const genericErrorHandler = (dispatch, error, acionCreatorFunc) => {
-	console.log('genericErrorHandler() ===> ', error);
 	if (error) {
 		if (error.statusText === 'UNAUTHORIZED' || error.message === "Unauthorised Access") {
 			dispatch(authenticationExpired());

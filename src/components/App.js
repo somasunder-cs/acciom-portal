@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, BrowserRouter as Router  } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Route, BrowserRouter as Router, Redirect  } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Startup from '../containers/Startup';
@@ -10,6 +11,7 @@ import Login from '../containers/Login';
 import DQIDetailsContainer from '../containers/DQIdetailsContainer';
 import ViewDbDetails from '../containers/ViewDbDetails';
 import AddDbDetails from '../containers/AddDbDetails';
+import RootContent from '../containers/RootContent';
 import ForgotPassword from './ForgotPassword';
 import Token from './token';
 import ChangePassword from './ChangePassword';
@@ -32,26 +34,42 @@ const Content = styled.div`
     width:         calc(100% - 250px);
 `;
 
-const App = () => (
+const PrivateRoute = ({ component: Component, ...rest }) => (
+	<Route {...rest} render={(props) => {
+		return (
+			rest.authTokenExpired === true ?
+				<Redirect to='/login' /> : <Component {...props} />
+		)}} 
+	/>
+)
+  
+const App = (props) => (
 	<RootContainer>
 		<Router>
 			<Sidebar>
 				<NavigationBar />
 			</Sidebar>
 			<Content>
+				<RootContent></RootContent>
 				<Route path="/" exact component={Dashboard} />
-				<Route path="/dashboard" component={Dashboard} />
-				<Route path="/startup" component={Startup} />
-				<Route path="/home" component={Home} />
+				<PrivateRoute path="/dashboard" authTokenExpired={props.authTokenExpired} component={Dashboard} />
+				<PrivateRoute path="/startup" authTokenExpired={props.authTokenExpired} component={Startup} />
+				<PrivateRoute path="/home" authTokenExpired={props.authTokenExpired} component={Home} />
 				<Route path="/login" component={Login} />
-				<Route path="/add_db_details" component={AddDbDetails} />
-				<Route path="/view_db_details" component={ViewDbDetails} />
-				<Route path="/forgot_password" component={ForgotPassword} />
-				<Route path="/change_password" component={ChangePassword} />
-				<Route path="/access_token" component={Token} />
+				<PrivateRoute path="/add_db_details" authTokenExpired={props.authTokenExpired} component={AddDbDetails} />
+				<PrivateRoute path="/view_db_details" authTokenExpired={props.authTokenExpired} component={ViewDbDetails} />
+				<PrivateRoute path="/forgot_password" authTokenExpired={props.authTokenExpired} component={ForgotPassword} />
+				<PrivateRoute path="/change_password" authTokenExpired={props.authTokenExpired} component={ChangePassword} />
+				<PrivateRoute path="/access_token" authTokenExpired={props.authTokenExpired} component={Token} />
 			</Content>
 		</Router>
 	</RootContainer>
 );
 
-export default App;
+const mapStateToProps = (state) => {
+	return {
+		authTokenExpired: state.loginData.authTokenExpired
+	};
+};
+
+export default connect(mapStateToProps)(App);

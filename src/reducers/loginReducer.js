@@ -10,7 +10,7 @@ import {
 const initialState = {
 	token: null,
 	authTokenExpired: false,
-	passwordChanged: false 
+	passwordChanged: false
 };
 
 const loginData = (state = initialState, action) => {
@@ -36,13 +36,18 @@ const loginData = (state = initialState, action) => {
 	case LOGOUT_FROM_PORTAL_ERROR:
 		return {
 			...state
-		};	
+		};
+
+	case AUTHENTICATION_EXPIRED:
+		return {
+			...state,
+			authTokenExpired: true
+		};
 	case CHANGE_PASSWORD_SUCCESS:
 		return {
 			...state,
-			passwordChanged: true,
-			authTokenExpired: true
-		}
+			passwordChanged: true
+		};
 	default:
 		return state;
 	}
