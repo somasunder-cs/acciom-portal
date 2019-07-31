@@ -5,7 +5,7 @@ import _testSuitesData from '../json/test-suites-data.json';
 import _getAllConnections from '../json/getAllConnections.json';
 import _viewTestCase from '../json/viewTestCase.json';
 import _viewTestCaseLog from '../json/viewLogs.json';
-import { BASE_URL, headers, TIMEOUT } from '.';
+import { BASE_URL, headers, TIMEOUT } from './appActions';
 import { 
 	GET_ALL_TEST_SUITES_SUCCESS,
 	GET_ALL_TEST_SUITES_ERROR,

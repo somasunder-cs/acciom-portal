@@ -1,6 +1,6 @@
 import XLSX from 'xlsx';
 import { TEST_SUITE_FILE_UPLOAD_SUCCESS } from '../constants/ActionTypes';
-import { BASE_URL, headers } from '.';
+import { BASE_URL, headers } from './appActions';
 
 let pages = [];
 let workbook = {};
@@ -75,7 +75,7 @@ const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suite
 	payload.append('selected_case',selectedCase);
 	payload.append('suite_name',suiteName);
 	payload.append('execute',executeValue);
-	payload.append('project_id', 1);
+	payload.append('project_id', 2);
 	// return JSON.stringify(payload);
 	return payload;
 };
@@ -225,14 +225,15 @@ export const uploadTestCases = (executeValue) => (dispatch, getState) => {
 	//   });
 
 	const body = getPostFilePayloadData(testSuiteFile, selectedSheet, selectedTestCases, suiteName, executeValue);
-	const _headers = {...headers};
-	delete(_headers['Content-Type']);
+	// const _headers = {...headers};
+	const _headers = new Headers({'Authorization': headers.Authorization});
+	// delete(_headers['Content-Type']);
 	// _headers['Content-Type'] = 'text/plain;charset=UTF-8';
 	// _headers['Content-Type'] = 'multipart/form-data';
+	// _headers['Content-Type'] = 'application/x-www-form-urlencoded';
 	// _headers['content-disposition'] = 'form-data;name="textfield"';
-
-	_headers['Content-Type'] = "Content-Disposition: form-data"; 
-// Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+	// _headers['Content-Type'] = "Content-Disposition: form-data"; 
+	// Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
 
 	fetch(`${BASE_URL}/test-suite`, {
 		method: 'post',

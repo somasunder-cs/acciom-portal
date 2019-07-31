@@ -6,7 +6,7 @@ import {
 	GET_ORG_DATA_QUALITY_ERROR,
 } from '../constants/ActionTypes';
 
-import { BASE_URL, headers, TIMEOUT } from '.';
+import { BASE_URL, headers, TIMEOUT } from './appActions';
 
 const getOrgDataQualitySuccess = response => ({
 	type: GET_ORG_DATA_QUALITY_SUCCESS,

@@ -1016,6 +1016,7 @@ html
    .x_title {
        border-bottom: 2px solid #E6E9ED;
        padding: 1px 5px 6px;
+       margin-bottom: 10px
    }
    .x_title .filter {
        width: 40%;
@@ -1041,6 +1042,7 @@ html
        width: 100%;
        float: left;
        clear: both;
+       margin-top: 5px
    }
    .x_content h4 {
        font-size: 16px;
@@ -2526,8 +2528,8 @@ html
    }
    ul.timeline li {
        position: relative;
-       clear: both;
-       color: cadetblue;
+       border-bottom: 1px solid #e8e8e8;
+       clear: both
    }
    .timeline .block {
        margin: 0;
@@ -4171,7 +4173,7 @@ textarea {width:280px;}
 .statusDelIcon {font-size:  1.2rem; color:red !important;}
 .statusCheckIcon {font-size:  1.2rem; color:green !important;}
 .statusStopIcon {font-size:  1.2rem; color:rgb(245, 124, 76) !important;}
-.statusPlayIcon {font-size:  1.2rem;}
+.statusPlayIcon {font-size:  1rem;}
 .logsIcon {font-size:  1.2rem;}
 
 
@@ -4262,7 +4264,7 @@ textarea {width:280px;}
   }
 
   .block_content a {
-    color: #6f6f6f !important;
+    color: #2A3F54 !important;
     font-size: 14px;
   }
     .excerpt {
@@ -4298,7 +4300,12 @@ textarea {width:280px;}
 
   .excerpt {
     font-size: 12px;
-    padding-top: 10px;
+  }
+
+  #rootContainer > .alert {
+    position: absolute;
+    top: 100px;
+    left: 200px;
   }
 
   .timeLineData li{
