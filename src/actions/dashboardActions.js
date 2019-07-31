@@ -34,7 +34,7 @@ export const getOrgDataQuality = () => dispatch => {
 		dispatch(getOrgDataQualitySuccess(_orgDataQuality));
 	}, TIMEOUT);
 
-	// fetch(`${BASE_URL}/organization-data-quality-index`, {
+	// fetch(`${BASE_URL}/organization-data-quality-index?org_id=1`, {
 	// 	method: 'get',
 	// 	headers
 	// })

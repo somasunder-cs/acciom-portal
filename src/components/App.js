@@ -41,7 +41,6 @@ const App = () => (
 				<Route path="/startup" component={Startup} />
 				<Route path="/home" component={Home} />
 				<Route path="/login" component={Login} />
-				<Route path="/dqi_details/:id"  exact component={DQIDetailsContainer} />
 				<Route path="/add_db_details" component={AddDbDetails} />
 				<Route path="/view_db_details" component={ViewDbDetails} />
 			</Content>

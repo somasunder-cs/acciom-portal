@@ -5,6 +5,8 @@ import CardContainer from './CardContainers';
 import TimeLineComponent from './Timeline';
 import DQIContainer from './DQIContainer';
 import { getOrgDataQuality } from '../actions/dashboardActions';
+import ProjectChartList from '../containers/ProjectListChartContainer';
+import DQIDetailsContainer from '../containers/DQIdetailsContainer';
 
 const loadDashBoardData = (props) => {
 	props.getOrgDataQuality();
@@ -20,9 +22,8 @@ class Dashboard extends React.Component {
 	render() {
 		return (
 			<div>
-				<CardContainer />
-				<TimeLineComponent />
-				< DQIContainer />
+				<ProjectChartList />
+				<DQIDetailsContainer id={1}/>
 			</div>
 		)
 	}
