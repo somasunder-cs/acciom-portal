@@ -1,9 +1,10 @@
-import { BASE_URL, headers, updateHeaders } from '.';
+import { BASE_URL, headers, updateHeaders } from './appActions';
 import {
 	LOGIN_TO_PORTAL_SUCCESS,
 	LOGIN_TO_PORTAL_ERROR,
 	LOGOUT_FROM_PORTAL_SUCCESS,
 	LOGOUT_FROM_PORTAL_ERROR,
+	AUTHENTICATION_EXPIRED,
 } from '../constants/ActionTypes'; 
 
 const base64Encode = (email, password) => {
@@ -20,9 +21,8 @@ const loginToPortalError = data =>({
 	data
 });
 
-const logoutFromPortalSuccess = data =>({
-	type: LOGOUT_FROM_PORTAL_SUCCESS,
-	data
+export const logoutFromPortalSuccess = () =>({
+	type: LOGOUT_FROM_PORTAL_SUCCESS
 });
 
 const logoutFromPortalError = data =>({
@@ -30,6 +30,9 @@ const logoutFromPortalError = data =>({
 	data
 });
 
+export const authenticationExpired = () =>({
+	type: AUTHENTICATION_EXPIRED
+});
 
 const changePasswordSuccess = data =>({
 	type: CHANGE_PASSWORD_SUCCESS,
@@ -47,7 +50,7 @@ const storeUserData = ({token}) => {
 	updateHeaders(token);
 };
 
-const clearUserData = () => {
+export const clearUserData = () => {
 	localStorage.removeItem('auth_token');
 	updateHeaders('');
 };

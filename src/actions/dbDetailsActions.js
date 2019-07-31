@@ -1,4 +1,4 @@
-import { BASE_URL, headers, TIMEOUT } from '.';
+import { BASE_URL, headers, TIMEOUT, genericErrorHandler} from './appActions';
 
 import _add_db_details_success from '../json/add_db_details.json';
 import _db_details_list_success from '../json/db_details_list.json';
@@ -105,10 +105,11 @@ export const getAllDBDetails = () => dispatch => {
 	})
 		.then(res => res.json())
 		.then(res => {
-			if(res.error) {
-				dispatch(getAllDBDetailsError(res.error));
+			if (res && res.data) {
+				dispatch(getAllDBDetailsSuccess(res.data));
+			} else {
+				genericErrorHandler(dispatch, res, getAllDBDetailsError);
 			}
-			dispatch(getAllDBDetailsSuccess(res.data));
 		})
 		.catch(error => {
 			dispatch(getAllDBDetailsError(error));

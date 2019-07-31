@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import { checkAuthentication } from '../actions/loginActions'; 
 import rootReducer from '../reducers';
 
 const middleware = applyMiddleware(thunk, logger);
@@ -15,5 +14,5 @@ const store = createStore(
 		middleware
 	)
 );
-store.dispatch(checkAuthentication());
+
 export default store;

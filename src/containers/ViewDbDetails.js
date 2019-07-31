@@ -7,9 +7,21 @@ import { getAllDBDetails } from '../actions/dbDetailsActions';
 
 class ViewDbDetails extends Component {
 
-	componentDidMount() {
-		console.log('ViewDbDetails.componentDidMount() ===>', this.props);
-		this.props.getAllDBDetails();
+	constructor(props) {
+		super(props);
+		this.state = {
+			orgList: []
+		};
+	}	
+
+	static getDerivedStateFromProps = (nextProps, prevState) => {
+		if (prevState.orgList && prevState.orgList.length === 0 && 
+			nextProps.orgList && nextProps.orgList.length > 0) {
+			nextProps.getAllDBDetails();
+		}
+		return ({
+			orgList: nextProps.orgList
+		});
 	}
 
 	handleInputChange = ({target}) => {
@@ -40,6 +52,7 @@ class ViewDbDetails extends Component {
 
 	render() {
  		return (
+			 
 			<div className="viewDbDetailsForm">
 				<div className='btnContainer'>
 					<Link to={`/add_db_details`}>
@@ -72,8 +85,10 @@ class ViewDbDetails extends Component {
 };
 
 const mapStateToProps = (state) => {
+	console.log('ViewDbDetails.mapStateToProps() ', state);
 	return {
-		dbDetailsList: state.dbDetailsData.dbDetailsList
+		dbDetailsList: state.dbDetailsData.dbDetailsList,
+		orgList: state.appData.organizationList
 	};
 };
 

@@ -4,10 +4,12 @@ import {
 	LOGOUT_FROM_PORTAL_SUCCESS,
 	LOGOUT_FROM_PORTAL_ERROR,
 	CHANGE_PASSWORD_SUCCESS,
+	AUTHENTICATION_EXPIRED
 } from '../constants/ActionTypes';
 
 const initialState = {
 	token: null,
+	authTokenExpired: false,
 	passwordChanged: false 
 };
 
@@ -16,7 +18,8 @@ const loginData = (state = initialState, action) => {
 	case LOGIN_TO_PORTAL_SUCCESS:
 		return {
 			...state,
-			token : action.data.token
+			token : action.data.token,
+			authTokenExpired: false
 		};
 
 	case LOGIN_TO_PORTAL_ERROR:
@@ -37,7 +40,8 @@ const loginData = (state = initialState, action) => {
 	case CHANGE_PASSWORD_SUCCESS:
 		return {
 			...state,
-			passwordChanged: true
+			passwordChanged: true,
+			authTokenExpired: true
 		}
 	default:
 		return state;

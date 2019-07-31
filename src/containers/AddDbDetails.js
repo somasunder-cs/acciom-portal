@@ -8,7 +8,20 @@ class AddDbDetails extends Component {
 
 	constructor(props) {
 		super(props);
+		this.initialiseFormState();
+	}
 
+	componentDidUpdate(prevProps, prevState, snapshot)  {
+		console.log('AddDbDetails.componentDidUpdate prevProps ', prevProps );
+		console.log('AddDbDetails.componentDidUpdate prevState ', prevState );
+		console.log('AddDbDetails.componentDidUpdate props ', this.props);
+		if (this.props.updatedDbDetails) {
+			// redirect to db details view page 
+			// this.initialiseFormState();
+		}
+	}
+
+	initialiseFormState = () => {
 		this.state = {
 			formData: {
 				'project_id': 2 // remove hardcoded project later
@@ -18,16 +31,7 @@ class AddDbDetails extends Component {
 			loading: false
 		}
 	}
-
-	componentDidUpdate(prevProps, prevState, snapshot)  {
-		console.log('AddDbDetails.componentDidUpdate prevProps ', prevProps );
-		console.log('AddDbDetails.componentDidUpdate prevState ', prevState );
-		console.log('AddDbDetails.componentDidUpdate props ', this.props);
-		if (this.props.updatedDbDetails) {
-			// redirect to db details view page 
-		}
-	}
-
+	
 	handleInputChange = ({target}) => {
 		const { value, name } = target;
 
@@ -38,7 +42,15 @@ class AddDbDetails extends Component {
 			formData
 		});
 	}
-
+	
+	getConfirmationMessage = () => {
+		if (this.props.updatedDbDetails) {
+			return (<div>Database details added successfully.</div>);
+		} else {
+			return '';
+		}
+	}
+	
 	formSubmit = (e) => {
 		e.preventDefault();
 		const errors = true;
@@ -109,10 +121,13 @@ class AddDbDetails extends Component {
 							</FormGroup >
 
 							<FormGroup className="formFooter">
-								<Button type="button" bsStyle="primary">Cancel</Button>
+								{/* <Button type="button" bsStyle="primary">Cancel</Button> */}
 								<Button type="submit" bsStyle="primary">Submit</Button>
 							</FormGroup>
 						</Form>
+						
+						{ this.getConfirmationMessage() }
+						
 					</Panel.Body>
 				</Panel>
 			</div>
@@ -121,6 +136,7 @@ class AddDbDetails extends Component {
 };
 
 const mapStateToProps = (state) => {
+	console.log('AddDBDetails.mapStateToProps() ===>', state);
 	return {
 		updatedDbDetails: state.dbDetailsData.updatedDbDetails
 	};
