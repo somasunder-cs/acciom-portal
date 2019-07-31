@@ -203,7 +203,7 @@ function NavigationBar(props) {
 									<Icon className={clsx(classes.icon, 'fas fa-upload fa-2x')} color="primary" />  
 								</Link> 
 							</ListItemIcon>
-							<Link to={`/home`} className = {classes.home}> Upload Test Suites </Link> <br />
+							<Link to={`/home`} className = {classes.home}> Upload Data Profiling </Link> <br />
 						</MenuItem>
 						<MenuItem>
 							<ListItemIcon>
@@ -211,7 +211,7 @@ function NavigationBar(props) {
 									<Icon className={clsx(classes.icon, 'fas fa-list-alt fa-2x')} color="primary" />
 								</Link>
 							</ListItemIcon>
-							<Link to={`/startup`} className = {classes.startup}>Test Suites</Link>
+							<Link to={`/startup`} className = {classes.startup}>Data Profiling</Link>
 						</MenuItem>
 						<MenuItem>
 							<ListItemIcon>
