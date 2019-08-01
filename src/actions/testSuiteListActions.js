@@ -20,7 +20,6 @@ import {
 	GET_TESTCASE_LOG_BY_ID_SUCCESS,
 	MANAGE_CONNECTIONS_CASE_UPDATE,
 	HIDE_MANAGE_CONNECTIONS_DIALOG,
-	VIEW_TEST_CASE_LOG,
 	HIDE_CASE_LOG_DIALOG,
 	VIEW_TEST_CASE,
 	HIDE_TEST_CASE_DIALOG,
@@ -79,9 +78,9 @@ const selectConnectionsError = error => ({
 	error
 });
 
-const getTestCaseLogByIdSuccess = data => ({
+const getTestCaseLogByIdSuccess = (testCaseLog, testCaseName) => ({
 	type: GET_TESTCASE_LOG_BY_ID_SUCCESS,
-	data
+	testCaseLog, testCaseName
 });
 
 const getTestCaseLogByIdError = error => ({
@@ -101,11 +100,6 @@ export const manageConnectionsCaseUpdate = data => ({
 export const viewTestCase = testCase => ({
 	type: VIEW_TEST_CASE,
 	testCase
-});
-
-export const viewTestCaseLog = testCaseLog => ({
-	type: VIEW_TEST_CASE_LOG,
-	testCaseLog
 });
 
 export const hideCaseLogDialog = () => ({
@@ -210,13 +204,6 @@ export const getAllConnections = (suiteID) => dispatch => {
 	// 	});
 };
 
-export const testCaseLogs = (caseID) => dispatch => {
-	setTimeout(function() {
-		console.log('MW.viewTestCaseLog()  inside timeout');
-		dispatch(viewTestCaseLog(_viewTestCaseLog));
-	}, TIMEOUT);
-};
-
 export const getTestCases = (caseID) => dispatch => {
 	setTimeout(function() {
 		console.log('MW.viewTestCase()  inside timeout');
@@ -246,19 +233,22 @@ export const selectConnections = (type, cases, connectionID) => dispatch => {
 		});
 };
 
-export const getTestCaseLogById = (logID) => dispatch => {
-	fetch(`${BASE_URL}/test-case-log/${logID}/`, {
-		method: 'get',
-		headers
-	})
-		.then(res => res.json())
-		.then(res => {
-			if(res.error) {
-				dispatch(getTestCaseLogByIdError(res.error));
-			}
-			dispatch(getTestCaseLogByIdSuccess(res.data));
-		})
-		.catch(error => {
-			dispatch(getTestCaseLogByIdError(error));
-		});
+export const getTestCaseLogById = (logID, testCaseName) => dispatch => {
+	setTimeout(function() {
+		dispatch(getTestCaseLogByIdSuccess(_viewTestCaseLog, testCaseName));
+	}, TIMEOUT);
+	// fetch(`${BASE_URL}/test-case-log/${logID}/`, {
+	// 	method: 'get',
+	// 	headers
+	// })
+	// 	.then(res => res.json())
+	// 	.then(res => {
+	// 		if(res.error) {
+	// 			dispatch(getTestCaseLogByIdError(res.error));
+	// 		}
+	// 		dispatch(getTestCaseLogByIdSuccess(res.data, testCaseName));
+	// 	})
+	// 	.catch(error => {
+	// 		dispatch(getTestCaseLogByIdError(error));
+	// 	});
 };
