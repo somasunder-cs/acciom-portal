@@ -4,8 +4,8 @@
 import _testSuitesData from '../json/test-suites-data.json';
 import _getAllConnections from '../json/getAllConnections.json';
 import _viewTestCase from '../json/viewTestCase.json';
-import _viewTestCaseLog from '../json/viewLogs.json';
-import { BASE_URL, headers, TIMEOUT } from './appActions';
+import _viewTestCaseLogs from '../json/viewLogs.json';
+import { BASE_URL, headers, TIMEOUT } from '.';
 import { 
 	GET_ALL_TEST_SUITES_SUCCESS,
 	GET_ALL_TEST_SUITES_ERROR,
@@ -20,6 +20,7 @@ import {
 	GET_TESTCASE_LOG_BY_ID_SUCCESS,
 	MANAGE_CONNECTIONS_CASE_UPDATE,
 	HIDE_MANAGE_CONNECTIONS_DIALOG,
+	VIEW_TEST_CASE_LOG,
 	HIDE_CASE_LOG_DIALOG,
 	VIEW_TEST_CASE,
 	HIDE_TEST_CASE_DIALOG,
@@ -101,6 +102,11 @@ export const viewTestCase = testCase => ({
 	type: VIEW_TEST_CASE,
 	testCase
 });
+
+// export const viewTestCaseLog = (testCaseLog, testCaseName, testCaseStatus) => ({
+// 	type: VIEW_TEST_CASE_LOG,
+// 	testCaseLog, testCaseName, testCaseStatus
+// });
 
 export const hideCaseLogDialog = () => ({
 	type: HIDE_CASE_LOG_DIALOG
@@ -204,6 +210,14 @@ export const getAllConnections = (suiteID) => dispatch => {
 	// 	});
 };
 
+// export const testCaseLogs = (caseID, caseName) => dispatch => {
+// 	setTimeout(function() {
+// 		console.log('MW.viewTestCaseLog()  inside timeout=====>' + caseID);
+// 		console.log('MW.viewTestCaseLog()  inside timeout=====>' + caseName);
+// 		dispatch(viewTestCaseLog(_viewTestCaseLogs, caseName));
+// 	}, TIMEOUT);
+// };
+
 export const getTestCases = (caseID) => dispatch => {
 	setTimeout(function() {
 		console.log('MW.viewTestCase()  inside timeout');
@@ -235,7 +249,9 @@ export const selectConnections = (type, cases, connectionID) => dispatch => {
 
 export const getTestCaseLogById = (logID, testCaseName) => dispatch => {
 	setTimeout(function() {
-		dispatch(getTestCaseLogByIdSuccess(_viewTestCaseLog, testCaseName));
+		console.log('MW.viewTestCaseLog()  inside timeout=====>' + logID);
+		console.log('MW.viewTestCaseLog()  inside timeout=====>' + testCaseName);
+		dispatch(getTestCaseLogByIdSuccess(_viewTestCaseLogs, testCaseName));
 	}, TIMEOUT);
 	// fetch(`${BASE_URL}/test-case-log/${logID}/`, {
 	// 	method: 'get',

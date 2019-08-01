@@ -1,0 +1,38 @@
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "test_case_log": {
+            "log_data": {
+                "test_case_log_ID": 3,
+                "test_case_ID": 14,
+                "Execution_status": "fails",
+                "Execution_log": {
+                    "Duplicate_count": 5,
+                    "source_execution_log": null,
+                    "dest_execution_log": [
+                        [
+                            "id",
+                            "name",
+                            "quantity",
+                            "Duplicate Occurance"
+                        ],
+                        [
+                            "1",
+                            "apple",
+                            "7",
+                            "3"
+                        ],
+                        [
+                            "2",
+                            "Null",
+                            "4",
+                            "2"
+                        ]
+                    ]
+                }
+            }
+        },
+        "success": true
+    }
+}
