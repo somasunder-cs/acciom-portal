@@ -9,7 +9,7 @@ import {
 	HIDE_MANAGE_CONNECTIONS_DIALOG,
 	VIEW_TEST_CASE_LOG,
 	HIDE_CASE_LOG_DIALOG,
-	VIEW_TEST_CASE,
+	GET_TEST_CASES_SUCCESS,
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
 	SAVE_MANAGE_CONNECTION_DETAILS,
@@ -86,7 +86,7 @@ const testSuites = (state = initialState, action) => {
 			...state
 		};
 
-	case VIEW_TEST_CASE:
+	case GET_TEST_CASES_SUCCESS:
 		action.testCase.showTestCaseDialog = true;
 		return {
 			...state,
