@@ -105,15 +105,15 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 		setExpanded(isExpanded ? panel : false);
 	};
 
-	const handleManageConnection = (e) => {
+	const handleManageConnection = (e, suiteID) => {
 		console.log('handleManageConnection ===>');
-		getAllConnections();
+		getAllConnections(suiteID);
 		e.stopPropagation();
 	};
 
-	const viewTestCase = (e) => {
+	const viewTestCase = (e, caseID) => {
 		console.log('viewTestCase ===>');
-		getTestCases();
+		getTestCases(caseID);
 		e.stopPropagation();
 	};
 
@@ -204,7 +204,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 							aria-controls="panel1bh-content"
 							id="panel1bh-header">
 							<Typography className={classes.heading}>{testSuite.test_suite_name}</Typography>
-							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, getAllConnections)}>Manage Connections</Typography>
+							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, testSuite.test_suite_id)}>Manage Connections</Typography>
 							<Typography className={classes.suiteID}>SuiteID:{testSuite.test_suite_id}</Typography>
 							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created}</Typography>
 							<i className="far fa-play-circle statusPlayIcon" onClick={() => runTestSuite(testSuite.test_suite_id)} aria-hidden="true"></i>
@@ -217,7 +217,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 											<Typography className={classes.subHeading}>{testCaseList.test_id}</Typography>
-											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, getTestCases)}>View</Typography>
+											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, testCaseList.test_case_id)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
 											<Typography><i className="far fa-play-circle statusPlayIcon" onClick={() => runTestCase(testCaseList.test_case_id)} aria-hidden="true"></i></Typography>

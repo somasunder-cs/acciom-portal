@@ -97,8 +97,13 @@ export const manageConnectionsCaseUpdate = data => ({
 	data
 });
 
-export const viewTestCase = testCase => ({
-	type: VIEW_TEST_CASE,
+export const getTestCasesSuccess = testCase => ({
+	type: GET_TEST_CASES_SUCCESS,
+	testCase
+});
+
+export const getTestCasesError = testCase => ({
+	type: GET_TEST_CASES_ERROR,
 	testCase
 });
 
@@ -129,7 +134,7 @@ export const getAllTestSuites = () => (dispatch, getState)  => {
 	// 	dispatch(getAllTestSuitesSuccess(_testSuitesData));
 	// }, TIMEOUT);
 
-	fetch(`${BASE_URL}/test-suite?project_id=2`, {
+	fetch(`${BASE_URL}/test-suite?project_id=1`, {
 		method: 'get',
 		headers
 	})
@@ -183,32 +188,47 @@ export const executeTestByCaseId = (caseID) => dispatch => {
 };
 
 export const getAllConnections = (suiteID) => dispatch => {
-	setTimeout(function() {
-		console.log('MW.getAllConnections()  inside timeout');
-		dispatch(getAllConnectionsSuccess(_getAllConnections));
-	}, TIMEOUT);
+	// setTimeout(function() {
+	// 	console.log('MW.getAllConnections()  inside timeout');
+	// 	dispatch(getAllConnectionsSuccess(_getAllConnections));
+	// }, TIMEOUT);
 
-	// fetch(`${this.url}/connection-detail/${suiteID}`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(res => res.json())
-	// 	.then(res => {
-	// 		if(res.error) {
-	// 			dispatch(getAllConnectionsError(res.error));
-	// 		}
-	// 		dispatch(getAllConnectionsSuccess(_getAllConnections));
-	// 	})
-	// 	.catch(error => {
-	// 		dispatch(getAllConnectionsError(error));
-	// 	});
+	fetch(`${BASE_URL}/connection-detail/${suiteID}`, {
+		method: 'get',
+		headers
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(getAllConnectionsError(res.error));
+			}
+			dispatch(getAllConnectionsSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(getAllConnectionsError(error));
+		});
 };
 
 export const getTestCases = (caseID) => dispatch => {
-	setTimeout(function() {
-		console.log('MW.viewTestCase()  inside timeout');
-		dispatch(viewTestCase(_viewTestCase));
-	}, TIMEOUT);
+	// setTimeout(function() {
+	// 	console.log('MW.viewTestCase()  inside timeout');
+	// 	dispatch(viewTestCase(_viewTestCase));
+	// }, TIMEOUT);
+
+	fetch(`${BASE_URL}/edit-test-case/${caseID}`, {
+		method: 'get',
+		headers
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(getTestCasesError(res.error));
+			}
+			dispatch(getTestCasesSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(getTestCasesError(error));
+		});
 };
 
 export const selectConnections = (type, cases, connectionID) => dispatch => {
