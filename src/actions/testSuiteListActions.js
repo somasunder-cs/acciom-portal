@@ -28,9 +28,9 @@ import {
 	SHOW_TEST_CASE_VIEW_ENABLED
 } from "../constants/ActionTypes"; 
 
-const getAllTestSuitesSuccess = testSuiteList => ({
+const getAllTestSuitesSuccess = data => ({
 	type: GET_ALL_TEST_SUITES_SUCCESS,
-	testSuiteList
+	testSuiteList: data.suites
 });
 
 const getAllTestSuitesError = testSuiteList => ({
@@ -124,33 +124,33 @@ export const saveManageConnectionDetails = data => ({
 });
 
 export const getAllTestSuites = () => (dispatch, getState)  => {
-	setTimeout(() => {
-		console.log('getAllTestSuites ', getState());
-		dispatch(getAllTestSuitesSuccess(_testSuitesData));
-	}, TIMEOUT);
+	// setTimeout(() => {
+	// 	console.log('getAllTestSuites ', getState());
+	// 	dispatch(getAllTestSuitesSuccess(_testSuitesData));
+	// }, TIMEOUT);
 
-	// fetch(`${BASE_URL}/test-suite`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(res => res.json())
-	// 	.then(res => {
-	// 		if(res.error) {
-	// 			dispatch(getAllTestSuitesError(res.error));
-	// 		}
-	// 		dispatch(getAllTestSuitesSuccess(res.data));
-	// 		// return res.data;
-	// 	})
-	// 	.catch(error => {
-	// 		dispatch(getAllTestSuitesError(error));
-	// 	});
+	fetch(`${BASE_URL}/test-suite`, {
+		method: 'get',
+		headers
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(getAllTestSuitesError(res.error));
+			}
+			dispatch(getAllTestSuitesSuccess(res.data));
+			// return res.data;
+		})
+		.catch(error => {
+			dispatch(getAllTestSuitesError(error));
+		});
 };
 
 export const executeTestBySuiteId = (suiteID) => dispatch => {
 	fetch(`${BASE_URL}/test-case-job/`, {
 		method: 'post',
 		headers,
-		body: {'suite_id': suiteID}
+		body: JSON.stringify({'suite_id': suiteID})
 	})
 		.then(res => res.json())
 		.then(res => {
@@ -168,7 +168,7 @@ export const executeTestByCaseId = (caseID) => dispatch => {
 	fetch(`${BASE_URL}/test-case-job/`, {
 		method: 'post',
 		headers,
-		body: {'case_id': caseID}
+		body: JSON.stringify({'case_id': caseID})
 	})
 		.then(res => res.json())
 		.then(res => {

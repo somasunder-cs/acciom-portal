@@ -40,6 +40,7 @@ html
 }
 .addDbDetailsForm .formFooter {
     float: right;
+    margin-top: 20px;
 }
 
 .loginForm {
@@ -4185,7 +4186,7 @@ textarea {width:280px;}
 .statusDelIcon {font-size:  1.2rem; color:red !important;}
 .statusCheckIcon {font-size:  1.2rem; color:green !important;}
 .statusStopIcon {font-size:  1.2rem; color:rgb(245, 124, 76) !important;}
-.statusPlayIcon {font-size:  1rem;}
+.statusPlayIcon {font-size:  1.2rem;}
 .logsIcon {font-size:  1.2rem;}
 
 
@@ -4324,3 +4325,23 @@ textarea {width:280px;}
     border-bottom: unset !important;
   }
 
+.testCaseExpPanel .statusPlayIcon {
+    margin-left:20px; 
+}
+
+#orgChangeModal {
+    top:100px;
+}
+
+#orgChangeModal .modal-body {
+    height: 95px;
+}
+
+#orgChangeModal .form-group {
+    margin: 10px 10px 10px 10px;
+}
+
+#orgChangeModal .submitBtn {
+    margin: 10px 10px 10px 10px;
+    float: right;
+}

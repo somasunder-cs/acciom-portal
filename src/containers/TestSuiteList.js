@@ -99,7 +99,7 @@ const useStyles = makeStyles(theme => ({
 
 function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseLogById, getTestCases, executeTestBySuiteId, executeTestByCaseId}) {
 	console.log('ControlledExpansionPanels constructor');
-	const testSuiteDataLen = testSuites && testSuites.suites ? Object.keys(testSuites.suites).length : 0;
+	const testSuiteDataLen = testSuites ? Object.keys(testSuites).length : 0;
 	const classes = useStyles();
 	const [expanded, setExpanded] = React.useState(false);	
 	const handleChange = panel => (event, isExpanded) => {
@@ -196,8 +196,8 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 	return (
 		<div className={classes.root}>
 			{ 
-				(testSuiteDataLen > 0 && testSuites.suites && testSuites.suites.test_suite_details) ?
-				testSuites.suites.test_suite_details.map(testSuite => (
+				(testSuiteDataLen > 0 && testSuites.test_suite_details) ?
+				testSuites.test_suite_details.map(testSuite => (
 					<ExpansionPanel key={testSuite.test_suite_id} expanded={expanded === testSuite.test_suite_id} onChange={handleChange(testSuite.test_suite_id)}>
 						
 						<ExpansionPanelSummary

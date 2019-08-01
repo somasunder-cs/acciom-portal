@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button,  ButtonGroup, DropdownButton, Item , MenuItem as MenuItemBS  } from 'react-bootstrap';
+import { Button,  Modal, ButtonGroup, DropdownButton, Item , MenuItem as MenuItemBS  } from 'react-bootstrap';
 
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -22,7 +22,9 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Icon from '@material-ui/core/Icon';
 
+import ChangeOrganisation from '../components/ChangeOrganisation'
 import { logoutFromPortal } from '../actions/loginActions';
+import { showOrgChangePage } from '../actions/appActions';
 import logo from '../assets/images/logo.jpeg';
 
 const drawerWidth = 240;
@@ -136,9 +138,14 @@ const someHandler =() => {
 	)
 }
 
+const handleShowOrg  = (props, isShow) => {
+	console.log("Show Organisation Popup ==", props);
+	props.showOrgChangePage(isShow);
+};
+
 const getLoginOptions = (props, classes) => {
 	let options = null;
-
+	
 	const getLoginElements = () => {
 		if (props.loginData && props.loginData.token) {
 			return <Link id="logoutLink" className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</Link>;
@@ -149,12 +156,17 @@ const getLoginOptions = (props, classes) => {
 
 	options = 	(
 		<div className={classes.accountbtn}>
-			<DropdownButton variant="Secondary" title="Account" noCaret id="dropdown-no-caret loginLink" onClick={(event) => { event.preventDefault();}}>
+			<DropdownButton  title="Account" bsStyle="primary" bsSize="small" id="dropdown-no-caret loginLink" pullRight noCaret
+				onClick={(event) => { event.preventDefault();}}>
 				<MenuItemBS eventKey="1" className={classes.width}>
 					<Link to="/access_token"  className={classes.width}>Access Token</Link>
 				</MenuItemBS>
 				<MenuItemBS eventKey="2">
 					<Link to="/change_password">Change Password</Link>
+				</MenuItemBS>
+				<MenuItemBS eventKey="2">
+					{/* <Link to="/change_password">Change Password</Link> */}
+					<Link id="change_organisation" onClick={(event) => { handleShowOrg(props, true);}}>Change Organisation</Link>
 				</MenuItemBS>
 				<MenuItemBS eventKey="3">
 					{ getLoginElements() }
@@ -169,6 +181,7 @@ const getLoginOptions = (props, classes) => {
 function NavigationBar(props) {
 	const classes = useStyles();
 	const theme = useTheme();
+	
 	const [open, setOpen] = React.useState(false);
 
 	function handleDrawerOpen() {
@@ -227,12 +240,10 @@ function NavigationBar(props) {
 					<MenuList className="sideNavBar">
 						<MenuItem>
 							<ListItemIcon>
-								{/* <HomeIcon className={classes.icon} color="primary" /> */}
 								<Link to= {'/dashboard'} color= 'primary' >
 									<Icon className={clsx(classes.icon, 'fas fa-business-time fa-2x')} color="primary" />	
 								</Link>
 							</ListItemIcon>
-							{/* <Link to={`/dashboard`}> Dashboard </Link> <br /> */}
 							<Link to={`/dashboard`} className = {classes.dashboard}> Dashboard </Link> <br />
 						</MenuItem>
 						<MenuItem>
@@ -273,7 +284,8 @@ const mapStateToProps = (state) => {
 	}
 };
 const mapDispatchToProps = (dispatch) => ({
-	logoutFromPortal: () => dispatch(logoutFromPortal())
+	logoutFromPortal: () => dispatch(logoutFromPortal()),
+	showOrgChangePage: (data) => dispatch(showOrgChangePage(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);

@@ -2,7 +2,8 @@ import {
 } from '../constants/ActionTypes';
 
 const initialState = {
-	organizationList: []
+	organizationList: [],
+	isOrgChangePageVisible: false
 };
 
 const appData = (state = initialState, action) => {
@@ -19,6 +20,12 @@ const appData = (state = initialState, action) => {
 			...state,
 			organizationList: []
 		 };	
+	
+	case 'SHOW_ORG_CHANGE_PAGE':
+		return {
+			...state,
+			isOrgChangePageVisible: action.show
+		}
 	
 	default:
 		return state;

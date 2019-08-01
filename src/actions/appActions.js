@@ -21,6 +21,11 @@ const getOrganizationListError = error =>({
 	error
 });
 
+export const showOrgChangePage = show =>({
+	type: 'SHOW_ORG_CHANGE_PAGE',
+	show
+});
+
 export const genericErrorHandler = (dispatch, error, acionCreatorFunc) => {
 	if (error) {
 		if (error.statusText === 'UNAUTHORIZED' || error.message === "Unauthorised Access") {

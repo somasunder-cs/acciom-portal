@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
+import ChangeOrganisation from '../components/ChangeOrganisation';
 import { getOrganizationsList } from '../actions/appActions';
 import { checkAuthentication } from '../actions/loginActions';
 
@@ -13,7 +14,9 @@ class RootContent extends Component {
 	}
 
 	render() {
-		return (<div></div>);
+		return (<div>
+			<ChangeOrganisation />
+		</div>);
 	}
 }
 

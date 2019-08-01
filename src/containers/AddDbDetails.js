@@ -86,15 +86,6 @@ class AddDbDetails extends Component {
 					<Panel.Heading>Add DB Details</Panel.Heading>
 					<Panel.Body>
 						<Form onSubmit={this.formSubmit} horizontal>
-							{/* 
-								<FieldGroup id="formControlsConnName" type="text" label="Connection Name" name="connection_name" />
-								FieldGroup id="formControlsDbType" type="text" label="Database Type" name="db_type_name" />
-								<FieldGroup id="formControlsDbName" type="text" label="Database Name" name="db_name" />
-								<FieldGroup id="formControlsHostName" type="text" label="Host Name" name="db_hostname" />
-								<FieldGroup	id="formControlsUsername" type="text" label="User Name" name="db_username" />
-								<FieldGroup id="formControlsPassword" label="Password" type="password" name="db_password" />
-							 */}
-
 							<FormGroup controlId="formControlsConnName">
 								<Col sm={4}><ControlLabel>Connection Name</ControlLabel></Col>
 								<Col sm={8}><FormControl type="text" name="connection_name" onChange={this.handleInputChange} /></Col>
@@ -125,10 +116,8 @@ class AddDbDetails extends Component {
 								<Button type="submit" bsStyle="primary">Submit</Button>
 							</FormGroup>
 						</Form>
-						
-						{ this.getConfirmationMessage() }
-						
 					</Panel.Body>
+					<Panel.Body>{ this.getConfirmationMessage() }</Panel.Body>
 				</Panel>
 			</div>
 		);
