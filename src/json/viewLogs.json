@@ -1,14 +1,18 @@
 {
-    "test_case_log": {
-        "data": {
-            "test_case_log_id": 1275,
-            "test_case_id": 783,
-            "test_execution_status": 2,
-            "source_log": "9",
-            "destination_log": "3",
-            "destination_count": 0,
-            "Duplicate_counts": 0
-        }
-    },
-    "success": true
-}
+    "success": true,
+    "message": "success",
+    "data": {
+        "test_case_log": {
+            "log_data": {
+                "test_case_log_ID": 45,
+                "test_case_ID": 16,
+                "Execution_status": "fail",
+                "Execution_log": {
+                    "source_execution_log": 10,
+                    "dest_execution_log": 5
+                }
+            }
+        },
+        "success": true
+    }
+ }

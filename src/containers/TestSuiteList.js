@@ -12,7 +12,7 @@ import ManageConnection from '../components/ManageConnection';
 import ViewLogs from '../components/ViewLogs';
 import ViewTestCase from '../components/ViewTestCase';
 
-import { getAllConnections, getTestCases, testCaseLogs, executeTestBySuiteId, executeTestByCaseId } from '../actions/testSuiteListActions';
+import { getAllConnections, getTestCases, getTestCaseLogById, executeTestBySuiteId, executeTestByCaseId } from '../actions/testSuiteListActions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs, getTestCases, executeTestBySuiteId, executeTestByCaseId}) {
+function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseLogById, getTestCases, executeTestBySuiteId, executeTestByCaseId}) {
 	console.log('ControlledExpansionPanels constructor');
 	const testSuiteDataLen = testSuites && testSuites.suites ? Object.keys(testSuites.suites).length : 0;
 	const classes = useStyles();
@@ -120,7 +120,6 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 
 	const viewTestCaseLogs = (e) => {
 		console.log('viewTestCaseLogs ===>');
-		testCaseLogs();
 	};
 
 	const renderTestName = (status) => {
@@ -197,8 +196,8 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 	return (
 		<div className={classes.root}>
 			{ 
-				(testSuiteDataLen > 0 && testSuites.suites && testSuites.suites.test_suite_data) ?
-				testSuites.suites.test_suite_data.map(testSuite => (
+				(testSuiteDataLen > 0 && testSuites.suites && testSuites.suites.test_suite_details) ?
+				testSuites.suites.test_suite_details.map(testSuite => (
 					<ExpansionPanel key={testSuite.test_suite_id} expanded={expanded === testSuite.test_suite_id} onChange={handleChange(testSuite.test_suite_id)}>
 						
 						<ExpansionPanelSummary
@@ -242,7 +241,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, testCaseLogs
 														  {/* <td className="testLogData"></td> */}
 														  <td className="testLogData">{renderExecutionStatus(testCaseLog.test_execution_status)}</td>
 														  <td className="testLogData">{testCaseLog.executed_at}</td>
-														  <td className={classes.caseLog} onClick={e => viewTestCaseLogs(e, testCaseLogs)}><i className="far fa-sticky-note logsIcon"></i></td>
+														  <td className={classes.caseLog} onClick={e => viewTestCaseLogs(e, getTestCaseLogById(testCaseLog.test_case_log_id, testCaseList.test_name))}><i className="far fa-sticky-note logsIcon"></i></td>
 														</tr>
 													))}
 												  </tbody>
@@ -272,5 +271,5 @@ const mapStateToProps = function (state) {
 };
 
 export default connect(mapStateToProps, {
-	getAllConnections, testCaseLogs, getTestCases, executeTestBySuiteId, executeTestByCaseId
+	getAllConnections, getTestCaseLogById, getTestCases, executeTestBySuiteId, executeTestByCaseId
 })(ControlledExpansionPanels);

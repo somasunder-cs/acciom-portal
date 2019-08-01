@@ -13,7 +13,7 @@ import {
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
 	SAVE_MANAGE_CONNECTION_DETAILS,
-	SHOW_TEST_CASE_VIEW_ENABLED
+	SHOW_TEST_CASE_VIEW_ENABLED,
 } from '../constants/ActionTypes';
 
 import { browserHistory } from 'react-router';
@@ -27,7 +27,8 @@ const initialState = {
 	},
 	testCaseLog: {
 		showCaseLogDialog: false,
-		caseLog:[]
+		caseLog:[],
+		caseName: null
 	},
 	testCase: {
 		showTestCaseDialog: false,
@@ -70,8 +71,10 @@ const testSuites = (state = initialState, action) => {
 			connectionsList : action.connectionsList
 		};
 
-	case VIEW_TEST_CASE_LOG:
+	case GET_TESTCASE_LOG_BY_ID_SUCCESS:
+		console.log("view Testcase log ========>")
 		 action.testCaseLog.showCaseLogDialog = true;
+		 action.testCaseLog.caseName   = action.testCaseName;
 		return {
 			...state,
 			testCaseLog : action.testCaseLog
@@ -112,11 +115,11 @@ const testSuites = (state = initialState, action) => {
 			}
 		};
 
-	case GET_TESTCASE_LOG_BY_ID_SUCCESS:
-		return {
-			...state,
-			testCaseLog: action.data
-		};
+	// case GET_TESTCASE_LOG_BY_ID_SUCCESS:
+	// 	return {
+	// 		...state,
+	// 		testCaseLog: action.data
+	// 	};
 
 	case MANAGE_CONNECTIONS_CASE_UPDATE:
 		return {
