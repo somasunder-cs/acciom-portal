@@ -42,7 +42,7 @@ const testSuites = (state = initialState, action) => {
 	case GET_ALL_TEST_SUITES_SUCCESS:
 		return {
 			...state,
-			testSuiteList: action.testSuiteList
+			testSuiteList: action.testSuiteList.test_suite_details_list
 		};
 
 	case EXECUTE_TEST_BY_SUITE_ID_SUCCESS:

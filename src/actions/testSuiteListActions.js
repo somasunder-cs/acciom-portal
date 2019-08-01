@@ -129,7 +129,7 @@ export const getAllTestSuites = () => (dispatch, getState)  => {
 	// 	dispatch(getAllTestSuitesSuccess(_testSuitesData));
 	// }, TIMEOUT);
 
-	fetch(`${BASE_URL}/test-suite`, {
+	fetch(`${BASE_URL}/test-suite?project_id=2`, {
 		method: 'get',
 		headers
 	})

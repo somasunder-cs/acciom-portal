@@ -99,7 +99,6 @@ const useStyles = makeStyles(theme => ({
 
 function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseLogById, getTestCases, executeTestBySuiteId, executeTestByCaseId}) {
 	console.log('ControlledExpansionPanels constructor');
-	const testSuiteDataLen = testSuites ? Object.keys(testSuites).length : 0;
 	const classes = useStyles();
 	const [expanded, setExpanded] = React.useState(false);	
 	const handleChange = panel => (event, isExpanded) => {
@@ -141,6 +140,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 
 	const renderTestStatus = (status) => {
 		switch(status) {
+		case 'new':
 		case 0:
 			return 'New';
 		case 1:
@@ -196,8 +196,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 	return (
 		<div className={classes.root}>
 			{ 
-				(testSuiteDataLen > 0 && testSuites.test_suite_details) ?
-				testSuites.test_suite_details.map(testSuite => (
+				(testSuites) ? testSuites.map(testSuite => (
 					<ExpansionPanel key={testSuite.test_suite_id} expanded={expanded === testSuite.test_suite_id} onChange={handleChange(testSuite.test_suite_id)}>
 						
 						<ExpansionPanelSummary
@@ -220,7 +219,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 											<Typography className={classes.subHeading}>{testCaseList.test_id}</Typography>
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, getTestCases)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
-											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_name}</Typography>
+											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
 											<Typography><i className="far fa-play-circle statusPlayIcon" onClick={() => runTestCase(testCaseList.test_case_id)} aria-hidden="true"></i></Typography>
 										</ExpansionPanelSummary>
 										
@@ -236,7 +235,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 													</tr>
 												  </thead>
 												  <tbody>
-													{ testCaseList.test_case_log.map(testCaseLog => (
+													{ testCaseList.test_case_log && testCaseList.test_case_log_list.map(testCaseLog => (
 														<tr key={testCaseLog.test_case_log_id}>
 														  {/* <td className="testLogData"></td> */}
 														  <td className="testLogData">{renderExecutionStatus(testCaseLog.test_execution_status)}</td>
@@ -266,7 +265,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 const mapStateToProps = function (state) {
 	console.log("TestSuiteList.state", state);
 	return {
-		testSuites: state.testSuites.testSuiteList
+		testSuites: state.testSuites.testSuiteList? state.testSuites.testSuiteList: []
 	}
 };
 
