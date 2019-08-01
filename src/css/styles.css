@@ -4345,3 +4345,12 @@ textarea {width:280px;}
     margin: 10px 10px 10px 10px;
     float: right;
 }
+  .singleSelect, .multiSelect {
+      display: inline-block;
+      width: 40%;
+      padding-left: 15px;
+  }
+
+  .plusCircle, .minusCircle {
+        padding-left: 15px;
+  }

@@ -11,6 +11,7 @@ import Login from '../containers/Login';
 import DQIDetailsContainer from '../containers/DQIdetailsContainer';
 import ViewDbDetails from '../containers/ViewDbDetails';
 import AddDbDetails from '../containers/AddDbDetails';
+import UserManagement from '../containers/UserManagement';
 import RootContent from '../containers/RootContent';
 import ForgotPassword from './ForgotPassword';
 import Token from './token';
@@ -61,6 +62,7 @@ const App = (props) => (
 				<PrivateRoute path="/forgot_password" authTokenExpired={props.authTokenExpired} component={ForgotPassword} />
 				<PrivateRoute path="/change_password" authTokenExpired={props.authTokenExpired} component={ChangePassword} />
 				<PrivateRoute path="/access_token" authTokenExpired={props.authTokenExpired} component={Token} />
+				<Route path="/user_management" component={UserManagement} />
 			</Content>
 		</Router>
 	</RootContainer>
