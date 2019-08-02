@@ -12,7 +12,14 @@ import ManageConnection from '../components/ManageConnection';
 import ViewLogs from '../components/ViewLogs';
 import ViewTestCase from '../components/ViewTestCase';
 
-import { getAllConnections, getTestCases, getTestCaseLogById, executeTestBySuiteId, executeTestByCaseId } from '../actions/testSuiteListActions';
+import { 
+	getAllConnections, 
+	getTestCases, 
+	getTestCaseLogById, 
+	executeTestBySuiteId, 
+	executeTestByCaseId,
+	getTestCaseDetailBySuiteId
+} from '../actions/testSuiteListActions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -96,8 +103,7 @@ const useStyles = makeStyles(theme => ({
 	caseLog: {cursor: 'pointer'},
 }));
 
-
-function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseLogById, getTestCases, executeTestBySuiteId, executeTestByCaseId}) {
+function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseDetailBySuiteId, getTestCaseLogById, getTestCases, executeTestBySuiteId, executeTestByCaseId}) {
 	console.log('ControlledExpansionPanels constructor');
 	const classes = useStyles();
 	const [expanded, setExpanded] = React.useState(false);	
@@ -107,7 +113,9 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 
 	const handleManageConnection = (e, suiteID) => {
 		console.log('handleManageConnection ===>');
-		getAllConnections(suiteID);
+		let project_id = 1; // remove this hardcoded assignment
+		getAllConnections(project_id);
+		getTestCaseDetailBySuiteId(suiteID);
 		e.stopPropagation();
 	};
 
@@ -277,5 +285,10 @@ const mapStateToProps = function (state) {
 };
 
 export default connect(mapStateToProps, {
-	getAllConnections, getTestCaseLogById, getTestCases, executeTestBySuiteId, executeTestByCaseId
+	getAllConnections, 
+	getTestCaseLogById, 
+	getTestCases, 
+	executeTestBySuiteId, 
+	executeTestByCaseId,
+	getTestCaseDetailBySuiteId
 })(ControlledExpansionPanels);

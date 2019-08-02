@@ -53,8 +53,7 @@ const useStyles = makeStyles(theme => ({
 	MuiSelect: {minWidth:'160px'},
 }));
 
-function ManageConnectionSelect({connectionsList}) {
-	console.log("ManageConnectionSelect constructor", connectionsList);
+function ManageConnectionSelect({ allConnections, allCases}) {
 	const classes = useStyles();
 	const [connection, setConnection] = React.useState('');
 	const [state, setState] = React.useState({
@@ -62,10 +61,11 @@ function ManageConnectionSelect({connectionsList}) {
 	});
 
 	function handleManageConnectionCaseUpdate(val) {
-		console.log("handleManageConnectionCaseUpdate.state", val);
+		// console.log("handleManageConnectionCaseUpdate.state", val);
 	};
 
 	const handleChange = event => {
+		console.log('handleChange ', state);
 		setConnection(event.target.value);
 	};
 
@@ -81,9 +81,9 @@ function ManageConnectionSelect({connectionsList}) {
 								onChange={handleChange}
 								name="selectConnection"
 							>
-								{ connectionsList.all_connections.map(connection => (
-									connection[1] ?
-										<option key={connection[0]} value={connection[0]}>{connection[1]}</option> : null
+								{ allConnections.map(connection => (
+									connection ?
+										<option key={connection.db_connection_id} value={connection.db_connection_id}>{connection.db_connection_name}</option> : null
 								))
 								}
 							</select>
@@ -93,16 +93,16 @@ function ManageConnectionSelect({connectionsList}) {
 						<td className="manageConnectionLabel"><label className="manageConnectionHeading manageConnectionsLabel">Select Cases:</label></td>
 						<td>
 							{
-								connectionsList.all_cases.map(cases => (
-									<div key={cases[0]} className="manageconnectionTestCase">
+								allCases.map(testCase => (
+									<div key={testCase.case_id} className="manageconnectionTestCase">
 										<label className="form-check-label">
 											<input
 												type="checkbox"
-												value={cases[0]}
-												name={cases[0]}
-												onChange={handleManageConnectionCaseUpdate(cases[0])}
+												value={testCase.case_id}
+												name={testCase.case_name}
+												onChange={handleManageConnectionCaseUpdate(testCase)}
 											/>
-										</label> {cases[1]}
+										</label> {testCase.case_name}
 									</div>
 								))
 							}
@@ -117,7 +117,8 @@ function ManageConnectionSelect({connectionsList}) {
 const mapStateToProps = function (state) {
 	console.log("ManageConnectionSelect.state", state);
 	return {
-		connectionsList: state.testSuites.connectionsList
+		allConnections : state.testSuites.connectionsList &&  state.testSuites.connectionsList.allConnections? state.testSuites.connectionsList.allConnections : [],
+		allCases : state.testSuites.connectionsList &&  state.testSuites.connectionsList.allCases? state.testSuites.connectionsList.allCases : []
 	}
 };
 

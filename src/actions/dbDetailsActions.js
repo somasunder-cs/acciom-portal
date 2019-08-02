@@ -99,7 +99,7 @@ export const getAllDBDetails = () => dispatch => {
 	// 	dispatch(getAllDBDetailsSuccess(_db_details_list_success.data));
 	// }, TIMEOUT);
 
-	fetch(`${BASE_URL}/db-detail?project_id=2`, {
+	fetch(`${BASE_URL}/db-detail?project_id=1`, {
 		method: 'get',
 		headers
 	})

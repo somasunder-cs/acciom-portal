@@ -5,6 +5,9 @@ import _testSuitesData from '../json/test-suites-data.json';
 import _getAllConnections from '../json/getAllConnections.json';
 import _viewTestCase from '../json/viewTestCase.json';
 import _viewTestCaseLog from '../json/viewLogs.json';
+import _db_connection_detail from '../json/db-connection-detail.json';
+import test_case_detail_by_suit_id from '../json/test_case_detail_by_suit_id.json';
+
 import { BASE_URL, headers, TIMEOUT } from './appActions';
 import { 
 	GET_ALL_TEST_SUITES_SUCCESS,
@@ -26,6 +29,8 @@ import {
 	SHOW_TEST_CASE_EDIT_ENABLED,
 	SAVE_MANAGE_CONNECTION_DETAILS,
 	SHOW_TEST_CASE_VIEW_ENABLED,
+	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
+	GET_TESTCASE_DETAIL_BY_SUITE_ID_ERROR,
 	GET_TEST_CASES_ERROR,
 	GET_TEST_CASES_SUCCESS
 } from "../constants/ActionTypes"; 
@@ -67,6 +72,16 @@ const getAllConnectionsSuccess = connectionsList => ({
 
 const getAllConnectionsError = error => ({
 	type: GET_ALL_CONNECTIONS_ERROR,
+	error
+});
+
+const getTestCaseDetailBySuiteIdSuccess = data => ({
+	type: GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
+	allCases: data.all_cases
+});
+
+const getTestCaseDetailBySuiteIdError = error => ({
+	type: GET_TESTCASE_DETAIL_BY_SUITE_ID_ERROR,
 	error
 });
 
@@ -189,13 +204,12 @@ export const executeTestByCaseId = (caseID) => dispatch => {
 		});
 };
 
-export const getAllConnections = (suiteID) => dispatch => {
+export const getAllConnections = (project_id) => dispatch => {
 	// setTimeout(function() {
 	// 	console.log('MW.getAllConnections()  inside timeout');
-	// 	dispatch(getAllConnectionsSuccess(_getAllConnections));
+	// 	dispatch(getAllConnectionsSuccess(_db_connection_detail.data));
 	// }, TIMEOUT);
-
-	fetch(`${BASE_URL}/connection-detail/${suiteID}`, {
+	fetch(`${BASE_URL}/db-connection-detail?project_id=${project_id}`, {
 		method: 'get',
 		headers
 	})
@@ -208,6 +222,27 @@ export const getAllConnections = (suiteID) => dispatch => {
 		})
 		.catch(error => {
 			dispatch(getAllConnectionsError(error));
+		});
+};
+
+export const getTestCaseDetailBySuiteId = (suite_id) => dispatch => {
+	// setTimeout(function() {
+	// 	console.log('MW.getTestCaseDetailBySuiteId()  inside timeout');
+	// 	dispatch(getTestCaseDetailBySuiteIdSuccess(test_case_detail_by_suit_id.data));
+	// }, TIMEOUT);
+	fetch(`${BASE_URL}/test-case-detail?suite_id=${suite_id}`, {
+		method: 'get',
+		headers
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(getTestCaseDetailBySuiteIdError(res.error));
+			}
+			dispatch(getTestCaseDetailBySuiteIdSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(getTestCaseDetailBySuiteIdError(error));
 		});
 };
 
@@ -233,14 +268,15 @@ export const getTestCases = (caseID) => dispatch => {
 		});
 };
 
-export const selectConnections = (type, cases, connectionID) => dispatch => {
+export const updateConnections = (type, cases, connectionID) => (dispatch, getState) => {
+	console.log('updateConnections===> ', getState());
 	fetch(`${BASE_URL}/select-connection`, {
 		method: 'post',
 		headers,
 		body: {
-			'connection_type': type,
-			'case_id': cases,
-			'db_id': connectionID
+			'connection_references': type,
+			'case_id_list': cases,
+			'db_connection_id': connectionID
 		}
 	})
 		.then(res => res.json())

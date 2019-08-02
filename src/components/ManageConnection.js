@@ -5,7 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import ManageConnectionInputs from './ManageConnectionInputs';
 import ManageConnectionSelect from './ManageConnectionSelect';
 
-import { hideManageConnectionsDialog } from '../actions/testSuiteListActions';
+import { hideManageConnectionsDialog, updateConnections } from '../actions/testSuiteListActions';
 
 class ManageConnection extends React.Component {
 	handleDialogBoxClose = () => {
@@ -13,7 +13,7 @@ class ManageConnection extends React.Component {
 	};
 
 	handleManageConnectionSave = (e) => {
-		this.props.handleConnectionSave();
+		this.props.updateConnections();
 	};
 	
 	render() {
@@ -55,7 +55,8 @@ const mapStateToProps = function (state) {
 
 const mapDispatchToProps = function (dispatch) {
 	return {
-		hideManageConnectionsDialog: () => dispatch(hideManageConnectionsDialog())
+		hideManageConnectionsDialog: () => dispatch(hideManageConnectionsDialog()),
+		updateConnections: () => dispatch(updateConnections())
 	}
 };
 
