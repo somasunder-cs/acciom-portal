@@ -3,7 +3,6 @@ import { connect  } from 'react-redux';
 import ReactDOM from 'react-dom';
 import CardContainer from './CardContainers';
 import TimeLineComponent from './Timeline';
-import DQIContainer from './DQIContainer';
 import { getOrgDataQuality } from '../actions/dashboardActions';
 import ProjectChartList from '../containers/ProjectListChartContainer';
 import DQIDetailsContainer from '../containers/DQIdetailsContainer';
