@@ -165,11 +165,11 @@ class TestCaseDetails extends React.Component {
 									<tbody>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Connection:</label></td>
-											<td>{this.props.viewTestCase.src_db_id}</td>
+											<td>{this.props.viewTestCase.src_db_name}</td>
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Target Connection:</label></td>
-											<td>{this.props.viewTestCase.target_db_id}</td>
+											<td>{this.props.viewTestCase.target_db_name}</td>
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Table:</label></td>
