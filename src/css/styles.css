@@ -4355,6 +4355,7 @@ textarea {width:280px;}
         padding-left: 15px;
   }
 
+
   .slick-arrow {
       display: none !important;
   }
@@ -4372,3 +4373,30 @@ textarea {width:280px;}
     display: inline;
     padding-top: 95px;
   }
+
+#userManagement .list-group {
+    width: 60%;
+}
+#userManagement .list-group-item {
+    height: 47px    ;
+    padding-top: 5px;
+}
+#userManagement .list-group-item .fa-user-circle{
+    font-size: 30px;
+    padding-top: 5px;
+}
+
+#userManagement .list-group-item .fName {
+    display: block;
+    font-size: 17px;
+}
+#userManagement .list-group-item .email {
+    display: block;
+    font-size: 12px;
+}
+
+#userManagement .editBtn button {
+    float: right;
+    /* padding-top: 2px; */
+}
+

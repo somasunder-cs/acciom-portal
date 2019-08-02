@@ -9,11 +9,12 @@ import {
 	HIDE_MANAGE_CONNECTIONS_DIALOG,
 	VIEW_TEST_CASE_LOG,
 	HIDE_CASE_LOG_DIALOG,
-	VIEW_TEST_CASE,
+	GET_TEST_CASES_SUCCESS,
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
 	SAVE_MANAGE_CONNECTION_DETAILS,
 	SHOW_TEST_CASE_VIEW_ENABLED,
+	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS
 } from '../constants/ActionTypes';
 
 import { browserHistory } from 'react-router';
@@ -42,7 +43,7 @@ const testSuites = (state = initialState, action) => {
 	case GET_ALL_TEST_SUITES_SUCCESS:
 		return {
 			...state,
-			testSuiteList: action.testSuiteList
+			testSuiteList: action.testSuiteList.test_suite_details_list
 		};
 
 	case EXECUTE_TEST_BY_SUITE_ID_SUCCESS:
@@ -62,19 +63,32 @@ const testSuites = (state = initialState, action) => {
 		};	
 
 	case GET_ALL_CONNECTIONS_SUCCESS:
-		action.connectionsList.showConnectionsDialog = true;
+		// action.connectionsList.showConnectionsDialog = true;
 		action.connectionsList.all_connections.map(connection => (
 			connection.checked = false
 		));
 		return {
 			...state,
-			connectionsList : action.connectionsList
+			connectionsList : { 
+				...state.connectionsList,
+				allConnections: action.connectionsList.all_connections,
+				showConnectionsDialog: true
+			}
+		};
+
+	case GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS:
+		return {
+			...state,
+			connectionsList : { 
+				...state.connectionsList,
+				allCases: action.allCases
+			}
 		};
 
 	case GET_TESTCASE_LOG_BY_ID_SUCCESS:
 		console.log("view Testcase log ========>")
 		 action.testCaseLog.showCaseLogDialog = true;
-		 action.testCaseLog.caseName   = action.testCaseName;
+		 action.testCaseLog.caseName  = action.testCaseName;
 		return {
 			...state,
 			testCaseLog : action.testCaseLog
@@ -86,13 +100,12 @@ const testSuites = (state = initialState, action) => {
 			...state
 		};
 
-	case VIEW_TEST_CASE:
+	case GET_TEST_CASES_SUCCESS:
 		action.testCase.showTestCaseDialog = true;
 		return {
 			...state,
 			testCase : action.testCase
 		};
-
 	
 	case HIDE_TEST_CASE_DIALOG:
 		state.testCase.showTestCaseDialog = false;

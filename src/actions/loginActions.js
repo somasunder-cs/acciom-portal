@@ -3,8 +3,7 @@ import {
 	LOGIN_TO_PORTAL_SUCCESS,
 	LOGIN_TO_PORTAL_ERROR,
 	LOGOUT_FROM_PORTAL_SUCCESS,
-	LOGOUT_FROM_PORTAL_ERROR,
-	AUTHENTICATION_EXPIRED,
+	LOGOUT_FROM_PORTAL_ERROR
 } from '../constants/ActionTypes'; 
 
 const base64Encode = (email, password) => {
@@ -28,10 +27,6 @@ export const logoutFromPortalSuccess = () =>({
 const logoutFromPortalError = data =>({
 	type: LOGOUT_FROM_PORTAL_ERROR,
 	data
-});
-
-export const authenticationExpired = () =>({
-	type: AUTHENTICATION_EXPIRED
 });
 
 const changePasswordSuccess = data =>({

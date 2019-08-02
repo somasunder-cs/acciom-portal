@@ -10,17 +10,17 @@ class ViewDbDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			orgList: []
+			isOrganisationInitialised: false
 		};
 	}	
 
 	static getDerivedStateFromProps = (nextProps, prevState) => {
-		if (prevState.orgList && prevState.orgList.length === 0 && 
-			nextProps.orgList && nextProps.orgList.length > 0) {
+		if (!prevState.isOrganisationInitialised && 
+			nextProps.isOrganisationInitialised > 0) {
 			nextProps.getAllDBDetails();
 		}
 		return ({
-			orgList: nextProps.orgList
+			isOrganisationInitialised: nextProps.isOrganisationInitialised
 		});
 	}
 
@@ -87,8 +87,8 @@ class ViewDbDetails extends Component {
 const mapStateToProps = (state) => {
 	console.log('ViewDbDetails.mapStateToProps() ', state);
 	return {
-		dbDetailsList: state.dbDetailsData.dbDetailsList,
-		orgList: state.appData.organizationList
+		dbDetailsList: state.dbDetailsData.dbDetailsList?state.dbDetailsData.dbDetailsList: [],
+		isOrganisationInitialised: state.appData.isOrganisationInitialised
 	};
 };
 
