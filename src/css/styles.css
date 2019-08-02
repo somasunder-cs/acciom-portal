@@ -40,7 +40,6 @@ html
 }
 .addDbDetailsForm .formFooter {
     float: right;
-    margin-top: 20px;
 }
 
 .loginForm {
@@ -48,6 +47,41 @@ html
     top: 200px;
     height: 200px;
 }
+.tokenpanelHeading {
+    float: left;
+}
+.gentokenButton {
+    /* margin: 8px; */
+    align-items: center
+}
+.clipboardOnhover {
+    padding: 0px 16px;
+}
+.clipboardOnhover:hover {
+    color:  blue;
+    cursor: pointer 
+}
+.needToken {
+    width: 40%
+}
+.tokenField {
+    border: none;
+    width: 40%
+}
+
+.tokenpanelBackground {
+    background-color: #dbe9ff
+}
+
+.forgotpassSendLink {
+    margin-top: 5px
+}
+/* .generateToken {
+    position: absolute;
+    top: 200px;
+    height: 200px;
+    margin-right: 100px;
+} */
 
 .loginForm .panel-heading, 
     #testSuiteUploadContainer .panel-heading, 
@@ -4029,8 +4063,6 @@ html
 
 .activityHeading, .chartHeading {
     font-size: 15px !important;
-    font-weight: bold;
-    color: cadetblue;
 }
 
 .clearfix {
@@ -4123,17 +4155,12 @@ html
     padding:0px !important;
 }
 
-.manageConnectionLabel, .testCaseLogLabel, .testCaseLogMessage,.testCaseLogTable {
+.manageConnectionLabel {
+    width:190px;
     font-size: 0.8125rem;
     flex-basis: 33.33%;
     flex-shrink: 0;
     font-weight: bold;
-}
-
-.manageConnectionLabel, .testCaseLogLabel {width:190px;}
-.testCaseLogMessage {width:300px;}
-.viewLogData {   
-    padding-left:50px;
 }
 
 .manageSelectConnection .MuiSelect-root {
@@ -4143,23 +4170,16 @@ html
 .selectconnection {width:70% !important;}
 
 
- #editMode>tbody>tr>td, .manageConnection>tbody>tr>td, #viewLogDetails>tbody>tr>td { 
+ #editMode>tbody>tr>td, .manageConnection>tbody>tr>td { 
     border-top: 0px !important;
     padding: 4px !important;
 }
-.testViewExecution {padding-left:20px;}
 
 .manageConnectionHeading, .testLogHeading, .testViewHeading {
     font-size: 0.8125rem;
     flex-basis: 33.33%;
     flex-shrink: 0;
     font-weight: bold;
-}
-
-.executionLog {
-    border: 1px solid #ddd;
-    margin-left: 15px;
-    width:564px;
 }
 
 .testLogData, .testViewData {
@@ -4186,7 +4206,7 @@ textarea {width:280px;}
 .statusDelIcon {font-size:  1.2rem; color:red !important;}
 .statusCheckIcon {font-size:  1.2rem; color:green !important;}
 .statusStopIcon {font-size:  1.2rem; color:rgb(245, 124, 76) !important;}
-.statusPlayIcon {font-size:  1.2rem;}
+.statusPlayIcon {font-size:  1rem;}
 .logsIcon {font-size:  1.2rem;}
 
 
@@ -4280,77 +4300,7 @@ textarea {width:280px;}
     color: #2A3F54 !important;
     font-size: 14px;
   }
-    .excerpt {
-        font-size: 12px;
-    }
-
-    .projectList {
-      min-height: 170px;
-    } 
-
-    .projectList .slick-slider {
-      min-height: 145px;
-      margin-left: 30px;
-    }
-
-    .projectList .slick-list {
-        min-height: 140px;
-        padding-left: 20px;
-        padding-bottom: 32px;
-    }  
-    
-    .projectList .donut {
-      padding-left: 45px !important;
-    } 
-
-    .slick-next:before, .slick-prev:before {
-        color: #000 !important;
-    }
-
-    .projectList .slick-next {
-        right: -103px !important;
-    }
 
   .excerpt {
     font-size: 12px;
-  }
-
-  #rootContainer > .alert {
-    position: absolute;
-    top: 100px;
-    left: 200px;
-  }
-
-  .timeLineData li{
-    border-bottom: unset !important;
-  }
-
-.testCaseExpPanel .statusPlayIcon {
-    margin-left:20px; 
-}
-
-#orgChangeModal {
-    top:100px;
-}
-
-#orgChangeModal .modal-body {
-    height: 95px;
-}
-
-#orgChangeModal .form-group {
-    margin: 10px 10px 10px 10px;
-}
-
-#orgChangeModal .submitBtn {
-    margin: 10px 10px 10px 10px;
-    float: right;
-}
-  .singleSelect, .multiSelect {
-      display: inline-block;
-      width: 40%;
-      padding-left: 15px;
-  }
-
-  .plusCircle, .minusCircle {
-        padding-left: 15px;
   }

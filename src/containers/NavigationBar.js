@@ -96,7 +96,6 @@ const useStyles = makeStyles(theme => ({
 		height: '30px',
 		color: '#3b6d9e',
 		fontSize: '16px',
-		// textAlign: "center"
 	},
 	
   	dashboard : {
@@ -117,26 +116,6 @@ const useStyles = makeStyles(theme => ({
 }
 
 ));
-
-// function HomeIcon(props) {
-// 	return (
-// 		<SvgIcon {...props}>
-// 			<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-// 		</SvgIcon>
-// 	);
-// }
-
-
-const someHandler =() => {
-	// console.log('Hello');
-	return (
-		<div>
-			<a>Forget Password</a>
-			<a>Access Token</a>
-			<a>LogOut</a>
-		</div>
-	)
-}
 
 const handleShowOrg  = (props, isShow) => {
 	console.log("Show Organisation Popup ==", props);
@@ -164,7 +143,10 @@ const getLoginOptions = (props, classes) => {
 				<MenuItemBS eventKey="2">
 					<Link to="/change_password">Change Password</Link>
 				</MenuItemBS>
-				<MenuItemBS eventKey="2">
+				<MenuItemBS eventKey="3">
+					<Link to="/forgot_password">Forgot Password</Link>
+				</MenuItemBS>
+				<MenuItemBS eventKey="4">
 					{/* <Link to="/change_password">Change Password</Link> */}
 					<Link id="change_organisation" onClick={(event) => { handleShowOrg(props, true);}}>Change Organisation</Link>
 				</MenuItemBS>
