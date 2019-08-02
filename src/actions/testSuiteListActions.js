@@ -190,7 +190,7 @@ export const executeTestByCaseId = (caseID) => dispatch => {
 	fetch(`${BASE_URL}/test-case-job/`, {
 		method: 'post',
 		headers,
-		body: JSON.stringify({'case_id': caseID})
+		body: JSON.stringify({'case_id_list': caseID})
 	})
 		.then(res => res.json())
 		.then(res => {
