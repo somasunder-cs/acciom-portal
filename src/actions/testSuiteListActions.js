@@ -292,21 +292,21 @@ export const updateConnections = (type, cases, connectionID) => (dispatch, getSt
 };
 
 export const getTestCaseLogById = (logID, testCaseName) => dispatch => {
-	setTimeout(function() {
-		dispatch(getTestCaseLogByIdSuccess(_viewTestCaseLog, testCaseName));
-	}, TIMEOUT);
-	// fetch(`${BASE_URL}/test-case-log/${logID}/`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(res => res.json())
-	// 	.then(res => {
-	// 		if(res.error) {
-	// 			dispatch(getTestCaseLogByIdError(res.error));
-	// 		}
-	// 		dispatch(getTestCaseLogByIdSuccess(res.data, testCaseName));
-	// 	})
-	// 	.catch(error => {
-	// 		dispatch(getTestCaseLogByIdError(error));
-	// 	});
+	// setTimeout(function() {
+	// 	dispatch(getTestCaseLogByIdSuccess(_viewTestCaseLog, testCaseName));
+	// }, TIMEOUT);
+	fetch(`${BASE_URL}/test-case-log?test_case_log_id=${logID}`, {
+		method: 'get',
+		headers
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(getTestCaseLogByIdError(res.error));
+			}
+			dispatch(getTestCaseLogByIdSuccess(res.data, testCaseName));
+		})
+		.catch(error => {
+			dispatch(getTestCaseLogByIdError(error));
+		});
 };

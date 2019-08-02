@@ -231,7 +231,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 									<ExpansionPanel key={testCaseList.test_case_id}>
 
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-											<Typography className={classes.subHeading}>{testCaseList.test_case_id}</Typography>
+											<Typography className={classes.subHeading}>{testCaseList.test_class_description}</Typography>
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, testCaseList.test_case_id)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
@@ -250,7 +250,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 													</tr>
 												  </thead>
 												  <tbody>
-													{ testCaseList.test_case_log && testCaseList.test_case_log_list.map(testCaseLog => (
+													{ testCaseList.test_case_log_list && testCaseList.test_case_log_list.map(testCaseLog => (
 														<tr key={testCaseLog.test_case_log_id}>
 														  {/* <td className="testLogData"></td> */}
 														  <td className="testLogData">{renderExecutionStatus(testCaseLog.test_execution_status)}</td>
