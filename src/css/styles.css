@@ -4049,6 +4049,11 @@ html
     width: 250px;
     display: inline-block;
     text-align: center;
+    
+}
+
+.donut circle, .donut path {
+    cursor: pointer;
 }
 
 .donutContent li{

@@ -199,13 +199,15 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 		}
 	};
 
-	const runTestSuite = (suiteID) => {
+	const runTestSuite = (e, suiteID) => {
+		e.stopPropagation();
 		executeTestBySuiteId(suiteID);
 	};
 
-	const runTestCase = (caseID) => {
+	const runTestCase = (e, caseID) => {
 		console.log(caseID);
-		executeTestByCaseId(caseID);
+		e.stopPropagation();
+		executeTestByCaseId([caseID]);
 	}
 
 	return (
@@ -222,7 +224,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, testSuite.test_suite_id)}>Manage Connections</Typography>
 							<Typography className={classes.suiteID}>SuiteID:{testSuite.test_suite_id}</Typography>
 							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created_at}</Typography>
-							<i className="far fa-play-circle statusPlayIcon" onClick={() => runTestSuite(testSuite.test_suite_id)} aria-hidden="true"></i>
+							<i className="far fa-play-circle statusPlayIcon" onClick={(e) => runTestSuite(e, testSuite.test_suite_id)} aria-hidden="true"></i>
 						</ExpansionPanelSummary>
 
 						<ExpansionPanelDetails>
@@ -235,7 +237,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, testCaseList.test_case_id)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
-											<Typography><i className="far fa-play-circle statusPlayIcon" onClick={() => runTestCase(testCaseList.test_case_id)} aria-hidden="true"></i></Typography>
+											<Typography><i className="far fa-play-circle statusPlayIcon" onClick={(e) => runTestCase(e, testCaseList.test_case_id)} aria-hidden="true"></i></Typography>
 										</ExpansionPanelSummary>
 										
 										<ExpansionPanelDetails>
