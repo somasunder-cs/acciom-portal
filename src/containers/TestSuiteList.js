@@ -124,12 +124,16 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 	const renderTestName = (status) => {
 		switch(status) {
 		case 0:
+		case 'new':
 			return classes.statusBgBlue;
 		case 1:
+		case 'pass':
 			return classes.statusBg;
 		case 2:
+		case 'fail':
 			return classes.statusBgRed;
 		case 3:
+		case 'error':
 			return classes.statusBgOrange;
 		case 4:
 			return classes.statusBgRed;
@@ -143,10 +147,13 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 		case 'new':
 		case 0:
 			return 'New';
+		case 'pass':
 		case 1:
 			return <i className="fas fa-check-circle statusCheckIcon" aria-hidden="true"></i>;
+		case 'fail':
 		case 2:
 			return <i className="fas fa-times-circle statusDelIcon" aria-hidden="true"></i>;
+		case 'error':
 		case 3:
 			return <i className="fas fa-stopwatch statusStopIcon" aria-hidden="true"></i>;
 		default:
@@ -206,7 +213,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 							<Typography className={classes.heading}>{testSuite.test_suite_name}</Typography>
 							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, testSuite.test_suite_id)}>Manage Connections</Typography>
 							<Typography className={classes.suiteID}>SuiteID:{testSuite.test_suite_id}</Typography>
-							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created}</Typography>
+							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created_at}</Typography>
 							<i className="far fa-play-circle statusPlayIcon" onClick={() => runTestSuite(testSuite.test_suite_id)} aria-hidden="true"></i>
 						</ExpansionPanelSummary>
 
@@ -216,7 +223,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseL
 									<ExpansionPanel key={testCaseList.test_case_id}>
 
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-											<Typography className={classes.subHeading}>{testCaseList.test_id}</Typography>
+											<Typography className={classes.subHeading}>{testCaseList.test_case_id}</Typography>
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, testCaseList.test_case_id)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>

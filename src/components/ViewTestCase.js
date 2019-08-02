@@ -66,7 +66,7 @@ class TestCaseDetails extends React.Component {
 						<Modal.Header closeButton>
 							<Modal.Title id="contained-modal-title-vcenter">
 								<label className="testViewHeading">Case-Details:</label>
-								<label className="testViewData">{this.props.viewTestCase.test_name}</label>
+								<label className="testViewData">{this.props.viewTestCase.test_case_class}</label>
 								{ this.props.showTestCaseEdit ? 
 									<label onClick={this.handleManageConnectionViewMode} className="viewEditLabel">
 										<i className="fas fa-long-arrow-alt-left"></i>&nbsp;View Details</label> :
@@ -209,7 +209,7 @@ const mapStateToProps = function (state) {
 	return {
 		showTestCaseDialog: state.testSuites.testCase.showTestCaseDialog,
 		showTestCaseEdit:state.testSuites.showTestCaseEditEnabled,
-		viewTestCase:state.testSuites.testCase.res
+		viewTestCase:state.testSuites.testCase
 	}
 };
 
