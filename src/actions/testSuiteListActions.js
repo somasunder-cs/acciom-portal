@@ -25,7 +25,9 @@ import {
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
 	SAVE_MANAGE_CONNECTION_DETAILS,
-	SHOW_TEST_CASE_VIEW_ENABLED
+	SHOW_TEST_CASE_VIEW_ENABLED,
+	GET_TEST_CASES_ERROR,
+	GET_TEST_CASES_SUCCESS
 } from "../constants/ActionTypes"; 
 
 const getAllTestSuitesSuccess = data => ({
@@ -215,7 +217,7 @@ export const getTestCases = (caseID) => dispatch => {
 	// 	dispatch(viewTestCase(_viewTestCase));
 	// }, TIMEOUT);
 
-	fetch(`${BASE_URL}/edit-test-case/${caseID}`, {
+	fetch(`${BASE_URL}/edit-test-case?test_case_id=${caseID}`, {
 		method: 'get',
 		headers
 	})
