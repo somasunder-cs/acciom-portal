@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getDQIprojectDetails } from '../actions/dashboardActions';
 
 import Chart from 'react-apexcharts';
 
 class DonutChart extends Component {
 	constructor(props) {
 		super(props);
+		console.log("DonutChart component", props.chartData)
 		this.options = {
 			optionsRadial: {
 				fill: {
 					type: 'solid',
 					colors: props.colors
+				},
+				chart : {
+					events: {
+						click : function(event, chartContext, config) {
+							props.getDQIprojectDetails(props.chartData.project_id);
+						}
+					}
 				},
 				plotOptions: {
 					radialBar: {
@@ -32,8 +42,8 @@ class DonutChart extends Component {
 						},
 						track: {
 							background: "#fff",
-							strokeWidth: "67%",
-							margin: 0, // margin is in pixels
+							strokeWidth: "70%",
+							margin: -7, // margin is in pixels
 							dropShadow: {
 								enabled: true,
 								top: -3,
@@ -46,17 +56,17 @@ class DonutChart extends Component {
 						dataLabels: {
 							showOn: "always",
 							name: {
-								offsetY: -20,
+								offsetY: -40,
 								show: true,
 								color: "#888",
 								fontSize: "13px"
 							},
 							value: {
 								formatter: (val) => {
-									return val;
+									return val + '%';
 								},
 								color: "#111",
-								fontSize: "30px",
+								fontSize: "20px",
 								show: true
 							}
 						}
@@ -64,7 +74,7 @@ class DonutChart extends Component {
 				},
 				labels: ['']
 			},
-			seriesRadial: [props.chartData.project_dqi_percentage]
+			seriesRadial: [props.chartData.project_dqi_percentage.toFixed(2)],
 		}
 	}
 
@@ -79,4 +89,10 @@ class DonutChart extends Component {
 	}
 }
 
-export default DonutChart;
+const mapDispatchToProps = (dispatch) => ({
+	getDQIprojectDetails: (data) => dispatch(getDQIprojectDetails(data))
+})
+
+
+export default connect(null, mapDispatchToProps)(DonutChart);
+

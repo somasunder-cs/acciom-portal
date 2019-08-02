@@ -46,7 +46,7 @@ class GaugeChart extends Component {
             colors: this.props.color
         },
         series: [this.props.percentage],
-        labels: [this.props.percentage + '%']
+        labels: [this.props.percentage.toFixed(2) + '%']
         
     };
 

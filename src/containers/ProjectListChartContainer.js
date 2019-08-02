@@ -8,6 +8,15 @@ class ProjectChartList extends Component {
     
     constructor(props) {
         super(props);
+        this.next = this.next.bind(this);
+        this.previous = this.previous.bind(this);
+    }
+
+    next() {
+      this.slider.slickNext();
+    }
+    previous() {
+      this.slider.slickPrev();
     }
 
     
@@ -21,13 +30,27 @@ class ProjectChartList extends Component {
       ];
   
       this.getDonutCharts = () => {
+        console.log("organization api details", this.props)
         let chartList = [];
-        if (this.props.orgDataQuality && this.props.orgDataQuality.projects) {
-          chartList =  this.props.orgDataQuality.projects.map((item, index) => {
-            return (<DonutChart key={ index } chartindex={index} chartData={item} colors={this.colorsArray[index]}/>);
-          });
+
+        chartList =  this.props.projects.map((item, index) => {
+          console.log(item, "===",index)
+          return (<DonutChart key={ index } chartindex={index} chartData={item} colors={this.colorsArray[index]}/>);
+        });
+       
+        if (this.props.projects.length <= 4 ) {
+          return chartList;
+        } else {
+          return (
+            <div>
+              <i className="previousArrow fas fa-arrow-circle-left fa-2x" style={{color: 'green'}} onClick={this.previous}></i>
+              <Slider ref={c => (this.slider = c)} {...settings}>
+                { chartList }
+              </Slider>
+              <i className="nextArrow fas fa-arrow-circle-right fa-2x" style={{color: 'green'}} onClick={this.next}></i>
+             </div>
+          )
         }
-        return chartList;
       };
 
       const settings = {
@@ -39,9 +62,7 @@ class ProjectChartList extends Component {
       };
       return (
         <div className="row projectList">
-          <Slider {...settings}>
-          {this.getDonutCharts()}
-          </Slider>
+            {this.getDonutCharts()}
         </div>
       );
     }
@@ -50,9 +71,11 @@ class ProjectChartList extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log('ProjListChart.mapStateToProps() ===>', state);
 	return {
-		orgDataQuality: state.dashboardData.orgDataQuality
+		projects: state.dashboardData.orgDataQuality && state.dashboardData.orgDataQuality.projects?state.dashboardData.orgDataQuality.projects: []
 	};
 };
+
 
 export default connect(mapStateToProps)(ProjectChartList);

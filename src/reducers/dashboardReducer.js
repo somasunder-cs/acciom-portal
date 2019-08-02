@@ -11,6 +11,7 @@ const initialState = {
 const dashboardData = (state = initialState, action) => {
 	switch (action.type) {
 	case GET_ORG_DATA_QUALITY_SUCCESS:
+		console.log('dashboardData() orgDataQuality ', action.data)
 		return {
 			...state,
 			orgDataQuality: action.data
@@ -19,7 +20,7 @@ const dashboardData = (state = initialState, action) => {
 	case GET_DQI_PROJECT_DETAILS_SUCCESS:
 		return {
 			...state,
-			projectDataQuality: action.data.data
+			projectDataQuality: action.data
 		};
 	
 	default:

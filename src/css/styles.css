@@ -4046,9 +4046,8 @@ html
 }
 
 .donut {
-    width: 300px;
+    width: 250px;
     display: inline-block;
-    padding-top: 35px;
     text-align: center;
 }
 
@@ -4059,8 +4058,11 @@ html
 
 .chartProjectName {
     color: #000 !important;
-    padding-left: 8px;
+    padding-left: 52px;
     font-weight: bold;
+    position: absolute;
+    margin-top: -34px;
+    margin-left: -77px;
 }
 
 
@@ -4286,22 +4288,20 @@ textarea {width:280px;}
 
     .projectList {
       min-height: 170px;
+      margin-left: 70px;
     } 
 
     .projectList .slick-slider {
       min-height: 145px;
-      margin-left: 30px;
+      display: inline-grid !important;
+      margin-left: -34px;
     }
 
     .projectList .slick-list {
         min-height: 140px;
-        padding-left: 20px;
+        padding-left: 10px;
         padding-bottom: 32px;
-    }  
-    
-    .projectList .donut {
-      padding-left: 45px !important;
-    } 
+    }
 
     .slick-next:before, .slick-prev:before {
         color: #000 !important;
@@ -4355,6 +4355,25 @@ textarea {width:280px;}
         padding-left: 15px;
   }
 
+
+  .slick-arrow {
+      display: none !important;
+  }
+
+  .previousArrow {
+    position: absolute;
+    display: inline;
+    padding-top: 95px;
+    z-index: 99;
+    margin-left: -61px;
+  }
+
+  .nextArrow {
+    position: absolute;
+    display: inline;
+    padding-top: 95px;
+  }
+
 #userManagement .list-group {
     width: 60%;
 }
@@ -4380,3 +4399,4 @@ textarea {width:280px;}
     float: right;
     /* padding-top: 2px; */
 }
+

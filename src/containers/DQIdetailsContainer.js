@@ -8,7 +8,8 @@ class DQIDetailsContainer extends Component {
 
 	componentDidMount() {
 		console.log('Dashboard.componentDidMount() ===>', this.props);
-		this.props.getDQIprojectDetails(this.props.id);
+		// this.props.getDQIprojectDetails(this.props.id);
+		this.props.getDQIprojectDetails(1);
 	}
 
 
@@ -61,7 +62,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	getDQIprojectDetails: () => dispatch(getDQIprojectDetails())
+	getDQIprojectDetails: (data) => dispatch(getDQIprojectDetails(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DQIDetailsContainer);
