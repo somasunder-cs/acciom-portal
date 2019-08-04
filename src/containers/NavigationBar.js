@@ -126,7 +126,6 @@ const useStyles = makeStyles(theme => ({
 // 	);
 // }
 
-
 const someHandler =() => {
 	// console.log('Hello');
 	return (
@@ -148,9 +147,9 @@ const getLoginOptions = (props, classes) => {
 	
 	const getLoginElements = () => {
 		if (props.loginData && props.loginData.token) {
-			return <Link id="logoutLink" className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</Link>;
+			return (<Link id="logoutLink" className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</Link>);
 		} else {
-			return <Link to='/login'>Login</Link>;
+			return (<Link to='/login'>Login</Link>);
 		}
 	};
 
@@ -166,14 +165,14 @@ const getLoginOptions = (props, classes) => {
 				</MenuItemBS>
 				<MenuItemBS eventKey="2">
 					{/* <Link to="/change_password">Change Password</Link> */}
-					<Link id="change_organisation" onClick={(event) => { handleShowOrg(props, true);}}>Change Organisation</Link>
+					<span id="change_organisation" onClick={(event) => { handleShowOrg(props, true);}}>Change Organisation</span>
 				</MenuItemBS>
 				<MenuItemBS eventKey="3">
 					{ getLoginElements() }
 				</MenuItemBS>
 			</DropdownButton>
 		</div>
-    )
+	)
 
 	return options;
 };
@@ -248,11 +247,11 @@ function NavigationBar(props) {
 						</MenuItem>
 						<MenuItem>
 							<ListItemIcon>
-								<Link to={`/home`} className = {classes.home}>
+								<Link to={`/test_suite_upload`} className = {classes.home}>
 									<Icon className={clsx(classes.icon, 'fas fa-upload fa-2x')} color="primary" />  
 								</Link> 
 							</ListItemIcon>
-							<Link to={`/home`} className = {classes.home}> Upload Data Profiling </Link> <br />
+							<Link to={`/test_suite_upload`} className = {classes.home}> Upload Data Profiling </Link> <br />
 						</MenuItem>
 						<MenuItem>
 							<ListItemIcon>
@@ -278,7 +277,6 @@ function NavigationBar(props) {
 }
 
 const mapStateToProps = (state) => {
-	console.log("Navbar mapStateToProps()", state);
 	return {
 		loginData: state.loginData
 	}
@@ -286,6 +284,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
 	logoutFromPortal: () => dispatch(logoutFromPortal()),
 	showOrgChangePage: (data) => dispatch(showOrgChangePage(data))
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);

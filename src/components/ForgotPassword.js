@@ -6,13 +6,13 @@ import Dashboard from '../containers/Dashboard';
 
 class ForgotPassword extends Component {
 	constructor(props) {
-	  super(props);
-	  this.state = {
-		formData: {}, // Contains login form data
-		errors: {}, // Contains login field errors
-		formSubmitted: false, // Indicates submit status of login form 
-		loading: false // Indicates in progress state of login form
-	}
+		super(props);
+		this.state = {
+			formData: {}, // Contains login form data
+			errors: {}, // Contains login field errors
+			formSubmitted: false, // Indicates submit status of login form 
+			loading: false // Indicates in progress state of login form
+		}
 	}
 	
 	handleInputChange = ({target}) => {

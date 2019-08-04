@@ -3,7 +3,9 @@ import {
 	LOGIN_TO_PORTAL_SUCCESS,
 	LOGIN_TO_PORTAL_ERROR,
 	LOGOUT_FROM_PORTAL_SUCCESS,
-	LOGOUT_FROM_PORTAL_ERROR
+	LOGOUT_FROM_PORTAL_ERROR,
+	CHANGE_PASSWORD_SUCCESS,
+	CHANGE_PASSWORD_ERROR
 } from '../constants/ActionTypes'; 
 
 const base64Encode = (email, password) => {
@@ -18,10 +20,6 @@ const loginToPortalSuccess = data =>({
 const loginToPortalError = data =>({
 	type: LOGIN_TO_PORTAL_ERROR,
 	data
-});
-
-export const logoutFromPortalSuccess = () =>({
-	type: LOGOUT_FROM_PORTAL_SUCCESS
 });
 
 const logoutFromPortalError = data =>({
@@ -39,11 +37,14 @@ const changePasswordError = data =>({
 	data
 });
 
-
 const storeUserData = ({token}) => {
 	localStorage.setItem('auth_token', token);
 	updateHeaders(token);
 };
+
+export const logoutFromPortalSuccess = () =>({
+	type: LOGOUT_FROM_PORTAL_SUCCESS
+});
 
 export const clearUserData = () => {
 	localStorage.removeItem('auth_token');
@@ -57,7 +58,7 @@ export const checkAuthentication = () => (dispatch) => {
 	dispatch(loginToPortalSuccess({token}));
 };
 
-export const loginToPortal = ({email, password}) => (dispatch, getState) => {
+export const loginToPortal = ({email, password}) => (dispatch) => {
 	headers.Authorization = `Basic ` + base64Encode(email, password);
 	fetch(`${BASE_URL}/login`, {
 		method: 'post',
@@ -78,7 +79,6 @@ export const loginToPortal = ({email, password}) => (dispatch, getState) => {
 };
 
 export const logoutFromPortal = () => dispatch => {
-	console.log('logoutFromPortal ', headers);
 
 	fetch(`${BASE_URL}/logout`, {
 		method: 'post',
@@ -98,10 +98,7 @@ export const logoutFromPortal = () => dispatch => {
 		});
 };
 
-
 export const changePassword = (body) => dispatch => {
-	console.log('logoutFromPortal ', headers);
-
 	fetch(`${BASE_URL}/change-password`, {
 		method: 'post',
 		headers,

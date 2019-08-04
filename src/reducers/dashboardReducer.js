@@ -11,7 +11,6 @@ const initialState = {
 const dashboardData = (state = initialState, action) => {
 	switch (action.type) {
 	case GET_ORG_DATA_QUALITY_SUCCESS:
-		console.log('dashboardData() orgDataQuality ', action.data)
 		return {
 			...state,
 			orgDataQuality: action.data

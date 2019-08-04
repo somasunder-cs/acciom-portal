@@ -85,7 +85,6 @@ class ViewDbDetails extends Component {
 };
 
 const mapStateToProps = (state) => {
-	console.log('ViewDbDetails.mapStateToProps() ', state);
 	return {
 		dbDetailsList: state.dbDetailsData.dbDetailsList?state.dbDetailsData.dbDetailsList: [],
 		isOrganisationInitialised: state.appData.isOrganisationInitialised

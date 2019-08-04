@@ -42,6 +42,7 @@ const getTestCaseDataOnSelectAllToggle = (allCases) => {
 const testSuiteUploadData = (state = initialState, action) => {
 	let sheets = [];
 	let testCases = [];
+	let index = -1;
 	switch (action.type) {
 	
 	case TEST_SUITE_FILE_UPLOAD_SUCCESS:
@@ -65,15 +66,15 @@ const testSuiteUploadData = (state = initialState, action) => {
 		};
 	
 	case TEST_CASE_SELECTION_CHANGE:
-		const idx = state.sheetData.allCases.indexOf(action.testCase);
+		index = state.sheetData.allCases.indexOf(action.testCase);
 		return {
 			...state,
 			sheetData: {
 				...state.sheetData,
 				allCases: [ 
-					...state.sheetData.allCases.slice(0, idx), 
+					...state.sheetData.allCases.slice(0, index), 
 					{ ...action.testCase, selected: !action.testCase.selected },
-					...state.sheetData.allCases.slice(idx + 1)
+					...state.sheetData.allCases.slice(index + 1)
 				]
 			}
 		};

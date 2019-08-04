@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import testSuites from './testSuites';
+import testSuites from './testSuitesReducer';
 
 import appData from './appReducer';
 import testSuiteUploadData from './testSuiteUploadReducer';

@@ -8,7 +8,8 @@ import {
 	hideTestCaseDialog, 
 	showTestCaseEditEnabled, 
 	showTestCaseViewEnabled, 
-	viewTestCase 
+	viewTestCase ,
+	updateTestCase
 } from '../actions/testSuiteListActions';
 
 const styles = theme => ({
@@ -31,29 +32,89 @@ const styles = theme => ({
 	selectWidth: {width: 156},
 });
 
-const handleChange = event => {
- // setConnection(event.target.value);
-};
-
 class TestCaseDetails extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			formData: {}, // Contains login form data
+			errors: {}, // Contains login field errors
+			formSubmitted: false, // Indicates submit status of login form 
+			loading: false // Indicates in progress state of login form
+		};
+	}
+
+	handleInputChange = ({target}) => {
+		const { value, name } = target;
+
+		const { formData } = this.state;
+		formData[name] = value;
+
+		this.setState({
+			formData
+		});
+	}
+
 	handleCaseDialogBoxClose = () => {
 		this.props.hideTestCaseDialog();
 	};
 
-	handleManageConnectionEditMode = () => {
+	handleTestCaseEditMode = () => {
 		this.props.showTestCaseEditEnabled();
 	};
 
-	handleManageConnectionViewMode = () => {
+	handleTestCaseViewMode = () => {
 		this.props.showTestCaseViewEnabled();
 	};
 
-	handleViewTestCaseChange = ({target}) => {
-		console.log("handleViewTestCaseChange ==>", this.props);
+	getSnapshotBeforeUpdate = (prevProps, prevState) => {
+		if (!prevProps.viewTestCase.showTestCaseDialog && this.props.viewTestCase.showTestCaseDialog) {
+			this.setState({
+				...this.state,
+				formData: {
+					...this.state.formData,
+					testCaseId:this.props.viewTestCase.test_case_id,
+
+					// check the below 2 props
+					sourceConnection: this.props.viewTestCase.src_db_id,
+					targetConnection: this.props.viewTestCase.target_db_id,
+
+					sourceTable: this.props.viewTestCase.src_table,
+					targetTable: this.props.viewTestCase.target_table,
+					column: this.props.viewTestCase.column,
+					sourceQuery: this.props.viewTestCase.src_qry,
+					targetQuery: this.props.viewTestCase.des_qry
+				}
+			})
+			return this.props.viewTestCase.showTestCaseDialog;
+		}
+		return null;
+	}
+
+	renderConnectionsOptions = () => {
+		return this.props.allConnections.map(connection => (
+			connection ?
+				<option key={connection.db_connection_id} value={connection.db_connection_id}>{connection.db_connection_name}</option> : null
+		));
+	}
+
+	handleTestCaseUpdate = () => {
+		console.log('handleTestCaseUpdate state=', this.state);
+		const payload = {
+			test_case_id: this.state.formData.testCaseId,
+			src_table: this.state.formData.sourceTable,
+			target_table: this.state.formData.targetTable,
+			src_db_id: this.state.formData.sourceConnection,
+			target_db_id: this.state.formData.targetConnection,
+			src_qry: this.state.formData.sourceQuery,
+			target_qry: this.state.formData.targetQuery,
+			column: this.state.formData.column
+		}
+		this.props.updateTestCase(payload);
 	};
 
 	render() {
-		console.log("ViewTestCaseDialogs==>", this.props);
 		return (
 			<div>
 				{ this.props.viewTestCase ?
@@ -65,12 +126,12 @@ class TestCaseDetails extends React.Component {
 						className="ModalMargin">
 						<Modal.Header closeButton>
 							<Modal.Title id="contained-modal-title-vcenter">
-								<label className="testViewHeading">Case-Details:</label>
+								<label className="testViewHeading">Case-Details:&nbsp;</label>
 								<label className="testViewData">{this.props.viewTestCase.test_case_class}</label>
 								{ this.props.showTestCaseEdit ? 
-									<label onClick={this.handleManageConnectionViewMode} className="viewEditLabel">
-										<i className="fas fa-long-arrow-alt-left"></i>&nbsp;View Details</label> :
-									<label onClick={this.handleManageConnectionEditMode} className="viewEditLabel">Edit&nbsp;
+									<label onClick={this.handleTestCaseViewMode} className="viewEditLabel">
+										<i className="fas fa-long-arrow-alt-left"></i>&nbsp;View Details </label> :
+									<label onClick={this.handleTestCaseEditMode} className="viewEditLabel">Edit&nbsp;
 										<i className="fas fa-pencil-alt"></i>
 									</label>
 								}
@@ -83,17 +144,13 @@ class TestCaseDetails extends React.Component {
 										<tbody>
 											<tr>
 												<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Connection:</label></td>
-												<td>             
+												<td>
 													<select className="form-control selectconnection"
-														value=""
-														onChange={handleChange}
-														name="selectConnection"
+														value={this.state.formData.sourceConnection}
+														onChange={this.handleInputChange}
+														name="sourceConnection"
 													>
-														{/* { connectionsList.all_connections.map(connection => (
-															connection[1] ?
-															<option key={connection[0]} value={connection[0]}>{connection[1]}</option> : null
-														))
-														} */}
+														{ this.renderConnectionsOptions() }
 													</select>
 												</td>
 											</tr>
@@ -101,17 +158,13 @@ class TestCaseDetails extends React.Component {
 												<td className="manageConnectionLabel">
 													<label className="testViewDataLabel">Target Connection:</label>
 												</td>
-												<td>             
+												<td>
 													<select className="form-control selectconnection"
-														value=""
-														onChange={handleChange}
-														name="selectConnection"
+														value={this.state.formData.targetConnection}
+														onChange={this.handleInputChange}
+														name="targetConnection"
 													>
-														{/* { connectionsList.all_connections.map(connection => (
-															connection[1] ?
-															<option key={connection[0]} value={connection[0]}>{connection[1]}</option> : null
-														))
-														} */}
+														{ this.renderConnectionsOptions() }
 													</select>
 												</td>
 											</tr>
@@ -121,7 +174,7 @@ class TestCaseDetails extends React.Component {
 												</td>
 												<td>
 													<FormGroup>
-														<FormControl type="textbox" name="sourcetable" value={this.props.viewTestCase.src_table} onChange={this.handleViewTestCaseChange}/>
+														<FormControl type="textbox" name="sourceTable"  value={this.state.formData.sourcetable} onChange={this.handleInputChange}/>
 													</FormGroup>
 												</td>
 											</tr>
@@ -129,15 +182,25 @@ class TestCaseDetails extends React.Component {
 												<td className="manageConnectionLabel"><label className="testViewDataLabel">Target Table:</label></td>
 												<td>
 													<FormGroup>
-														<FormControl type="textbox" name="targettable" value={this.props.viewTestCase.target_table} onChange={this.handleViewTestCaseChange}/>
+														<FormControl type="textbox" name="targetTable" value={this.state.formData.targettable} onChange={this.handleInputChange}/>
 													</FormGroup>
 												</td>
 											</tr>
+											
+											<tr>
+												<td className="manageConnectionLabel"><label className="testViewDataLabel">Column:</label></td>
+												<td>
+													<FormGroup>
+														<FormControl type="textbox" name="column" value={this.state.formData.column} onChange={this.handleInputChange}/>
+													</FormGroup>
+												</td>
+											</tr>
+
 											<tr>
 												<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Query:</label></td>
 												<td>
 													<FormGroup>
-														<textarea name="srcqry" value={this.props.viewTestCase.src_qry} onChange={this.handleViewTestCaseChange}/>
+														<textarea name="sourceQuery" value={this.state.formData.sourceQuery} onChange={this.handleInputChange}/>
 													</FormGroup>
 												</td>
 											</tr>
@@ -145,14 +208,14 @@ class TestCaseDetails extends React.Component {
 												<td className="manageConnectionLabel"><label className="testViewDataLabel">Target Query:</label></td>
 												<td>
 													<FormGroup>
-														<textarea name="descqry" value={this.props.viewTestCase.des_qry} onChange={this.handleViewTestCaseChange}/>
+														<textarea name="targetQuery" value={this.state.formData.targetQuery} onChange={this.handleInputChange}/>
 													</FormGroup>
 												</td>
 											</tr>
 											<tr>
 												<td className="manageConnectionLabel"></td>
 												<td>
-													<Button className="btn btn-primary" onClick={e => this.handleManageConnectionUpdate(e)}>
+													<Button className="btn btn-primary" onClick={e => this.handleTestCaseUpdate(e)}>
 														Update
 													</Button>
 												</td>
@@ -180,6 +243,10 @@ class TestCaseDetails extends React.Component {
 											<td>{this.props.viewTestCase.target_table}</td>
 										</tr>
 										<tr>
+											<td className="manageConnectionLabel"><label className="testViewDataLabel">Column:</label></td>
+											<td>{this.props.viewTestCase.column}</td>
+										</tr>
+										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Query:</label></td>
 											<td>{this.props.viewTestCase.src_qry}</td>
 										</tr>
@@ -204,15 +271,19 @@ class TestCaseDetails extends React.Component {
 	}
 }
 
-const mapStateToProps = function (state) {
-	console.log("ViewTestCase.state", state);
+const mapStateToProps = (state) => {
 	return {
 		showTestCaseDialog: state.testSuites.testCase.showTestCaseDialog,
 		showTestCaseEdit:state.testSuites.showTestCaseEditEnabled,
-		viewTestCase:state.testSuites.testCase
-	}
+		viewTestCase:state.testSuites.testCase,
+		allConnections: state.testSuites.connectionsList && state.testSuites.connectionsList.allConnections? 
+			state.testSuites.connectionsList.allConnections: []
+	};
 };
 
 export default connect(mapStateToProps, {
-	showTestCaseEditEnabled, showTestCaseViewEnabled, hideTestCaseDialog
+	showTestCaseEditEnabled, 
+	showTestCaseViewEnabled, 
+	hideTestCaseDialog,
+	updateTestCase,
 })(TestCaseDetails);

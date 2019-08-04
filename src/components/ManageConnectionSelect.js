@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Table } from 'react-bootstrap';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
-
-import { Table } from 'react-bootstrap';
 
 import { manageConnectionsCaseUpdate } from '../actions/testSuiteListActions';
 
@@ -53,35 +52,23 @@ const useStyles = makeStyles(theme => ({
 	MuiSelect: {minWidth:'160px'},
 }));
 
-function ManageConnectionSelect({ allConnections, allCases}) {
+function ManageConnectionSelect(props) {
 	const classes = useStyles();
-	const [connection, setConnection] = React.useState('');
-	const [state, setState] = React.useState({
-		checkedA: false
-	});
-
-	function handleManageConnectionCaseUpdate(val) {
-		// console.log("handleManageConnectionCaseUpdate.state", val);
-	};
-
-	const handleChange = event => {
-		console.log('handleChange ', state);
-		setConnection(event.target.value);
-	};
-
 	return (
 		<form className={classes.root} autoComplete="off">
 			<Table className="manageSelectConnection">
 				<tbody>
 					<tr>
-						<td className="manageConnectionLabel"><label className="manageConnectionHeading manageConnectionsLabel">Select Connection:</label></td>
+						<td className="manageConnectionLabel">
+							<label className="manageConnectionHeading manageConnectionsLabel">Select Connection:</label>
+						</td>
 						<td>
 							<select className="form-control selectconnection"
-								value={connection}
-								onChange={handleChange}
+								value={props.selectedConnection}
+								onChange={ (e) => props.onConnectionChange(e.target.value)}
 								name="selectConnection"
 							>
-								{ allConnections.map(connection => (
+								{ props.allConnections.map(connection => (
 									connection ?
 										<option key={connection.db_connection_id} value={connection.db_connection_id}>{connection.db_connection_name}</option> : null
 								))
@@ -90,17 +77,19 @@ function ManageConnectionSelect({ allConnections, allCases}) {
 						</td>
 					</tr> 
 					<tr>
-						<td className="manageConnectionLabel"><label className="manageConnectionHeading manageConnectionsLabel">Select Cases:</label></td>
+						<td className="manageConnectionLabel">
+							<label className="manageConnectionHeading manageConnectionsLabel">Select Cases:</label>
+						</td>
 						<td>
 							{
-								allCases.map(testCase => (
+								props.allCases.map(testCase => (
 									<div key={testCase.case_id} className="manageconnectionTestCase">
 										<label className="form-check-label">
 											<input
 												type="checkbox"
 												value={testCase.case_id}
 												name={testCase.case_name}
-												onChange={handleManageConnectionCaseUpdate(testCase)}
+												onChange={(e) => props.onCaseSelectionChange(e.target)}
 											/>
 										</label> {testCase.case_name}
 									</div>
@@ -109,23 +98,24 @@ function ManageConnectionSelect({ allConnections, allCases}) {
 						</td>
 					</tr>
 				</tbody>
-			</Table>  
+			</Table>
 		</form>
 	);
 }
 
-const mapStateToProps = function (state) {
-	console.log("ManageConnectionSelect.state", state);
+const mapStateToProps = (state) => {
 	return {
-		allConnections : state.testSuites.connectionsList &&  state.testSuites.connectionsList.allConnections? state.testSuites.connectionsList.allConnections : [],
-		allCases : state.testSuites.connectionsList &&  state.testSuites.connectionsList.allCases? state.testSuites.connectionsList.allCases : []
-	}
+		allConnections : state.testSuites.connectionsList && 
+			state.testSuites.connectionsList.allConnections? state.testSuites.connectionsList.allConnections : [],
+		allCases : state.testSuites.connectionsList && 
+			state.testSuites.connectionsList.allCases? state.testSuites.connectionsList.allCases : []
+	};
 };
 
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = (dispatch) => {
 	return {
 		onManageConnectionsCaseUpdate: data => dispatch(manageConnectionsCaseUpdate(data))
-	}
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageConnectionSelect);

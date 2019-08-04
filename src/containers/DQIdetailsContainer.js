@@ -12,7 +12,6 @@ class DQIDetailsContainer extends Component {
 		this.props.getDQIprojectDetails(1);
 	}
 
-
 	render() {
 		console.log("detailContainer", this.props.projectDataQuality);
 

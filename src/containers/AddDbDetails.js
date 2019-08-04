@@ -11,16 +11,6 @@ class AddDbDetails extends Component {
 		this.initialiseFormState();
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot)  {
-		console.log('AddDbDetails.componentDidUpdate prevProps ', prevProps );
-		console.log('AddDbDetails.componentDidUpdate prevState ', prevState );
-		console.log('AddDbDetails.componentDidUpdate props ', this.props);
-		if (this.props.updatedDbDetails) {
-			// redirect to db details view page 
-			// this.initialiseFormState();
-		}
-	}
-
 	initialiseFormState = () => {
 		this.state = {
 			formData: {
@@ -29,7 +19,7 @@ class AddDbDetails extends Component {
 			errors: {}, 
 			formSubmitted: false, 
 			loading: false
-		}
+		};
 	}
 	
 	handleInputChange = ({target}) => {
@@ -66,20 +56,6 @@ class AddDbDetails extends Component {
 	};
 
 	render() {
-		/*
-		const  me = this;
-		function FieldGroup({ id, label, help, ...props }){
-			return (
-				<FormGroup controlId={id}>
-					<Col componentClass={ControlLabel} sm={4}>{label}</Col>
-					<Col sm={8}>
-						<FormControl {...props} onChange={ me.handleInputChange }/>
-					</Col>
-					{help && <HelpBlock>{help}</HelpBlock>}
-				</FormGroup>
-			);
-		}
-		*/
  		return (
 			<div className="addDbDetailsForm">
 				<Panel>
@@ -125,7 +101,6 @@ class AddDbDetails extends Component {
 };
 
 const mapStateToProps = (state) => {
-	console.log('AddDBDetails.mapStateToProps() ===>', state);
 	return {
 		updatedDbDetails: state.dbDetailsData.updatedDbDetails
 	};

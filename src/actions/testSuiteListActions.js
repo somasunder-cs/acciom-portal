@@ -1,12 +1,13 @@
 /**
  * Mocking client-server processing
  */
-import _testSuitesData from '../json/test-suites-data.json';
-import _getAllConnections from '../json/getAllConnections.json';
-import _viewTestCase from '../json/viewTestCase.json';
-import _viewTestCaseLog from '../json/viewLogs.json';
-import _db_connection_detail from '../json/db-connection-detail.json';
-import test_case_detail_by_suit_id from '../json/test_case_detail_by_suit_id.json';
+// import _testSuitesData from '../json/test-suites-data.json';
+// import _getAllConnections from '../json/getAllConnections.json';
+// import _viewTestCase from '../json/viewTestCase.json';
+// import _viewTestCaseLog from '../json/viewLogs.json';
+// import _db_connection_detail from '../json/db-connection-detail.json';
+// import test_case_detail_by_suit_id from '../json/test_case_detail_by_suit_id.json';
+// import _select_connection_post from '../json/select_connection_post.json';
 
 import { BASE_URL, headers, TIMEOUT } from './appActions';
 import { 
@@ -24,15 +25,16 @@ import {
 	MANAGE_CONNECTIONS_CASE_UPDATE,
 	HIDE_MANAGE_CONNECTIONS_DIALOG,
 	HIDE_CASE_LOG_DIALOG,
-	VIEW_TEST_CASE,
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
 	SAVE_MANAGE_CONNECTION_DETAILS,
 	SHOW_TEST_CASE_VIEW_ENABLED,
+	GET_TEST_CASE_BY_TEST_CASE_ID_SUCCESS,
+	GET_TEST_CASE_BY_TEST_CASE_ID_ERROR,
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_ERROR,
-	GET_TEST_CASES_ERROR,
-	GET_TEST_CASES_SUCCESS
+	UPDATE_TEST_CASE_SUCCESS,
+	UPDATE_TEST_CASE_ERROR,
 } from "../constants/ActionTypes"; 
 
 const getAllTestSuitesSuccess = data => ({
@@ -85,9 +87,8 @@ const getTestCaseDetailBySuiteIdError = error => ({
 	error
 });
 
-const selectConnectionsSuccess = data => ({
-	type: SELECT_CONNECTIONS_SUCCESS,
-	data
+const selectConnectionsSuccess = () => ({
+	type: SELECT_CONNECTIONS_SUCCESS
 });
 
 const selectConnectionsError = error => ({
@@ -105,6 +106,26 @@ const getTestCaseLogByIdError = error => ({
 	error
 });
 
+const getTestCaseByTestCaseIdSuccess = testCase => ({
+	type: GET_TEST_CASE_BY_TEST_CASE_ID_SUCCESS,
+	testCase
+});
+
+const getTestCaseByTestCaseIdError = testCase => ({
+	type: GET_TEST_CASE_BY_TEST_CASE_ID_ERROR,
+	testCase
+});
+
+const updateTestCaseSuccess = data => ({
+	type: UPDATE_TEST_CASE_SUCCESS,
+	message: data.message
+});
+
+const updateTestCaseError = error => ({
+	type: UPDATE_TEST_CASE_ERROR,
+	error
+});
+
 export const hideManageConnectionsDialog = () => ({
 	type: HIDE_MANAGE_CONNECTIONS_DIALOG
 });
@@ -112,16 +133,6 @@ export const hideManageConnectionsDialog = () => ({
 export const manageConnectionsCaseUpdate = data => ({
 	type: MANAGE_CONNECTIONS_CASE_UPDATE,
 	data
-});
-
-export const getTestCasesSuccess = testCase => ({
-	type: GET_TEST_CASES_SUCCESS,
-	testCase
-});
-
-export const getTestCasesError = testCase => ({
-	type: GET_TEST_CASES_ERROR,
-	testCase
 });
 
 export const hideCaseLogDialog = () => ({
@@ -246,7 +257,7 @@ export const getTestCaseDetailBySuiteId = (suite_id) => dispatch => {
 		});
 };
 
-export const getTestCases = (caseID) => dispatch => {
+export const getTestCaseByTestCaseId = (caseID) => dispatch => {
 	// setTimeout(function() {
 	// 	console.log('MW.viewTestCase()  inside timeout');
 	// 	dispatch(viewTestCase(_viewTestCase));
@@ -259,36 +270,59 @@ export const getTestCases = (caseID) => dispatch => {
 		.then(res => res.json())
 		.then(res => {
 			if(res.error) {
-				dispatch(getTestCasesError(res.error));
+				dispatch(getTestCaseByTestCaseIdError(res.error));
 			}
-			dispatch(getTestCasesSuccess(res.data));
+			dispatch(getTestCaseByTestCaseIdSuccess(res.data));
 		})
 		.catch(error => {
-			dispatch(getTestCasesError(error));
+			dispatch(getTestCaseByTestCaseIdError(error));
 		});
 };
 
-export const updateConnections = (type, cases, connectionID) => (dispatch, getState) => {
-	console.log('updateConnections===> ', getState());
-	fetch(`${BASE_URL}/select-connection`, {
+export const updateTestCase = (body) => dispatch => {
+	// setTimeout(function() {
+	// 	dispatch(updateTestCasesSuccess());
+	// }, TIMEOUT);
+
+	fetch(`${BASE_URL}/edit-test-case/`, {
 		method: 'post',
 		headers,
-		body: {
-			'connection_references': type,
-			'case_id_list': cases,
-			'db_connection_id': connectionID
-		}
+		body
 	})
 		.then(res => res.json())
 		.then(res => {
 			if(res.error) {
-				dispatch(selectConnectionsError(res.error));
+				dispatch(updateTestCaseError(res.error));
 			}
-			dispatch(selectConnectionsSuccess(res.data));
+			dispatch(updateTestCaseSuccess(res));
 		})
 		.catch(error => {
-			dispatch(selectConnectionsError(error));
+			dispatch(updateTestCaseError(error));
 		});
+};
+
+export const updateConnections = (body) => (dispatch) => {
+	setTimeout(() => {
+		dispatch(selectConnectionsSuccess());
+	}, TIMEOUT);
+
+	// const customHeaders = {...headers, 'Content-Type': 'multipart/form-data'};
+
+	// fetch(`${BASE_URL}/select-connection`, {
+	// 	method: 'post',
+	// 	headers,
+	// 	body
+	// })
+	// 	.then(res => res.json())
+	// 	.then(res => {
+	// 		if(res.error) {
+	// 			dispatch(selectConnectionsError(res.error));
+	// 		}
+	// 		dispatch(selectConnectionsSuccess(res.data));
+	// 	})
+	// 	.catch(error => {
+	// 		dispatch(selectConnectionsError(error));
+	// 	});
 };
 
 export const getTestCaseLogById = (logID, testCaseName) => dispatch => {

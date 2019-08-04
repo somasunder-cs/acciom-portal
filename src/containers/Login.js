@@ -24,8 +24,6 @@ class Login extends Component {
 	}
 
 	static getDerivedStateFromProps = (nextProps, prevState) => {
-		console.log('Login.getDerivedStateFromProps nextProps', nextProps);
-		console.log('Login.getDerivedStateFromProps  prevState', prevState);
 		if (!nextProps.loginData.authTokenExpired) {
 			nextProps.history.push('./');
 		}

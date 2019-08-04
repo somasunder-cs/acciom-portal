@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getDQIprojectDetails } from '../actions/dashboardActions';
 
@@ -8,7 +7,6 @@ import Chart from 'react-apexcharts';
 class DonutChart extends Component {
 	constructor(props) {
 		super(props);
-		console.log("DonutChart component", props.chartData)
 		this.options = {
 			optionsRadial: {
 				fill: {
@@ -17,7 +15,7 @@ class DonutChart extends Component {
 				},
 				chart : {
 					events: {
-						click : function(event, chartContext, config) {
+						click : (event, chartContext, config) => {
 							props.getDQIprojectDetails(props.chartData.project_id);
 						}
 					}
@@ -82,7 +80,7 @@ class DonutChart extends Component {
 
 		return (
 			<div className="donut">
-					<Chart options={this.options.optionsRadial} series={this.options.seriesRadial} colors={this.options.optionsRadial.colors} type="radialBar" width="250" />
+				<Chart options={this.options.optionsRadial} series={this.options.seriesRadial} colors={this.options.optionsRadial.colors} type="radialBar" width="250" />
 				<span className="chartProjectName">{this.props.chartData.project_name}</span>
 			</div>
 		);
@@ -91,8 +89,7 @@ class DonutChart extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
 	getDQIprojectDetails: (data) => dispatch(getDQIprojectDetails(data))
-})
-
+});
 
 export default connect(null, mapDispatchToProps)(DonutChart);
 

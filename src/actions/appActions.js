@@ -18,6 +18,12 @@ export const updateHeaders = (authToken) => {
 	headers.Authorization = `Bearer ${authToken}`;
 };
 
+const hasStandardErrorStatus = (status) => {
+	return ((status >= 300 && status <= 307) || 
+		(status >= 400 && status <= 417) || 
+		(status >= 500 && status <= 505));
+};
+
 const getOrganizationListSuccess = data => ({
 	type: GET_ORGANIZATION_LIST_SUCCESS,
 	data: data.organization_details
@@ -51,24 +57,16 @@ export const genericErrorHandler = (dispatch, error, acionCreatorFunc) => {
 	if (error) {
 		if (error.statusText === 'UNAUTHORIZED' || error.message === "Unauthorised Access") {
 			dispatch(authenticationExpired());
+		} else if (error.status && hasStandardErrorStatus(error.status)) {
+			dispatch(acionCreatorFunc(error));
 		} else {
-			if (error.status && 
-				(	(error.status >= 300 && error.status <= 307) || 
-					(error.status >= 400 && error.status <= 417) || 
-					(error.status >= 500 && error.status <= 505)  
-				)) 
-			{
-				dispatch(acionCreatorFunc(error));
-			} else {
-				dispatch(acionCreatorFunc({statusText:'Unhandled Error'}));
-				console.log('unhandled error in DB details');
-			}
+			dispatch(acionCreatorFunc({statusText:'Unhandled Error'}));
 		}
 	} 
 };
 
 export const getOrganizationsList = () => (dispatch, getState) => {
-	let token = localStorage.getItem('auth_token') ;
+	const token = localStorage.getItem('auth_token') ;
 	updateHeaders(token);
 	fetch(`${BASE_URL}/organization`, {
 		method: 'get',

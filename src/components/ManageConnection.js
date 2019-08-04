@@ -8,16 +8,60 @@ import ManageConnectionSelect from './ManageConnectionSelect';
 import { hideManageConnectionsDialog, updateConnections } from '../actions/testSuiteListActions';
 
 class ManageConnection extends React.Component {
+	
+	constructor(props) {
+		super(props);
+		this.state = {
+			selectedConnectionType:null,
+			selectedConnection: '',
+			selectedCases: []
+		};
+	};
+
 	handleDialogBoxClose = () => {
 		this.props.hideManageConnectionsDialog();
 	};
 
+	handleConnectionTypeChange = (connectionType) => {
+		this.setState({
+			selectedConnectionType: connectionType
+		});
+	};
+	
+	handleConnectionChange = (connection) => {
+		this.setState({
+			selectedConnection: Number(connection)
+		});
+	};
+
+	handleCasesChange = (testCase) => {
+		const cases = [...this.state.selectedCases];
+		const value = Number(testCase.value);
+		if (testCase.checked) {
+			cases.push(value);
+		} else {
+			cases.splice(cases.indexOf(value), 1);
+		}
+
+		this.setState({
+			selectedCases: cases
+		});
+	};
+
 	handleManageConnectionSave = (e) => {
-		this.props.updateConnections();
+		// const payload = new FormData();
+		// payload.append('connection_references', this.state.selectedConnectionType);
+		// payload.append('case_id_list', this.state.selectedCases);
+		// payload.append('db_connection_id', this.state.selectedConnection);
+		// this.props.updateConnections(payload);
+		this.props.updateConnections({
+			connection_references: this.state.selectedConnectionType,
+			case_id_list: this.state.selectedCases,
+			db_connection_id: this.state.selectedConnection
+		});
 	};
 	
 	render() {
-		console.log("ManageConnection==>", this.props);
 		return (
 			<Modal
 				show={this.props.showConnectionsDialog}
@@ -32,8 +76,13 @@ class ManageConnection extends React.Component {
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<ManageConnectionInputs></ManageConnectionInputs>
-					<ManageConnectionSelect></ManageConnectionSelect>
+					<ManageConnectionInputs onChange={this.handleConnectionTypeChange}></ManageConnectionInputs>
+					<ManageConnectionSelect 
+						selectedConnection={this.state.selectedConnection} 
+						selectedCases={this.state.selectedCases}
+						onConnectionChange={this.handleConnectionChange}
+						onCaseSelectionChange={this.handleCasesChange} >	
+					</ManageConnectionSelect>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button className="btn btn-primary" onClick={e => this.handleManageConnectionSave(e)}>
@@ -46,17 +95,16 @@ class ManageConnection extends React.Component {
 	}
 }
 
-const mapStateToProps = function (state) {
-	console.log("ManageConnection.state", state);
+const mapStateToProps = (state) => {
 	return {
 		showConnectionsDialog: state.testSuites.connectionsList.showConnectionsDialog
 	}
 };
 
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = (dispatch) => {
 	return {
 		hideManageConnectionsDialog: () => dispatch(hideManageConnectionsDialog()),
-		updateConnections: () => dispatch(updateConnections())
+		updateConnections: (data) => dispatch(updateConnections(data))
 	}
 };
 

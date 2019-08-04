@@ -1,11 +1,10 @@
 import React from 'react';
 import '../css/card.css';
 
-
 function Cards () {
-    return (
-        <div>
-            <div className="row cardContainer">
+	return (
+		<div>
+			<div className="row cardContainer">
 				<div className="col-md-3">
 					<div className="card-counter info">
 						<i className="fa fa-database"></i>
@@ -30,8 +29,8 @@ function Cards () {
 					</div>
 				</div>
 			</div>
-        </div>
-    );
-}   
+		</div>
+	);
+}
 
 export default Cards;

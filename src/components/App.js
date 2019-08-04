@@ -4,11 +4,10 @@ import { Route, BrowserRouter as Router, Redirect  } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Startup from '../containers/Startup';
-import Home from '../containers/Home';
+import TestSuiteUpload from '../containers/TestSuiteUpload';
 import Dashboard from '../containers/Dashboard';
 import NavigationBar from '../containers/NavigationBar';
 import Login from '../containers/Login';
-import DQIDetailsContainer from '../containers/DQIdetailsContainer';
 import ViewDbDetails from '../containers/ViewDbDetails';
 import AddDbDetails from '../containers/AddDbDetails';
 import UserManagement from '../containers/UserManagement';
@@ -18,7 +17,7 @@ import Token from './token';
 import ChangePassword from './ChangePassword';
 
 const RootContainer = styled.div`
-	font-size: 2rem;	
+	font-size: 0.8rem;	
 `;
 
 const Sidebar = styled.div`
@@ -53,10 +52,10 @@ const App = (props) => (
 			<Content>
 				<RootContent></RootContent>
 				<Route path="/" exact component={Dashboard} />
+				<Route path="/login" component={Login} />
 				<PrivateRoute path="/dashboard" authTokenExpired={props.authTokenExpired} component={Dashboard} />
 				<PrivateRoute path="/startup" authTokenExpired={props.authTokenExpired} component={Startup} />
-				<PrivateRoute path="/home" authTokenExpired={props.authTokenExpired} component={Home} />
-				<Route path="/login" component={Login} />
+				<PrivateRoute path="/test_suite_upload" authTokenExpired={props.authTokenExpired} component={TestSuiteUpload} />
 				<PrivateRoute path="/add_db_details" authTokenExpired={props.authTokenExpired} component={AddDbDetails} />
 				<PrivateRoute path="/view_db_details" authTokenExpired={props.authTokenExpired} component={ViewDbDetails} />
 				<PrivateRoute path="/forgot_password" authTokenExpired={props.authTokenExpired} component={ForgotPassword} />

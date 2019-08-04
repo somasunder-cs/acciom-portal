@@ -1,16 +1,18 @@
 import React from 'react';
 import { Panel, Button, Table } from 'react-bootstrap';
 
-export default function FormControlLabelPosition() {
-	const [value, setValue] = React.useState('source');
+export default function ManageConnectionInputs(props) {
+	console.log('FormControlLabelPosition ', props);
+	// const [value, setValue] = React.useState('source');
 
-	function handleConnectionChange(event) {
-		setValue(event.target.value);
-	}
+	// function handleConnectionChange(event) {
+	// 	// setValue(event.target.value);
+	// 	props.
+	// };
 
-	function handleManageConnectionCaseUpdate(val) {
-		console.log("handleManageConnectionCaseUpdate.state", val);
-	};
+	// function handleManageConnectionCaseUpdate(val) {
+	// 	console.log("handleManageConnectionCaseUpdate.state", val);
+	// };
 
 	return (
 		<Table className="manageConnection">
@@ -23,9 +25,8 @@ export default function FormControlLabelPosition() {
 								<input
 									type="radio"
 									value="source"
-									checked={true}
 									name="connectionType"
-									onChange={ (e) => handleConnectionChange(e)}
+									onChange={ (e) => props.onChange(event.target.value)}
 								/>
 							</label>&nbsp; Source &nbsp;
 							<label className="form-check-label">
@@ -33,7 +34,7 @@ export default function FormControlLabelPosition() {
 									type="radio"
 									value="target"
 									name="connectionType"
-									onChange={ (e) => handleConnectionChange(e)}
+									onChange={ (e) => props.onChange(event.target.value)}
 								/>
 							</label>&nbsp; Target
 						</div>

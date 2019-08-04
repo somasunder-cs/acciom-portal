@@ -36,6 +36,7 @@ const uploadTestCasesError = data => ({
 	type: 'UPLOAD_TESTCASES_ERROR',
 	data
 });
+
 export const resetTestSuiteUploadData = (sheet) => ({
 	type: 'RESET_TEST_SUITE_UPLOAD_DATA',
 	sheet
@@ -94,8 +95,6 @@ export const loadTestSuiteFile = (selectedFiles) => dispatch => {
 				pages.push(workbook.SheetNames[x]);
 			}
 		}
-		console.log('pages===>', pages);
-
 		dispatch(testSuiteFileUploadSuccess(pages));
 	};
 
@@ -106,7 +105,6 @@ export const loadTestSuiteFile = (selectedFiles) => dispatch => {
 };
 
 export const loadTestSuiteSheet = (page) => dispatch => {
-	console.log('loadTestSuiteSheet ', page);
 	selectedSheet = page;
 	const index = pages.findIndex(page_p=>page_p===page);
 	const sheetName = workbook.SheetNames[index];
@@ -160,7 +158,7 @@ export const loadTestSuiteSheet = (page) => dispatch => {
 };
 
 export const uploadTestCases = (executeValue) => (dispatch, getState) => {
-	console.log('uploadTestCases ==', getState().testSuiteUploadData.sheetData.allCases);
+	// console.log('uploadTestCases ==', getState().testSuiteUploadData.sheetData.allCases);
 
 	const selectedTestCases = [] 
 	getState().testSuiteUploadData.sheetData.allCases.map((item) => {
@@ -168,7 +166,7 @@ export const uploadTestCases = (executeValue) => (dispatch, getState) => {
 			selectedTestCases.push(item.id);
 		}
 	});
-	console.log('selectedTestCases', selectedTestCases );
+	// console.log('selectedTestCases', selectedTestCases );
 
 	// this.spinnerService.show();
 	// this.MyModel=null;
