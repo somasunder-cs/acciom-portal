@@ -29,8 +29,8 @@ const initialState = {
 	},
 	testCaseLog: {
 		showCaseLogDialog: false,
-		caseLog:[],
-		caseName: null
+		logData: null,
+		testCaseName: null
 	},
 	testCase: {
 		showTestCaseDialog: false,
@@ -86,11 +86,16 @@ const testSuites = (state = initialState, action) => {
 		};
 
 	case GET_TESTCASE_LOG_BY_ID_SUCCESS:
-		 action.testCaseLog.showCaseLogDialog = true;
-		 action.testCaseLog.caseName  = action.testCaseName;
+		//  action.testCaseLog.showCaseLogDialog = true;
+		//  action.testCaseLog.caseName  = action.testCaseName;
 		return {
 			...state,
-			testCaseLog : action.testCaseLog
+			testCaseLog : {
+				...state.testCaseLog,
+				logData : action.testCaseLog.log_data,
+				testCaseName: action.testCaseName,
+				showCaseLogDialog: true
+			}
 		};
 
 	case HIDE_CASE_LOG_DIALOG:
@@ -142,12 +147,6 @@ const testSuites = (state = initialState, action) => {
 				showConnectionsDialog: false
 			}
 		};
-
-	// case GET_TESTCASE_LOG_BY_ID_SUCCESS:
-	// 	return {
-	// 		...state,
-	// 		testCaseLog: action.data
-	// 	};
 
 	case MANAGE_CONNECTIONS_CASE_UPDATE:
 		return {

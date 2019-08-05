@@ -96,9 +96,10 @@ const selectConnectionsError = error => ({
 	error
 });
 
-const getTestCaseLogByIdSuccess = (testCaseLog, testCaseName) => ({
+const getTestCaseLogByIdSuccess = (data, testCaseName) => ({
 	type: GET_TESTCASE_LOG_BY_ID_SUCCESS,
-	testCaseLog, testCaseName
+	testCaseLog: data.test_case_log,
+	testCaseName
 });
 
 const getTestCaseLogByIdError = error => ({

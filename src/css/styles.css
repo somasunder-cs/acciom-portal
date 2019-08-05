@@ -4190,9 +4190,11 @@ textarea {width:280px;}
 }
 .manageConnection {margin-bottom:0px !important;}
 
+
 .statusDelIcon {font-size:  1.2rem; color:red !important;}
 .statusCheckIcon {font-size:  1.2rem; color:green !important;}
 .statusStopIcon {font-size:  1.2rem; color:rgb(245, 124, 76) !important;}
+.statusInProgressIcon {font-size:  1.2rem; color:rgb(245, 124, 76) !important;}
 .statusPlayIcon {font-size:  1.2rem;}
 .logsIcon {font-size:  1.2rem;}
 

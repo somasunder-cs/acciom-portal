@@ -10,6 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Table } from 'react-bootstrap';
 import ManageConnection from '../components/ManageConnection';
 import ViewLogs from '../components/ViewLogs';
+import { renderStatusLabel, renderStatusIcon } from '../components/ViewLogDetails';
 import ViewTestCase from '../components/ViewTestCase';
 
 import { 
@@ -20,6 +21,10 @@ import {
 	executeTestByCaseId,
 	getTestCaseDetailBySuiteId
 } from '../actions/testSuiteListActions';
+
+import icon_new from '../assets/images/icon_new.jpg';
+import { ICON_STATUS_ERROR, ICON_STATUS_FAIL, ICON_STATUS_SUCCESS } from '../constants/icons';
+import { NEW, PASS, FAIL, ERROR, INPROGRESS } from '../constants/common';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -106,14 +111,12 @@ const useStyles = makeStyles(theme => ({
 function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseDetailBySuiteId, getTestCaseLogById, 
 	getTestCaseByTestCaseId, executeTestBySuiteId, executeTestByCaseId}) {
 
-	console.log('ControlledExpansionPanels constructor');
 	const classes = useStyles();
 	const [expanded, setExpanded] = React.useState(false);	
 
 	useEffect(() => {
-		let project_id = 1; // remove this hardcoded assignment
-		getAllConnections(project_id);
-		console.log('useEffect =====> testSuiteList Page');
+		const projectId = 1; // remove this hardcoded assignment
+		getAllConnections(projectId);
 	}, []);
 
 	const handleChange = panel => (event, isExpanded) => {
@@ -121,88 +124,38 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 	};
 
 	const handleManageConnection = (e, suiteID) => {
-		console.log('handleManageConnection ===>');
 		getTestCaseDetailBySuiteId(suiteID);
 		e.stopPropagation();
 	};
 
 	const viewTestCase = (e, caseID) => {
-		console.log('viewTestCase ===>');
 		getTestCaseByTestCaseId(caseID);
 		e.stopPropagation();
 	};
 
-	const viewTestCaseLogs = (e) => {
-		console.log('viewTestCaseLogs ===>');
+	const viewTestCaseLogs = (testCaselogId, testCaseName) => {
+		getTestCaseLogById(testCaselogId, testCaseName);
 	};
 
 	const renderTestName = (status) => {
 		switch(status) {
 		case 0:
-		case 'new':
+		case NEW:
 			return classes.statusBgBlue;
 		case 1:
-		case 'pass':
+		case PASS:
 			return classes.statusBg;
 		case 2:
-		case 'fail':
+		case FAIL:
 			return classes.statusBgRed;
 		case 3:
-		case 'error':
+		case ERROR:
+			return classes.statusBgRed;
+		case 4:
+		case INPROGRESS:
 			return classes.statusBgOrange;
-		case 4:
-			return classes.statusBgRed;
 		default:
 			return '';
-		}
-	};
-
-	const renderTestStatus = (status) => {
-		switch(status) {
-		case 'new':
-		case 0:
-			return 'New';
-		case 'pass':
-		case 1:
-			return <i className="fas fa-check-circle statusCheckIcon" aria-hidden="true"></i>;
-		case 'fail':
-		case 2:
-			return <i className="fas fa-times-circle statusDelIcon" aria-hidden="true"></i>;
-		case 'error':
-		case 3:
-			return <i className="fas fa-stopwatch statusStopIcon" aria-hidden="true"></i>;
-		default:
-			return '';
-		}
-	};
-
-	const renderExecutionStatus = (status) => {
-		let labelColor, label = '';
-		switch(status) {
-		case 0:
-			labelColor = 'blue';
-			label = 'New';
-			return <label style={{ color: labelColor }}>{label}</label>;
-		case 1:
-			labelColor = 'green';
-			label = 'Pass';
-			return <label style={{ color: labelColor }}>{label}</label>;
-		case 2:
-			labelColor = 'red';
-			label = 'Fail';
-			return <label style={{ color: labelColor }}>{label}</label>;
-		case 3:
-			labelColor = '#f3a563';
-			label = 'In Progress';
-			return <label style={{ color: labelColor }}>{label}</label>;
-		case 4:
-			labelColor = 'red';
-			label = 'Error';
-			return <label style={{ color: labelColor }}>{label}</label>;
-		default:
-			labelColor = '';
-			label = '';
-			return <label style={{ color: labelColor }}>{label}</label>;				
 		}
 	};
 
@@ -212,7 +165,6 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 	};
 
 	const runTestCase = (e, caseID) => {
-		console.log(caseID);
 		e.stopPropagation();
 		executeTestByCaseId([caseID]);
 	}
@@ -242,7 +194,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 											<Typography className={classes.subHeading}>{testCaseList.test_class_description}</Typography>
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, testCaseList.test_case_id)}>View</Typography>
-											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderTestStatus(testCaseList.test_status)}</Typography>
+											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderStatusIcon(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
 											<Typography><i className="far fa-play-circle statusPlayIcon" onClick={(e) => runTestCase(e, testCaseList.test_case_id)} aria-hidden="true"></i></Typography>
 										</ExpansionPanelSummary>
@@ -262,9 +214,11 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 														{ testCaseList.test_case_log_list && testCaseList.test_case_log_list.map(testCaseLog => (
 															<tr key={testCaseLog.test_case_log_id}>
 																{/* <td className="testLogData"></td> */}
-																<td className="testLogData">{renderExecutionStatus(testCaseLog.test_execution_status)}</td>
+																<td className="testLogData">{renderStatusLabel(testCaseLog.test_execution_status)}</td>
 																<td className="testLogData">{testCaseLog.executed_at}</td>
-																<td className={classes.caseLog} onClick={e => viewTestCaseLogs(e, getTestCaseLogById(testCaseLog.test_case_log_id, testCaseList.test_name))}><i className="far fa-sticky-note logsIcon"></i></td>
+																<td className={classes.caseLog} onClick={e => viewTestCaseLogs(testCaseLog.test_case_log_id, testCaseList.test_class_name)}>
+																	<i className="far fa-sticky-note logsIcon"></i>
+																</td>
 															</tr>
 														))}
 													</tbody>
@@ -289,7 +243,7 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 const mapStateToProps = (state) => {
 	return {
 		testSuites: state.testSuites.testSuiteList? state.testSuites.testSuiteList: []
-	}
+	};
 };
 
 export default connect(mapStateToProps, {
