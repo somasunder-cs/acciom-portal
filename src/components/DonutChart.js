@@ -64,7 +64,7 @@ class DonutChart extends Component {
 									return val + '%';
 								},
 								color: "#111",
-								fontSize: "20px",
+								fontSize: "18px",
 								show: true
 							}
 						}
@@ -81,6 +81,7 @@ class DonutChart extends Component {
 		return (
 			<div className="donut">
 				<Chart options={this.options.optionsRadial} series={this.options.seriesRadial} colors={this.options.optionsRadial.colors} type="radialBar" width="250" />
+				<div className="chartLabel">DQI</div>
 				<span className="chartProjectName">{this.props.chartData.project_name}</span>
 			</div>
 		);

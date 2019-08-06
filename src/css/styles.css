@@ -4407,6 +4407,33 @@ textarea {width:280px;}
     /* padding-top: 2px; */
 }
 
+.user_name, .Description {
+    width: 79%;
+    margin-left: 15px;
+    height: 35px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.userNameHeader, .DescriptionHeader, .editableHeader {
+    margin-left: 15px;
+}
+
+.chartLabel {
+    position: absolute;
+    top: 85px;
+    left: 108px;
+    font-size: 18px;
+    color: #6579b5;
+}
+
+.DQIindex {
+    font-size: 21px;
+    position: absolute;
+    margin-left: -68px;
+    margin-top: -15px;
+    color: #4f789c;
+}
 .addDBDetails {
     color:#337ab7;
     cursor:pointer;

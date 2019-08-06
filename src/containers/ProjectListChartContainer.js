@@ -62,6 +62,7 @@ class ProjectChartList extends Component {
 
 		return (
 			<div className="row projectList">
+				<div className="DQIindex">Quality Index</div>
 				{ this.getDonutCharts() }
 			</div>
 		);
