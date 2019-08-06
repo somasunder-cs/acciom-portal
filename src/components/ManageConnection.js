@@ -55,9 +55,17 @@ class ManageConnection extends React.Component {
 		// payload.append('db_connection_id', this.state.selectedConnection);
 		// this.props.updateConnections(payload);
 		this.props.updateConnections({
-			connection_references: this.state.selectedConnectionType,
+			connection_reference: this.state.selectedConnectionType,
 			case_id_list: this.state.selectedCases,
 			db_connection_id: this.state.selectedConnection
+		});
+	};
+
+	handleResetConnection = (e) => {
+		this.setState({
+			selectedConnectionType: null,
+			selectedConnection: '',
+			selectedCases: []
 		});
 	};
 	
@@ -88,7 +96,7 @@ class ManageConnection extends React.Component {
 					<Button className="btn btn-primary" onClick={e => this.handleManageConnectionSave(e)}>
 						Save
 					</Button>
-					<Button className="btn btn-primary">Reset</Button>
+					<Button className="btn btn-primary" onClick={e => this.handleResetConnection(e)}>Reset</Button>
 				</Modal.Footer>
 			</Modal>
 		);

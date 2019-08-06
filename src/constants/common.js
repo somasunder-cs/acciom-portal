@@ -11,3 +11,10 @@ export const PASS = 'pass';
 export const FAIL = 'fail';
 export const ERROR = 'error';
 export const INPROGRESS = 'inprogress';
+
+// Execution Statuses ID
+export const NEW_ID = 0;
+export const PASS_ID = 1;
+export const FAIL_ID = 2;
+export const ERROR_ID = 3;
+export const INPROGRESS_ID = 4;

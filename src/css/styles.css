@@ -4407,3 +4407,8 @@ textarea {width:280px;}
     /* padding-top: 2px; */
 }
 
+.addDBDetails {
+    color:#337ab7;
+    cursor:pointer;
+}
+
