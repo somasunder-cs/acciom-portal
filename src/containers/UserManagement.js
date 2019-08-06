@@ -25,12 +25,14 @@ const deleteRow = () => {
 };
 
 class UserManagement extends Component {
-
+	
 	constructor(props) {
 		super(props);
 		this.state = {
-			isOrganisationInitialised: false
+			isOrganisationInitialised: false,
+			isEditable : false
 		};
+		this.showEditContent = this.showEditContent.bind(this);
 	}
 	
 	componentDidMount() {
@@ -48,11 +50,6 @@ class UserManagement extends Component {
 		});
 	}
 
-	 // state = {
-	 // 	selectedProjectData: null,
-	 // 	selectedRoleData: null,
-	 // };
-
 	handleProjectChange = selectedProjectData => {
 		this.setState({ selectedProjectData });
 	};
@@ -61,23 +58,25 @@ class UserManagement extends Component {
 		this.setState({ selectedRoleData });
 	};
 
+	showEditContent = (event) => {
+		this.setState({isEditable: true});
+		console.log(event);
+	}
+
 	getOrgUserList = () => {
 		let userList = '';
 		if (this.props.orgUserList.length > 0) {
 			userList = this.props.orgUserList.map((user) =>{
 				console.log('user here')
 				return (
-					// <ListGroupItem header={user.first_name}>
-					// 	{user.email}
-					// </ListGroupItem>
 					<li className="list-group-item" >
 						<Col sm={1}><i class="fas fa-user-circle"></i></Col>
 						<Col sm={7}>
-							<span className="fName">{user.first_name}</span>
-							<span className="email">{user.email}</span>
+							<span className="fName" >{user.first_name}</span>
+							<span className="email" >{user.email}</span>
 						</Col>
 						<Col sm={4} className="editBtn">	
-							<Button>Edit</Button>
+							<Button onClick={this.showEditContent}>Edit</Button>
 						</Col>
 					</li>
 				);
@@ -90,7 +89,8 @@ class UserManagement extends Component {
 	render() {
 		const { selectedProjectData } = this.state;
 		const { selectedRoleData } = this.state;
-
+		const { isEditable } = this.state;
+		console.log(isEditable);
 		return (
 			<div id="userManagement">
 				<ListGroup>
@@ -100,8 +100,12 @@ class UserManagement extends Component {
 					
 				</div>
 
-				<div className='row'>
-
+				{isEditable ? (<div className='row'>
+					<h3 className="editableHeader">Manage Role</h3>
+					<div className="userNameHeader">Name</div>
+					<input type="text" className="user_name" />
+					<div className = "DescriptionHeader">Description</div>
+					<input type="text" className="Description" />
 					<Select 
 						className='singleSelect'
 						value={selectedProjectData}
@@ -117,7 +121,7 @@ class UserManagement extends Component {
 					/>
 					<i className='fas fa-plus-circle plusCircle' onClick={() => addRow()}></i>
 					<i className='fas fa-minus-circle minusCircle' onClick={() => deleteRow()}></i>
-				</div>
+				</div>) : null}
 			</div>
 		);
 	 }
