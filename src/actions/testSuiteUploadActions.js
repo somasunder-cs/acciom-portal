@@ -1,5 +1,16 @@
 import XLSX from 'xlsx';
-import { TEST_SUITE_FILE_UPLOAD_SUCCESS } from '../constants/ActionTypes';
+import { toast } from 'react-toastify';
+
+import { 
+	TEST_SUITE_FILE_UPLOAD_SUCCESS,
+	TEST_SUITE_SHEET_LOAD_SUCCESS,
+	TEST_SUITE_SHEET_SELECT,
+	TEST_CASE_SELECTION_CHANGE,
+	TEST_CASE_SELECT_ALL_TOGGLE,
+	UPLOAD_TESTCASES_SUCCESS,
+	UPLOAD_TESTCASES_ERROR,
+	RESET_TEST_SUITE_UPLOAD_DATA
+ } from '../constants/ActionTypes';
 import { BASE_URL, headers } from './appActions';
 
 let pages = [];
@@ -23,36 +34,39 @@ const testSuiteFileUploadSuccess = sheets => ({
 });
 
 const testSuiteSheetloadSuccess = sheetData => ({
-	type: 'TEST_SUITE_SHEET_LOAD_SUCCESS',
+	type: TEST_SUITE_SHEET_LOAD_SUCCESS,
 	sheetData
 });
 
-const uploadTestCasesSuccess = data => ({
-	type: 'UPLOAD_TESTCASES_SUCCESS',
-	data
-});
+const uploadTestCasesSuccess = data => {
+	toast.success('Uploaded Test Cases Successfully');
+	return 	{
+		type: UPLOAD_TESTCASES_SUCCESS,
+		data
+	}
+};
 
 const uploadTestCasesError = data => ({
-	type: 'UPLOAD_TESTCASES_ERROR',
+	type: UPLOAD_TESTCASES_ERROR,
 	data
 });
 
 export const resetTestSuiteUploadData = (sheet) => ({
-	type: 'RESET_TEST_SUITE_UPLOAD_DATA',
+	type: RESET_TEST_SUITE_UPLOAD_DATA,
 	sheet
 });
 export const onTestSuiteSheetSelect = (sheet) => ({
-	type: 'TEST_SUITE_SHEET_SELECT',
+	type: TEST_SUITE_SHEET_SELECT,
 	sheet
 });
 
 export const testCaseSelectionChange = (testCase) => ({
-	type: 'TEST_CASE_SELECTION_CHANGE',
+	type: TEST_CASE_SELECTION_CHANGE,
 	testCase
 });
 
 export const testCaseSelectAllToggle = () => ({
-	type: 'TEST_CASE_SELECT_ALL_TOGGLE'
+	type: TEST_CASE_SELECT_ALL_TOGGLE
 });	
 
 const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue) => {

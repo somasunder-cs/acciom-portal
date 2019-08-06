@@ -8,7 +8,6 @@ class AddDbDetails extends Component {
 
 	constructor(props) {
 		super(props);
-		console.log('AddDbDetails constructor props ', props);
 		this.initialiseFormState();
 	}
 
@@ -70,13 +69,14 @@ class AddDbDetails extends Component {
 		});
 	}
 	
-	getConfirmationMessage = () => {
-		if (this.props.updatedDbDetails) {
-			return (<div>Database details added successfully.</div>);
-		} else {
-			return '';
-		}
-	}
+	// getConfirmationMessage = () => {
+	// 	if (this.props.updatedDbDetails) {
+	// 		// toast("Database details added successfully.");
+	// 		return (<div>Database details added successfully.</div>);
+	// 	} else {
+	// 		return '';
+	// 	}
+	// }
 	
 	formSubmit = (e) => {
 		e.preventDefault();
@@ -134,7 +134,7 @@ class AddDbDetails extends Component {
 							</FormGroup>
 						</Form>
 					</Panel.Body>
-					<Panel.Body>{ this.getConfirmationMessage() }</Panel.Body>
+					{/* <Panel.Body>{ this.getConfirmationMessage() }</Panel.Body> */}
 				</Panel>
 			</div>
 		);

@@ -65,31 +65,30 @@ const updateUserRolesError = (error) => {
 };
 
 export const getOrganizationUsersList = (org_id) => (dispatch, getState) => {
-	
-	setTimeout(function() {
-		console.log('MW.getOrganizationUserListSuccess()  inside timeout');
-		dispatch(getOrganizationUserListSuccess(_orgUserList.data));
-	}, TIMEOUT);
+	// setTimeout(function() {
+	// 	console.log('MW.getOrganizationUserListSuccess()  inside timeout');
+	// 	dispatch(getOrganizationUserListSuccess(_orgUserList.data));
+	// }, TIMEOUT);
 
-	// fetch(`${BASE_URL}/user?org_id=${org_id}`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(response => response.json())
-	// 	.then(res => { 
-	// 		if (res.status !== false && res && res.data) {
-	// 			dispatch(getOrganizationUserListSuccess(res.data));
-	// 		} else {
-	// 			genericErrorHandler(dispatch, res, getOrganizationUserListError);
-	// 		}
-	// 	})
-	// 	.catch(err => {
-	// 		if (err.name === 'AbortError') {
-	// 			console.error('Fetch aborted');
-	// 		} else {
-	// 			console.error('Another error', err);
-	// 		}
-	// 	});
+	fetch(`${BASE_URL}/user?org_id=${org_id}`, {
+		method: 'get',
+		headers
+	})
+		.then(response => response.json())
+		.then(res => { 
+			if (res.status !== false && res && res.data) {
+				dispatch(getOrganizationUserListSuccess(res.data));
+			} else {
+				genericErrorHandler(dispatch, res, getOrganizationUserListError);
+			}
+		})
+		.catch(err => {
+			if (err.name === 'AbortError') {
+				console.error('Fetch aborted');
+			} else {
+				console.error('Another error', err);
+			}
+		});
 };	
 export const getRolesByOrgId = (org_id) => (dispatch, getState) => {
 	

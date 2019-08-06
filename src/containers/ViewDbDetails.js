@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Panel, Table, Button} from 'react-bootstrap';
 
-import { getAllDBDetails, getDBDetailsById } from '../actions/dbDetailsActions';
+import { getAllDBDetails } from '../actions/dbDetailsActions';
 
 class ViewDbDetails extends Component {
 
@@ -17,7 +17,9 @@ class ViewDbDetails extends Component {
 	static getDerivedStateFromProps = (nextProps, prevState) => {
 		if (!prevState.isOrganisationInitialised && 
 			nextProps.isOrganisationInitialised > 0) {
-			nextProps.getAllDBDetails();
+			
+			const projectId = 1; //TODO:  remove hardcoded value after project switch is implemented
+			nextProps.getAllDBDetails(projectId);
 		}
 		return ({
 			isOrganisationInitialised: nextProps.isOrganisationInitialised
@@ -34,11 +36,6 @@ class ViewDbDetails extends Component {
 			formData
 		});
 	}
-
-	// onEditDbListItem = (item) => {
-	// 	console.log('onEditDbListItem ', item.db_type_id);
-	// 	this.props.getDBDetailsById(item.db_type_id);
-	// }
 
 	renderDBDetailsList = (dbDetailsList) => {
 		return dbDetailsList.map((item, index) => {

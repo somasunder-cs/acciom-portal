@@ -14,6 +14,8 @@ const initialState = {
 };
 
 const loginData = (state = initialState, action) => {
+	
+	console.log('loginReducer ', action.type);
 	switch (action.type) {
 	case LOGIN_TO_PORTAL_SUCCESS:
 		return {

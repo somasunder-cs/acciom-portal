@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { BASE_URL, headers, TIMEOUT, genericErrorHandler} from './appActions';
 
 import _add_db_details_success from '../json/add_db_details.json';
@@ -14,20 +15,26 @@ import {
 	GET_DB_DETAILS_BY_ID_ERROR,
 } from '../constants/ActionTypes'; 
 
-const addDatabaseDetailsSuccess = data =>({
-	type: ADD_DB_DETAILS_SUCCESS,
-	data
-});
+const addDatabaseDetailsSuccess = data =>{
+	toast.success("Added DB Details Successfully");
+	return {
+		type: ADD_DB_DETAILS_SUCCESS,
+		data
+	};
+};
 
 const addDatabaseDetailsError = data =>({
 	type: ADD_DB_DETAILS_ERROR,
 	data
 });
 
-const updateDBDetailsSuccess = data => ({
-	type: UPDATE_DB_DETAILS_SUCCESS,
-	data
-});
+const updateDBDetailsSuccess = data => {
+	toast.success("Updated DB Details Successfully");
+	return {
+		type: UPDATE_DB_DETAILS_SUCCESS,
+		data
+	};
+};
 
 const updateDBDetailsError = error => ({
 	type: UPDATE_DB_DETAILS_ERROR,
@@ -124,7 +131,6 @@ export const getDBDetailsById = (dbID) => dispatch => {
 		.then(res => res.json())
 		.then(res => {
 			if (res && res.data) {
-				// console.log("====getDBDetailsById");
 				dispatch(getDBDetailsByIdSuccess(res.data));
 			} else {
 				genericErrorHandler(dispatch, res, getDBDetailsByIdError);

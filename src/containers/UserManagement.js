@@ -35,15 +35,12 @@ class UserManagement extends Component {
 		this.showEditContent = this.showEditContent.bind(this);
 	}
 	
-	componentDidMount() {
-		this.props.getOrganizationUsersList(1);
-	}
-
 	static getDerivedStateFromProps = (nextProps, prevState) => {
 		if (!prevState.isOrganisationInitialised && 
 			nextProps.isOrganisationInitialised > 0) {
 			console.log('UserManagement.getDerivedStateFromProps() load org users');
-			// nextProps.getOrganizationUsersList(1);
+			let orgId = 1;//TODO: hard coded value. To be cleaned up after org switch
+			nextProps.getOrganizationUsersList(orgId);
 		}
 		return ({
 			isOrganisationInitialised: nextProps.isOrganisationInitialised
