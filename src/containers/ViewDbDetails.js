@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Panel, Table, Button} from 'react-bootstrap';
 
-import { getAllDBDetails } from '../actions/dbDetailsActions';
+import { getAllDBDetails, getDBDetailsById } from '../actions/dbDetailsActions';
 
 class ViewDbDetails extends Component {
 
@@ -35,16 +35,29 @@ class ViewDbDetails extends Component {
 		});
 	}
 
+	// onEditDbListItem = (item) => {
+	// 	console.log('onEditDbListItem ', item.db_type_id);
+	// 	this.props.getDBDetailsById(item.db_type_id);
+	// }
+
 	renderDBDetailsList = (dbDetailsList) => {
 		return dbDetailsList.map((item, index) => {
 			return (
 				<tr key={index}>
-					<td>{item.project_id}</td>
+					<td>{item.project_name}</td>
 					<td>{item.connection_name}</td>
-					<td>{item.db_type_id}</td>
 					<td>{item.db_type_name}</td>
+					<td>{item.db_name}</td>
 					<td>{item.db_hostname}</td>
 					<td>{item.db_username}</td>
+					<td>
+						<Link to={`/add_db_details/${item.db_type_id}`}>
+						  <label className="addDBDetails">Edit Connection</label>
+						</Link>
+					</td>
+					{/* <td>
+					     <label>Test Connection</label>
+					</td> */}
 				</tr>	
 			);
 		});
@@ -60,12 +73,12 @@ class ViewDbDetails extends Component {
 					</Link>
 				</div>
 				<Panel>
-					<Panel.Heading>DB Details List</Panel.Heading>
+					<Panel.Heading>Manage DB Connections</Panel.Heading>
 					<Panel.Body>
 						<Table responsive>
 							<thead>
 								<tr>
-									<th>Project ID</th>
+									<th>Project Name</th>
 									<th>Connection Name</th>
 									<th>Database Type</th>
 									<th>Database Name</th>

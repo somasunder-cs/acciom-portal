@@ -190,39 +190,37 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 							<div className={classes.innerPanelWidth}>
 								{ testSuite.test_case_list.map(testCaseList => (
 									<ExpansionPanel key={testCaseList.test_case_id}>
-
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 											<Typography className={classes.subHeading}>{testCaseList.test_class_description}</Typography>
 											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, testCaseList.test_case_id)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderStatusIcon(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
 											<Typography><i className="far fa-play-circle statusPlayIcon" onClick={(e) => runTestCase(e, testCaseList.test_case_id)} aria-hidden="true"></i></Typography>
-										</ExpansionPanelSummary>
-										
+										</ExpansionPanelSummary>										
 										<ExpansionPanelDetails>
 											<div>
-											    <Table striped bordered hover size="sm" id="RoundedTable">
-													<thead>
-														<tr>
-															{/* <th className="testLogHeading">Run ID</th> */}
-															<th className="testLogHeading">Execution Status</th>
-															<th className="testLogHeading">Execution At</th>
-															<th className="testLogHeading">Logs</th>	
-														</tr>
-													</thead>
-													<tbody>
-														{ testCaseList.test_case_log_list && testCaseList.test_case_log_list.map(testCaseLog => (
-															<tr key={testCaseLog.test_case_log_id}>
-																{/* <td className="testLogData"></td> */}
-																<td className="testLogData">{renderStatusLabel(testCaseLog.test_execution_status)}</td>
-																<td className="testLogData">{testCaseLog.executed_at}</td>
-																<td className={classes.caseLog} onClick={e => viewTestCaseLogs(testCaseLog.test_case_log_id, testCaseList.test_class_name)}>
-																	<i className="far fa-sticky-note logsIcon"></i>
-																</td>
+												{ testCaseList.test_case_log_list && testCaseList.test_case_log_list.length > 0 ?
+													<Table striped bordered hover size="sm" id="RoundedTable">
+														<thead>
+															<tr>
+																<th className="testLogHeading">Execution Status</th>
+																<th className="testLogHeading">Execution At</th>
+																<th className="testLogHeading">Logs</th>	
 															</tr>
-														))}
-													</tbody>
-												</Table>
+														</thead>
+														<tbody>
+															{ testCaseList.test_case_log_list && testCaseList.test_case_log_list.map(testCaseLog => (
+																<tr key={testCaseLog.test_case_log_id}>
+																	<td className="testLogData">{renderStatusLabel(testCaseLog.test_execution_status)}</td>
+																	<td className="testLogData">{testCaseLog.executed_at}</td>
+																	<td className={classes.caseLog} onClick={e => viewTestCaseLogs(testCaseLog.test_case_log_id, testCaseList.test_class_name)}>
+																		<i className="far fa-sticky-note logsIcon"></i>
+																	</td>
+																</tr>
+															))}
+														</tbody>
+													</Table>
+												: <span className="red">No Logs found.</span> }		
 											</div>
 										</ExpansionPanelDetails>
 									</ExpansionPanel>

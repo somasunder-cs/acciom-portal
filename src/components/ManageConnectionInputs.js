@@ -3,16 +3,6 @@ import { Panel, Button, Table } from 'react-bootstrap';
 
 export default function ManageConnectionInputs(props) {
 	console.log('FormControlLabelPosition ', props);
-	// const [value, setValue] = React.useState('source');
-
-	// function handleConnectionChange(event) {
-	// 	// setValue(event.target.value);
-	// 	props.
-	// };
-
-	// function handleManageConnectionCaseUpdate(val) {
-	// 	console.log("handleManageConnectionCaseUpdate.state", val);
-	// };
 
 	return (
 		<Table className="manageConnection">

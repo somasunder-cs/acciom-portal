@@ -7,6 +7,7 @@ import {
 
 const initialState = {
 	dbDetailsList: [],
+	selectedDbDetails: null, 
 	updatedDbDetails: false
 };
 
@@ -31,7 +32,7 @@ const dbDetailsData = (state = initialState, action) => {
 	case GET_DB_DETAILS_BY_ID_SUCCESS:
 		return {
 			...state,
-			dbDetailsList: action.dbDetails
+			selectedDbDetails: action.selectedDbDetails
 		};
 		
 	default:

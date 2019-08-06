@@ -112,6 +112,7 @@ const testSuites = (state = initialState, action) => {
 		};
 	
 	case UPDATE_TEST_CASE_SUCCESS:
+		state.showTestCaseEditEnabled = false;
 		return {
 			...state,
 			testCase : {
