@@ -286,9 +286,9 @@ export const updateTestCase = (body) => dispatch => {
 	// }, TIMEOUT);
 
 	fetch(`${BASE_URL}/edit-test-case/`, {
-		method: 'post',
+		method: 'put',
 		headers,
-		body
+		body: JSON.stringify(body)
 	})
 		.then(res => res.json())
 		.then(res => {
@@ -303,27 +303,40 @@ export const updateTestCase = (body) => dispatch => {
 };
 
 export const updateConnections = (body) => (dispatch) => {
-	setTimeout(() => {
-		dispatch(selectConnectionsSuccess());
-	}, TIMEOUT);
+	// setTimeout(() => {
+	// 	dispatch(selectConnectionsSuccess());
+	// }, TIMEOUT);
+	// const _headers = new Headers({'Authorization': headers.Authorization});
+	// const _headers = {...headers, 'Content-Type': 'multipart/form-data'};
+    // body = {
+	// 	"connection_reference":"source",
+	// 	"case_id_list":"[1,2]",
+	// "db_connection_id":"2"
+	// }
 
-	// const customHeaders = {...headers, 'Content-Type': 'multipart/form-data'};
+	// body = new FormData();
+	// body.append('connection_reference',"source" );
+	// body.append('case_id_list',"[1,2]" );
+	// body.append('db_connection_id',"2" );
+	
+	// const _headers = new Headers({'Authorization': headers.Authorization});
+	// _headers['Content-Type'] = 'multipart/form-data';
 
-	// fetch(`${BASE_URL}/select-connection`, {
-	// 	method: 'post',
-	// 	headers,
-	// 	body
-	// })
-	// 	.then(res => res.json())
-	// 	.then(res => {
-	// 		if(res.error) {
-	// 			dispatch(selectConnectionsError(res.error));
-	// 		}
-	// 		dispatch(selectConnectionsSuccess(res.data));
-	// 	})
-	// 	.catch(error => {
-	// 		dispatch(selectConnectionsError(error));
-	// 	});
+	fetch(`${BASE_URL}/select-connection`, {
+		method: 'post',
+		headers,//: _headers,
+		body:JSON.stringify(body)
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(selectConnectionsError(res.error));
+			}
+			dispatch(selectConnectionsSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(selectConnectionsError(error));
+		});
 };
 
 export const getTestCaseLogById = (logID, testCaseName) => dispatch => {

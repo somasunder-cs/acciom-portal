@@ -174,7 +174,7 @@ class TestCaseDetails extends React.Component {
 												</td>
 												<td>
 													<FormGroup>
-														<FormControl type="textbox" name="sourceTable"  value={this.state.formData.sourcetable} onChange={this.handleInputChange}/>
+														<FormControl type="textbox" name="sourceTable"  value={this.state.formData.src_table} onChange={this.handleInputChange}/>
 													</FormGroup>
 												</td>
 											</tr>
@@ -182,7 +182,7 @@ class TestCaseDetails extends React.Component {
 												<td className="manageConnectionLabel"><label className="testViewDataLabel">Target Table:</label></td>
 												<td>
 													<FormGroup>
-														<FormControl type="textbox" name="targetTable" value={this.state.formData.targettable} onChange={this.handleInputChange}/>
+														<FormControl type="textbox" name="targetTable" value={this.state.formData.target_table} onChange={this.handleInputChange}/>
 													</FormGroup>
 												</td>
 											</tr>
@@ -228,11 +228,11 @@ class TestCaseDetails extends React.Component {
 									<tbody>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Connection:</label></td>
-											<td>{this.props.viewTestCase.src_db_name}</td>
+											<td>{this.props.viewTestCase.src_connection_name}</td>
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Target Connection:</label></td>
-											<td>{this.props.viewTestCase.target_db_name}</td>
+											<td>{this.props.viewTestCase.target_connection_name}</td>
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Table:</label></td>
@@ -259,10 +259,6 @@ class TestCaseDetails extends React.Component {
 							}
 						</Modal.Body>
 						<Modal.Footer>
-							{/* <Button className="btn btn-primary" onClick={e => this.handleManageConnectionSave(e)}>
-							Save
-							</Button>
-							<Button className="btn btn-primary">Reset</Button> */}
 						</Modal.Footer>
 					</Modal> : null
 				}

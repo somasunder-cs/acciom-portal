@@ -44,9 +44,9 @@ const getAllDBDetailsError = error => ({
 	error
 });
 
-const getDBDetailsByIdSuccess = dbDetails => ({
+const getDBDetailsByIdSuccess = selectedDbDetails => ({
 	type: GET_DB_DETAILS_BY_ID_SUCCESS,
-	dbDetails
+	selectedDbDetails
 });
 
 const getDBDetailsByIdError = error => ({
@@ -76,8 +76,8 @@ export const addDatabaseDetails = (formData) => (dispatch) => {
 		});
 };
 
-export const updateDBDetails = (dbID, formData) => dispatch => {
-	fetch(`${BASE_URL}/db-detail/${dbID}`, {
+export const updateDBDetails = (formData) => dispatch => {
+	fetch(`${BASE_URL}/db-detail`, {
 		method: 'put',
 		headers,
 		body: formData
@@ -117,16 +117,18 @@ export const getAllDBDetails = () => dispatch => {
 };
 
 export const getDBDetailsById = (dbID) => dispatch => {
-	fetch(`${BASE_URL}/db-detail/${dbID}`, {
+	fetch(`${BASE_URL}/db-detail?db_connection_id=${dbID}`, {
 		method: 'get',
 		headers
 	})
 		.then(res => res.json())
 		.then(res => {
-			if(res.error) {
-				dispatch(getDBDetailsByIdError(res.error));
+			if (res && res.data) {
+				// console.log("====getDBDetailsById");
+				dispatch(getDBDetailsByIdSuccess(res.data));
+			} else {
+				genericErrorHandler(dispatch, res, getDBDetailsByIdError);
 			}
-			dispatch(getDBDetailsByIdSuccess(res.data.db_details));
 		})
 		.catch(error => {
 			dispatch(getDBDetailsByIdError(error));

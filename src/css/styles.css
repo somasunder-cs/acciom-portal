@@ -4434,3 +4434,8 @@ textarea {width:280px;}
     margin-top: -15px;
     color: #4f789c;
 }
+.addDBDetails {
+    color:#337ab7;
+    cursor:pointer;
+}
+

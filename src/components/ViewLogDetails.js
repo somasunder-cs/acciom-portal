@@ -254,7 +254,7 @@ class CaseLogDetails extends React.Component {
 								</tr>
 								{this.props.TestCaseLogDetails.Execution_log && this.props.TestCaseLogDetails.Execution_log['dest_log'].length > 0 ?
 								<tr>
-									<Table striped bordered hover size="sm" className="executionLog">
+									<Table className="executionLog">
 									{this.props.TestCaseLogDetails.Execution_log['dest_log'].map(log => (
 										<tr>
 											{log.map(details => (
