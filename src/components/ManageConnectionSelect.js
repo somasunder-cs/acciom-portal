@@ -68,6 +68,7 @@ function ManageConnectionSelect(props) {
 								onChange={ (e) => props.onConnectionChange(e.target.value)}
 								name="selectConnection"
 							>
+								 
 								{ props.allConnections.map(connection => (
 									connection ?
 										<option key={connection.db_connection_id} value={connection.db_connection_id}>{connection.db_connection_name}</option> : null

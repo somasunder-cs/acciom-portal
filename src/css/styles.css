@@ -4441,3 +4441,8 @@ textarea {width:280px;}
     cursor:pointer;
 }
 
+.MuiExpansionPanelSummary-root {
+    min-height: 0px !important;
+    max-height: 40px !important;
+}
+

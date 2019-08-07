@@ -47,25 +47,37 @@ const getAllTestSuitesError = testSuiteList => ({
 	testSuiteList
 });
 
-const executeTestBySuiteIdSuccess = data => ({
-	type: EXECUTE_TEST_BY_SUITE_ID_SUCCESS,
-	data
-});
+const executeTestBySuiteIdSuccess = data => {
+	toast.success("Test Suite Executed Successfully");
+	return {
+	    type: EXECUTE_TEST_BY_SUITE_ID_SUCCESS,
+		data
+	}	
+};
 
-const executeTestBySuiteIdError = error => ({
-	type: EXECUTE_TEST_BY_SUITE_ID_ERROR,
-	error
-});
+const executeTestBySuiteIdError = error => {
+	toast.error("Test Suite Execution Failed");
+	return {
+	    type: EXECUTE_TEST_BY_SUITE_ID_ERROR,
+		error
+	}		
+};
 
-const executeTestByCaseIdSuccess = data => ({
-	type: EXECUTE_TEST_BY_CASE_ID_SUCCESS,
-	data
-});
+const executeTestByCaseIdSuccess = data => {
+	toast.success("Test Case Executed Successfully");
+	return {
+	  type: EXECUTE_TEST_BY_CASE_ID_SUCCESS,
+	  data
+	} 
+};
 
-const executeTestByCaseIdError = error => ({
-	type: EXECUTE_TEST_BY_CASE_ID_ERROR,
-	error
-});
+const executeTestByCaseIdError = error => {
+	toast.error("Test Case Execution Failed");
+	return {
+	   type: EXECUTE_TEST_BY_CASE_ID_ERROR,
+	   error
+	}   
+};
 
 const getAllConnectionsSuccess = connectionsList => ({
 	type: GET_ALL_CONNECTIONS_SUCCESS,
@@ -192,6 +204,10 @@ export const executeTestBySuiteId = (suiteID) => dispatch => {
 				dispatch(executeTestBySuiteIdError(res.error));
 			}
 			dispatch(executeTestBySuiteIdSuccess(res.data));
+		// 	setTimeout(() => {
+	    //      console.log('getAllTestSuites ', getState());
+	    //      dispatch(getAllTestSuitesSuccess(_testSuitesData));
+	    //    }, TIMEOUT);
 		})
 		.catch(error => {
 			dispatch(executeTestBySuiteIdError(error));
@@ -303,25 +319,6 @@ export const updateTestCase = (body) => dispatch => {
 };
 
 export const updateConnections = (body) => (dispatch) => {
-	// setTimeout(() => {
-	// 	dispatch(selectConnectionsSuccess());
-	// }, TIMEOUT);
-	// const _headers = new Headers({'Authorization': headers.Authorization});
-	// const _headers = {...headers, 'Content-Type': 'multipart/form-data'};
-    // body = {
-	// 	"connection_reference":"source",
-	// 	"case_id_list":"[1,2]",
-	// "db_connection_id":"2"
-	// }
-
-	// body = new FormData();
-	// body.append('connection_reference',"source" );
-	// body.append('case_id_list',"[1,2]" );
-	// body.append('db_connection_id',"2" );
-	
-	// const _headers = new Headers({'Authorization': headers.Authorization});
-	// _headers['Content-Type'] = 'multipart/form-data';
-
 	fetch(`${BASE_URL}/select-connection`, {
 		method: 'post',
 		headers,//: _headers,
