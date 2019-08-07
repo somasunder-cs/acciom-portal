@@ -10,40 +10,42 @@ import {
 } from '../constants/icons';
 
 import {
-	COUNT_CHECK, NULL_CHECK, DUPLICATE_CHECK,	DDL_CHECK, DATA_VALIDATION,
-	NEW, PASS, FAIL, ERROR, INPROGRESS
+	COUNT_CHECK, NULL_CHECK, DUPLICATE_CHECK, DDL_CHECK, DATA_VALIDATION,
+	NEW, PASS, FAIL, ERROR, INPROGRESS, INPROGRESS_ID, PASS_ID, FAIL_ID, ERROR_ID, NEW_ID
 } from '../constants/common';
 
 export const renderStatusLabel = (status) => {
 	let labelColor = '';
 	let  label = '';
 	switch(status) {
-	case 0:
-	case NEW:
-		labelColor = 'blue';
-		label = 'New';
+	case INPROGRESS_ID:
+	case INPROGRESS:
+		labelColor = '#f3a563';
+		label = 'In Progress';
 		break;
-	case 1:
+
+	case PASS_ID:
 	case PASS:	
 		labelColor = 'green';
 		label = 'Pass';
 		break;
-	case 2:
+
+	case FAIL_ID:
 	case FAIL:
 		labelColor = 'red';
 		label = 'Fail';
 		break;
 
-	case 3:
-	case INPROGRESS:
-		labelColor = '#f3a563';
-		label = 'In Progress';
-		break;
-	
-	case 4:
+	case ERROR_ID:
 	case ERROR:
 		labelColor = 'red';
 		label = 'Error';
+		break;
+	
+	case NEW_ID:
+	case NEW:
+		labelColor = 'blue';
+		label = 'New';
 		break;
 
 	default:
@@ -55,30 +57,30 @@ export const renderStatusLabel = (status) => {
 export const renderStatusIcon = (status) => {
 	let iconClassName = '';
 	switch(status) {
-	case NEW:
-	case 0:
-		return 'New';
+	case INPROGRESS:
+	case INPROGRESS_ID:
+		iconClassName = ICON_STATUS_INPROGRESS;
+		break;
 		// return <img alt={status} src={icon_new} />;
 
 	case PASS:
-	case 1:
+	case PASS_ID:
 		iconClassName = ICON_STATUS_SUCCESS;
 		break;
 	
 	case FAIL:
-	case 2:
+	case FAIL_ID:
 		iconClassName = ICON_STATUS_FAIL;
 		break;
 
 	case ERROR:
-	case 3:
+	case ERROR_ID:
 		iconClassName = ICON_STATUS_ERROR;
 		break;
 	
-	case INPROGRESS:
-	case 4:
-		iconClassName = ICON_STATUS_INPROGRESS;
-		break;
+	case NEW:
+	case NEW_ID:
+		return 'New';
 
 	default:
 	}

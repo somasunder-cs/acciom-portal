@@ -8,7 +8,7 @@
 // import _db_connection_detail from '../json/db-connection-detail.json';
 // import test_case_detail_by_suit_id from '../json/test_case_detail_by_suit_id.json';
 // import _select_connection_post from '../json/select_connection_post.json';
-
+import { toast } from 'react-toastify';
 import { BASE_URL, headers, TIMEOUT } from './appActions';
 import { 
 	GET_ALL_TEST_SUITES_SUCCESS,
@@ -34,7 +34,7 @@ import {
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_ERROR,
 	UPDATE_TEST_CASE_SUCCESS,
-	UPDATE_TEST_CASE_ERROR,
+	UPDATE_TEST_CASE_ERROR
 } from "../constants/ActionTypes"; 
 
 const getAllTestSuitesSuccess = data => ({

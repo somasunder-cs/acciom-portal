@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Panel, Button, Table } from 'react-bootstrap';
+import { Panel, Button, Table, Tabs, Tab } from 'react-bootstrap';
 
 import { 
 	onTestSuiteSheetSelect, 
@@ -12,10 +12,31 @@ import {
 	resetTestSuiteUploadData 
 } from '../actions/testSuiteUploadActions';
 
+const TAB_UPLOAD_FILE = 1;
+const TAB_UPLOAD_SHEET = 2;
+const TAB_UPLOAD_CASES = 3;
+
 class TestSuiteUpload extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			key: TAB_UPLOAD_FILE
+		};
+	}
 
 	componentDidMount() {
 		this.props.resetTestSuiteUploadData();
+	}
+
+	static getDerivedStateFromProps = (nextProps, prevState) => {
+		let newState = prevState;
+		if (prevState.key === TAB_UPLOAD_FILE && nextProps.pages.length > 0 ) {
+			newState = { ...prevState, key: TAB_UPLOAD_SHEET };
+		} else if (prevState.key === TAB_UPLOAD_SHEET && nextProps.allCases.length > 0 ) {
+			newState = {...prevState, key: TAB_UPLOAD_CASES };
+		}
+		return newState;
 	}
 
 	render() {
@@ -73,15 +94,18 @@ class TestSuiteUpload extends React.Component {
 				});
 
 				element = (
-					<Panel className='testSuiteSheetListPanel'>
-						<Panel.Heading>Please select the sheet to be loaded</Panel.Heading>
-						<Panel.Body>
-							<div>{ sheetList } </div>
-							<div>
-								<Button bsStyle="primary" onClick={ (e) => onContinueClick()}>Load Test Cases</Button> 
-							</div>
-						</Panel.Body>
-					</Panel>
+					// <Panel className='testSuiteSheetListPanel'>
+						// <Panel.Heading>Please select the sheet to be loaded</Panel.Heading>
+						// <Panel.Body>
+					<div>
+						<h5>Please select the sheet to be loaded</h5>
+						<div>{ sheetList } </div>
+						<div>
+							<Button bsStyle="primary" onClick={ (e) => onContinueClick()}>Load Test Cases</Button> 
+						</div>
+					</div>
+						// </Panel.Body>
+					// </Panel>
 				);
 			}
 
@@ -151,25 +175,30 @@ class TestSuiteUpload extends React.Component {
 			}
 		};
 
+		const handleSelect = (key) => {
+			this.setState({ key });
+		};
+
 		return (
-			<div id="testSuiteUploadContainer">
-				<div className='testSuiteUploadOptions'>
-					<Panel className='testSuiteUploadPanel'>
-						<Panel.Heading>Upload Data Profiling</Panel.Heading>
-						<Panel.Body>
-							<div className="hideElement">
-								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
-									onChange={ (e) => handleChange(e)}/>
-							</div>
-							<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button> 
-						</Panel.Body>
-					</Panel>
-
+			<Tabs activeKey={this.state.key} onSelect={handleSelect} id="controlled-tab-example" >
+				<Tab eventKey={TAB_UPLOAD_FILE} title="Upload Data Profiling">
+					<div className='testSuiteUploadOptions'>
+						<div className="hideElement">
+							<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
+								onChange={ (e) => handleChange(e)}/>
+						</div>
+						<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button> 
+					</div>
+				</Tab>
+			
+				<Tab eventKey={TAB_UPLOAD_SHEET} title="Select Sheet">
 					{ getSheetsList() }
-				</div>
+				</Tab>
 
-				{ getTestCasesList() }
-			</div>
+				<Tab eventKey={TAB_UPLOAD_CASES} title="Select Test Cases">
+					{ getTestCasesList() }
+				</Tab>
+		  </Tabs>
 		)
 	}
 }

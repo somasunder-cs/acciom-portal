@@ -56,6 +56,7 @@ const App = (props) => (
 				<PrivateRoute path="/dashboard" authTokenExpired={props.authTokenExpired} component={Dashboard} />
 				<PrivateRoute path="/startup" authTokenExpired={props.authTokenExpired} component={Startup} />
 				<PrivateRoute path="/test_suite_upload" authTokenExpired={props.authTokenExpired} component={TestSuiteUpload} />
+				<PrivateRoute path="/add_db_details" authTokenExpired={props.authTokenExpired} component={AddDbDetails} />
 				<PrivateRoute path="/add_db_details/:id" authTokenExpired={props.authTokenExpired} component={AddDbDetails} />
 				<PrivateRoute path="/view_db_details" authTokenExpired={props.authTokenExpired} component={ViewDbDetails} />
 				<PrivateRoute path="/forgot_password" authTokenExpired={props.authTokenExpired} component={ForgotPassword} />

@@ -23,8 +23,8 @@ import {
 } from '../actions/testSuiteListActions';
 
 import icon_new from '../assets/images/icon_new.jpg';
-import { ICON_STATUS_ERROR, ICON_STATUS_FAIL, ICON_STATUS_SUCCESS } from '../constants/icons';
-import { NEW, PASS, FAIL, ERROR, INPROGRESS } from '../constants/common';
+// import { ICON_STATUS_ERROR, ICON_STATUS_FAIL, ICON_STATUS_SUCCESS } from '../constants/icons';
+import { NEW, PASS, FAIL, ERROR, INPROGRESS, INPROGRESS_ID, PASS_ID, FAIL_ID, ERROR_ID, NEW_ID } from '../constants/common';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -139,21 +139,21 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 
 	const renderTestName = (status) => {
 		switch(status) {
-		case 0:
-		case NEW:
-			return classes.statusBgBlue;
-		case 1:
-		case PASS:
-			return classes.statusBg;
-		case 2:
-		case FAIL:
-			return classes.statusBgRed;
-		case 3:
-		case ERROR:
-			return classes.statusBgRed;
-		case 4:
+		case INPROGRESS_ID:
 		case INPROGRESS:
 			return classes.statusBgOrange;
+		case PASS_ID:
+		case PASS:
+			return classes.statusBg;
+		case FAIL_ID:
+		case FAIL:
+			return classes.statusBgRed;
+		case ERROR_ID:
+		case ERROR:
+			return classes.statusBgRed;
+		case NEW_ID:
+		case NEW:
+			return classes.statusBgBlue;
 		default:
 			return '';
 		}

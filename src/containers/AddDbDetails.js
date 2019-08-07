@@ -2,21 +2,47 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { FormGroup, ControlLabel, FormControl, Button, Panel, Form, Col} from 'react-bootstrap';
 
-import { addDatabaseDetails, getDBDetailsById, updateDBDetails} from '../actions/dbDetailsActions';
+import { addDatabaseDetails, getDBDetailsById, updateDBDetails, checkDbConnection} from '../actions/dbDetailsActions';
 
 class AddDbDetails extends Component {
 
 	constructor(props) {
+		console.log('AddDbDetails constructor====>')
 		super(props);
 		this.initialiseFormState();
 	}
 
-	getInitialFormData = (db_connection_id) =>{
-		const formDataObj = {'project_id': 2};
-        if (db_connection_id) {
-			formDataObj['db_connection_id'] = db_connection_id;
+	componentDidMount() {
+		const dbTypeId = this.state.formData['db_connection_id'];
+		console.log('componentDidMount ',dbTypeId);
+		if (dbTypeId)  {
+			this.setState({isEditMode:true});
+			this.props.getDBDetailsById(dbTypeId);
 		}
-		return formDataObj;
+	}
+
+	static getDerivedStateFromProps = (nextProps, prevState) => {
+		if (prevState.loading && !prevState.selectedDbDetails && nextProps.selectedDbDetails) {
+			return {
+				...prevState,
+				formData: {
+					...prevState.formData,
+					'db_connection_name' : nextProps.selectedDbDetails.db_connection_name,
+					'db_type_name' : nextProps.selectedDbDetails.db_type_name,
+					'db_name' : nextProps.selectedDbDetails.db_name,
+					'db_hostname' : nextProps.selectedDbDetails.db_hostname,
+					'db_username' : nextProps.selectedDbDetails.db_username,
+					'db_password' : nextProps.selectedDbDetails.db_password
+				},
+				loading : false
+			};
+		} else if (!prevState.updatedDbDetails && nextProps.updatedDbDetails) {
+			nextProps.history.push('/view_db_details');
+			return {
+				...prevState
+			}
+		} 
+		return null;
 	}
 
 	initialiseFormState = () => {
@@ -27,35 +53,17 @@ class AddDbDetails extends Component {
 			formSubmitted: false, 
 			loading: true,
 			selectedDbDetails: null,
-			isEditMode: false
+			isEditMode: false,
+			updatedDbDetails:false
 		};
 	}
 	
-	static getDerivedStateFromProps = (nextProps, prevState) => {
-		if (prevState.loading && !prevState.selectedDbDetails && nextProps.selectedDbDetails) {
-			return {
-				...prevState,
-				formData: {
-					...prevState.formData,
-					'connection_name' : nextProps.selectedDbDetails.connection_name,
-					'db_type_name' : nextProps.selectedDbDetails.db_type_name,
-					'db_name' : nextProps.selectedDbDetails.db_name,
-					'db_hostname' : nextProps.selectedDbDetails.db_hostname,
-					'db_username' : nextProps.selectedDbDetails.db_username,
-					'db_password' : nextProps.selectedDbDetails.db_password
-				},
-                loading : false
-			};
+	getInitialFormData = (dbConnectionId) => {
+		const formDataObj = {'project_id': 1};
+		if (dbConnectionId) {
+			formDataObj['db_connection_id'] = dbConnectionId;
 		}
-		return null;
-	}
-
-	componentDidMount() {
-		const dbTypeId = this.state.formData['db_connection_id'];
-		if (dbTypeId)  {
-			this.setState({isEditMode:true});
-			this.props.getDBDetailsById(dbTypeId);
-		}
+		return formDataObj;
 	}
 
 	handleInputChange = ({target}) => {
@@ -84,9 +92,9 @@ class AddDbDetails extends Component {
 
 		if (errors === true){
 			if (this.state.isEditMode) {
-			  this.props.updateDBDetails(JSON.stringify(this.state.formData));
+				this.props.updateDBDetails(JSON.stringify(this.state.formData));
 			} else {
-			  this.props.addDatabaseDetails(JSON.stringify(this.state.formData));
+				this.props.addDatabaseDetails(JSON.stringify(this.state.formData));
 			}
 		} else {
 			this.setState({
@@ -95,6 +103,17 @@ class AddDbDetails extends Component {
 			});
 		}
 	};
+
+	checkConnection = () => {
+		const dbdata = this.state.formData;
+		this.props.checkDbConnection(JSON.stringify({
+			'db_type_name' : dbdata.db_type_name,
+			'db_name' : dbdata.db_name,
+			'db_hostname' : dbdata.db_hostname,
+			'db_username' : dbdata.db_username,
+			'db_password' : dbdata.db_password
+		}));
+	}
 
 	render() {
  		return (
@@ -105,7 +124,7 @@ class AddDbDetails extends Component {
 						<Form onSubmit={this.formSubmit} horizontal>
 							<FormGroup controlId="formControlsConnName">
 								<Col sm={4}><ControlLabel>Connection Name</ControlLabel></Col>
-								<Col sm={8}><FormControl value={this.state.formData.connection_name} type="text" name="connection_name" onChange={this.handleInputChange} /></Col>
+								<Col sm={8}><FormControl value={this.state.formData.db_connection_name} type="text" name="db_connection_name" onChange={this.handleInputChange} /></Col>
 							</FormGroup >
 							<FormGroup controlId="formControlsDbType">
 								<Col sm={4}><ControlLabel>Database Type</ControlLabel></Col>
@@ -125,12 +144,12 @@ class AddDbDetails extends Component {
 							</FormGroup >
 							<FormGroup controlId="formControlsPassword">
 								<Col sm={4}><ControlLabel>Password</ControlLabel></Col>
-								<Col sm={8}><FormControl value={this.state.formData.db_password} type="text" name="db_password" onChange={this.handleInputChange} /></Col>
+								<Col sm={8}><FormControl value={this.state.formData.db_password} type="password" name="db_password" onChange={this.handleInputChange} /></Col>
 							</FormGroup >
 
 							<FormGroup className="formFooter">
+								<Button type="button" bsStyle="primary" onClick={(e) => {this.checkConnection()}}>Test Connection</Button>
 								<Button type="submit" bsStyle="primary">Submit</Button>
-								<Button type="button" bsStyle="primary">Test Connection</Button>
 							</FormGroup>
 						</Form>
 					</Panel.Body>
@@ -151,7 +170,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
 	addDatabaseDetails: (data) => dispatch(addDatabaseDetails(data)),
 	getDBDetailsById: (data) => dispatch(getDBDetailsById(data)),
-	updateDBDetails: (data) => dispatch(updateDBDetails(data))	
+	updateDBDetails: (data) => dispatch(updateDBDetails(data)),
+	checkDbConnection: (data) => dispatch(checkDbConnection(data))	
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddDbDetails);

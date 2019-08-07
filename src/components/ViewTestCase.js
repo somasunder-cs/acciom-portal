@@ -174,7 +174,7 @@ class TestCaseDetails extends React.Component {
 												</td>
 												<td>
 													<FormGroup>
-														<FormControl type="textbox" name="sourceTable"  value={this.state.formData.src_table} onChange={this.handleInputChange}/>
+														<FormControl type="textbox" name="sourceTable"  value={this.state.formData.sourceTable} onChange={this.handleInputChange}/>
 													</FormGroup>
 												</td>
 											</tr>
@@ -182,7 +182,7 @@ class TestCaseDetails extends React.Component {
 												<td className="manageConnectionLabel"><label className="testViewDataLabel">Target Table:</label></td>
 												<td>
 													<FormGroup>
-														<FormControl type="textbox" name="targetTable" value={this.state.formData.target_table} onChange={this.handleInputChange}/>
+														<FormControl type="textbox" name="targetTable" value={this.state.formData.targetTable} onChange={this.handleInputChange}/>
 													</FormGroup>
 												</td>
 											</tr>

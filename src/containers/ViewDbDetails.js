@@ -42,18 +42,19 @@ class ViewDbDetails extends Component {
 			return (
 				<tr key={index}>
 					<td>{item.project_name}</td>
-					<td>{item.connection_name}</td>
+					<td>{item.db_connection_name}</td>
 					<td>{item.db_type_name}</td>
 					<td>{item.db_name}</td>
 					<td>{item.db_hostname}</td>
 					<td>{item.db_username}</td>
 					<td>
-						<Link to={`/add_db_details/${item.db_type_id}`}>
-						  <label className="addDBDetails">Edit Connection</label>
+						<Link to={`/add_db_details/${item.db_connection_id}`}>
+							<label className="addDBDetails">Edit</label>
 						</Link>
 					</td>
+					
 					{/* <td>
-					     <label>Test Connection</label>
+					 	<label>| Test</label>
 					</td> */}
 				</tr>	
 			);

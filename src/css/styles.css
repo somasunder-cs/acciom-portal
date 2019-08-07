@@ -70,7 +70,9 @@ html
 }
 
 .testSuiteUploadOptions {
-    display: inline-flex;   
+    display: inline-flex;
+    margin: 50px;
+    height: 60px;
 }
 
 .testSuiteUploadPanel Button {

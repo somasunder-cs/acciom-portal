@@ -13,6 +13,8 @@ import {
 	GET_ALL_DB_DETAILS_ERROR,
 	GET_DB_DETAILS_BY_ID_SUCCESS,
 	GET_DB_DETAILS_BY_ID_ERROR,
+	CHECK_DB_CONNECTION_SUCCESS,
+	CHECK_DB_CONNECTION_ERROR
 } from '../constants/ActionTypes'; 
 
 const addDatabaseDetailsSuccess = data =>{
@@ -60,6 +62,22 @@ const getDBDetailsByIdError = error => ({
 	type: GET_DB_DETAILS_BY_ID_ERROR,
 	error
 });
+
+const checkDbConnectionSuccess = data => {
+	toast.success('Database connection is successfull');
+	return {
+		type: CHECK_DB_CONNECTION_SUCCESS,
+		data
+	}
+};
+
+const checkDbConnectionError = error => {
+	toast.error('Database connection is unsuccessfull!!');
+	return {
+		type: CHECK_DB_CONNECTION_ERROR,
+		error
+	}
+};
 
 export const addDatabaseDetails = (formData) => (dispatch) => {
 	// setTimeout(() => {
@@ -138,5 +156,23 @@ export const getDBDetailsById = (dbID) => dispatch => {
 		})
 		.catch(error => {
 			dispatch(getDBDetailsByIdError(error));
+		});
+};
+
+export const checkDbConnection = (body) => dispatch => {
+	fetch(`${BASE_URL}/check-connection`, {
+		method: 'post',
+		headers,
+		body
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(checkDbConnectionError(res.error));
+			}
+			dispatch(checkDbConnectionSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(checkDbConnectionError(error));
 		});
 };
