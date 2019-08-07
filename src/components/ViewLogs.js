@@ -21,7 +21,7 @@ class CaseLogs extends React.Component {
 					className="ModalMargin" >
 					<Modal.Header closeButton>
 						<Modal.Title id="contained-modal-title-vcenter">
-							<label className="manageConnectionHeading">Test Suite Logs:</label>
+							<label className="manageConnectionHeading">Log Details:</label>
 						</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>

@@ -43,6 +43,10 @@ class ManageConnection extends React.Component {
 			cases.splice(cases.indexOf(value), 1);
 		}
 
+		// this.setState({
+		// 	selectedConnectionType: 'source'
+		// });
+
 		this.setState({
 			selectedCases: cases
 		});

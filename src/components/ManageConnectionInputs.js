@@ -15,6 +15,7 @@ export default function ManageConnectionInputs(props) {
 								<input
 									type="radio"
 									value="source"
+									checked="true"
 									name="connectionType"
 									onChange={ (e) => props.onChange(event.target.value)}
 								/>

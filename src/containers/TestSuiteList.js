@@ -82,25 +82,21 @@ const useStyles = makeStyles(theme => ({
 	innerPanelWidth: {width:'1080px'},
 	statusBg: {
 		fontSize: theme.typography.pxToRem(13),
-		color: 'green',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
 	statusBgBlue: {
 		fontSize: theme.typography.pxToRem(13),
-		color: 'blue',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
 	statusBgRed: {
 		fontSize: theme.typography.pxToRem(13),
-		color: 'red',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
 	statusBgOrange: {
 		fontSize: theme.typography.pxToRem(13),
-		color: '#F7861B',
 		fontWeight: 'bold',
 		flexBasis: '18.33%',
 	},
@@ -169,6 +165,14 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 		executeTestByCaseId([caseID]);
 	}
 
+	const onHover = (e) => {
+		e.currentTarget.style.color = '#337ab7';
+	};
+
+	const onHout = (e) => {
+		e.currentTarget.style.color = '';
+	};
+
 	return (
 		<div className={classes.root}>
 			{ 
@@ -180,10 +184,10 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 							aria-controls="panel1bh-content"
 							id="panel1bh-header">
 							<Typography className={classes.heading}>{testSuite.test_suite_name}</Typography>
-							<Typography className={classes.manageConnection} onClick={e => handleManageConnection(e, testSuite.test_suite_id)}>Manage Connections</Typography>
-							<Typography className={classes.suiteID}>SuiteID:{testSuite.test_suite_id}</Typography>
+							<Typography className={classes.manageConnection} onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={e => handleManageConnection(e, testSuite.test_suite_id)}>Manage Connections</Typography>
+							<Typography className={classes.suiteID}>SuiteID: {testSuite.test_suite_id}</Typography>
 							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created_at}</Typography>
-							<i className="far fa-play-circle statusPlayIcon" onClick={(e) => runTestSuite(e, testSuite.test_suite_id)} aria-hidden="true"></i>
+							<i className="far fa-play-circle statusPlayIcon" onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={(e) => runTestSuite(e, testSuite.test_suite_id)} aria-hidden="true"></i>
 						</ExpansionPanelSummary>
 
 						<ExpansionPanelDetails>
@@ -192,10 +196,10 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 									<ExpansionPanel key={testCaseList.test_case_id}>
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 											<Typography className={classes.subHeading}>{testCaseList.test_class_description}</Typography>
-											<Typography className={classes.viewConnection} onClick={e => viewTestCase(e, testCaseList.test_case_id)}>View</Typography>
+											<Typography className={classes.viewConnection} onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={e => viewTestCase(e, testCaseList.test_case_id)}>View</Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderStatusIcon(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
-											<Typography><i className="far fa-play-circle statusPlayIcon" onClick={(e) => runTestCase(e, testCaseList.test_case_id)} aria-hidden="true"></i></Typography>
+											<Typography><i className="far fa-play-circle statusPlayIcon" onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={(e) => runTestCase(e, testCaseList.test_case_id)} aria-hidden="true"></i></Typography>
 										</ExpansionPanelSummary>										
 										<ExpansionPanelDetails>
 											<div>
@@ -213,9 +217,11 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 																<tr key={testCaseLog.test_case_log_id}>
 																	<td className="testLogData">{renderStatusLabel(testCaseLog.test_execution_status)}</td>
 																	<td className="testLogData">{testCaseLog.executed_at}</td>
-																	<td className={classes.caseLog} onClick={e => viewTestCaseLogs(testCaseLog.test_case_log_id, testCaseList.test_class_name)}>
-																		<i className="far fa-sticky-note logsIcon"></i>
-																	</td>
+																	{ (testCaseLog.test_execution_status != NEW_ID && testCaseLog.test_execution_status != INPROGRESS_ID) ?
+																	  <td className={classes.caseLog} onClick={e => viewTestCaseLogs(testCaseLog.test_case_log_id, testCaseList.test_class_name)}>
+																		 <i className="far fa-sticky-note logsIcon"></i>
+																	 </td>
+																	: <td>---</td> }
 																</tr>
 															))}
 														</tbody>
