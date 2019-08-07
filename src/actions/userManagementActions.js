@@ -9,7 +9,9 @@ import {
 	UPDATE_USER_ROLES_SUCCESS, 
 	UPDATE_USER_ROLES_ERROR,
 	GET_ROLES_BY_PROJECT_ID_SUCCESS,
-	GET_ROLES_BY_PROJECT_ID_ERROR
+	GET_ROLES_BY_PROJECT_ID_ERROR,
+	RETRIVE_USER_ROLE_SUCCESS,
+	RETRIVE_USER_ROLE_ERROR
  } from "../constants/ActionTypes";
 
 const getOrganizationUserListSuccess = data => ({
@@ -62,6 +64,22 @@ const updateUserRolesError = (error) => {
 		type: UPDATE_USER_ROLES_ERROR,
 		error
 	};
+};
+
+const retriveUserRoleByUserIdSuccess = data => {
+	return {
+		type: RETRIVE_USER_ROLE_SUCCESS,
+		data
+	};
+	
+};
+
+const retriveUserRoleByUserIdError = data => {
+	return {
+		type: RETRIVE_USER_ROLE_ERROR,
+		error
+	};
+	
 };
 
 export const getOrganizationUsersList = (org_id) => (dispatch, getState) => {
@@ -119,29 +137,29 @@ export const getRolesByOrgId = (org_id) => (dispatch, getState) => {
 
 export const getRolesByProjectId = (project_id) => (dispatch, getState) => {
 	
-	setTimeout(function() {
-		dispatch(getRolesByProjectIdSuccess(_rolesListData.data));
-	}, TIMEOUT);
+	// setTimeout(function() {
+	// 	dispatch(getRolesByProjectIdSuccess(_rolesListData.data));
+	// }, TIMEOUT);
 
-	// fetch(`${BASE_URL}/role?project_id=${project_id}`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(response => response.json())
-	// 	.then(res => { 
-	// 		if (res.status !== false && res && res.data) {
-	// 			dispatch(getRolesByProjectIdSuccess(res.data));
-	// 		} else {
-	// 			genericErrorHandler(dispatch, res, getRolesByProjectIdError);
-	// 		}
-	// 	})
-	// 	.catch(err => {
-	// 		if (err.name === 'AbortError') {
-	// 			console.error('Fetch aborted');
-	// 		} else {
-	// 			console.error('Another error', err);
-	// 		}
-	// 	});
+	fetch(`${BASE_URL}/role?project_id=${project_id}`, {
+		method: 'get',
+		headers
+	})
+		.then(response => response.json())
+		.then(res => { 
+			if (res.status !== false && res && res.data) {
+				dispatch(getRolesByProjectIdSuccess(res.data));
+			} else {
+				genericErrorHandler(dispatch, res, getRolesByProjectIdError);
+			}
+		})
+		.catch(err => {
+			if (err.name === 'AbortError') {
+				console.error('Fetch aborted');
+			} else {
+				console.error('Another error', err);
+			}
+		});
 };	
 
 export const updateUserRoles = (org_id) => (dispatch, getState) => {
@@ -166,4 +184,28 @@ export const updateUserRoles = (org_id) => (dispatch, getState) => {
 				console.error('Another error', err)
 			}
 		});
-};	
+};
+
+export const retriveUserRoleByUserId = (org_id, user_id) => (dispatch, getState) => {
+	const token = localStorage.getItem('auth_token') ;
+	updateHeaders(token);
+	fetch(`${BASE_URL}/user-role?org_id=${org_id}&user_id=${user_id}`, {
+		method: 'get',
+		headers
+	})
+		.then(response => response.json())
+		.then(res => { 
+			if (res.status !== false && res && res.data) {
+				dispatch(retriveUserRoleByUserIdSuccess(res.data));
+			} else {
+				genericErrorHandler(dispatch, res, retriveUserRoleByUserIdError);
+			}
+		})
+		.catch(err => {
+			if (err.name === 'AbortError') {
+				console.error('Fetch aborted')
+			} else {
+				console.error('Another error', err)
+			}
+		});
+};
