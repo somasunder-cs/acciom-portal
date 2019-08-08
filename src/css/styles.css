@@ -4482,3 +4482,24 @@ textarea {width:280px;}
 .testSuiteList .project-switch {
     float: right;
 }
+
+.form-sheet-input {
+    margin-left: 10px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+    width: 230px;
+}
+
+.margin-title {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.margin-button {
+    margin-top: 20px;
+}
+
+.browse-button {
+    height: 35px;
+    margin-right: 10px;
+}
