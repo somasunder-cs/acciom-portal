@@ -4462,3 +4462,23 @@ textarea {width:280px;}
     max-height: 40px !important;
 }
 
+#suite-upload .pageTitle {
+    display: inline-block;
+}
+
+#suite-upload .project-switch {
+    display: inline-block;
+    float: right;
+}
+
+.viewDbDetailsForm .project-switch {
+    float: right;
+}
+
+.testSuiteList .page-header {
+    display: inline-block
+}
+
+.testSuiteList .project-switch {
+    float: right;
+}

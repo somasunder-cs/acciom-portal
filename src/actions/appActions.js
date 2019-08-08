@@ -3,7 +3,11 @@ import {
 	GET_ORGANIZATION_LIST_ERROR, 
 	AUTHENTICATION_EXPIRED,
 	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
-	GET_PROJECT_LIST_BY_ORG_ID_ERROR
+	GET_PROJECT_LIST_BY_ORG_ID_ERROR,
+	SHOW_ORG_CHANGE_PAGE,
+	SHOW_PROJECT_SWITCH_PAGE,
+	SWITCH_ORG_SUCCESS,
+	SWITCH_PROJECT_SUCCESS
 } from '../constants/ActionTypes';
 
 export const TIMEOUT = 100;
@@ -24,10 +28,12 @@ const hasStandardErrorStatus = (status) => {
 		(status >= 500 && status <= 505));
 };
 
-const getOrganizationListSuccess = data => ({
-	type: GET_ORGANIZATION_LIST_SUCCESS,
-	data: data.organization_details
-});
+const getOrganizationListSuccess = data => {
+	return {
+		type: GET_ORGANIZATION_LIST_SUCCESS,
+		data: data.organization_details
+	}
+};
 
 const getOrganizationListError = error =>({
 	type: GET_ORGANIZATION_LIST_ERROR,
@@ -36,7 +42,7 @@ const getOrganizationListError = error =>({
 
 const getProjectListByOrgIdSuccess = data => ({
 	type: GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
-	data
+	data : data.projects_under_organization
 });
 
 const getProjectListByOrgIdError = error => ({
@@ -44,8 +50,23 @@ const getProjectListByOrgIdError = error => ({
 	error
 });
 
+const updateSelectedOrgSuccess = data => ({
+	type: SWITCH_ORG_SUCCESS,
+	data
+});
+
+const updateSelectedProjectSuccess = data => ({
+	type: SWITCH_PROJECT_SUCCESS,
+	data
+});
+
 export const showOrgChangePage = show =>({
-	type: 'SHOW_ORG_CHANGE_PAGE',
+	type: SHOW_ORG_CHANGE_PAGE,
+	show
+});
+
+export const showProjectSwitchPage = show =>({
+	type: SHOW_PROJECT_SWITCH_PAGE,
 	show
 });
 
@@ -76,6 +97,9 @@ export const getOrganizationsList = () => (dispatch, getState) => {
 		.then(res => { 
 			if (res.status !== false && res && res.data) {
 				dispatch(getOrganizationListSuccess(res.data));
+				
+				const defaultOrg = res.data.organization_details[0];
+				dispatch(getProjectListByOrgId(defaultOrg.org_id));
 			} else {
 				genericErrorHandler(dispatch, res, getOrganizationListError);
 			}
@@ -90,27 +114,36 @@ export const getOrganizationsList = () => (dispatch, getState) => {
 };
 
 export const getProjectListByOrgId = (org_id) => (dispatch, getState) => {
-	setTimeout(() => {
-		dispatch(getProjectListByOrgIdSuccess(_projectListByOrgIdData.data));
-	}, TIMEOUT);
+	// setTimeout(() => {
+	// 	dispatch(getProjectListByOrgIdSuccess(_projectListByOrgIdData.data));
+	// }, TIMEOUT);
 
-	// fetch(`${BASE_URL}/project?org_id=${org_id}`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(response => response.json())
-	// 	.then(res => { 
-	// 		if (res.status !== false && res && res.data) {
-	// 			dispatch(getProjectListByOrgIdSuccess(res.data));
-	// 		} else {
-	// 			genericErrorHandler(dispatch, res, getProjectListByOrgIdError);
-	// 		}
-	// 	})
-	// 	.catch(err => {
-	// 		if (err.name === 'AbortError') {
-	// 			console.error('Fetch aborted');
-	// 		} else {
-	// 			console.error('Another error', err);
-	// 		}
-	// 	});
+	fetch(`${BASE_URL}/project?org_id=${org_id}`, {
+		method: 'get',
+		headers
+	})
+		.then(response => response.json())
+		.then(res => { 
+			if (res.status !== false && res && res.data) {
+				dispatch(getProjectListByOrgIdSuccess(res.data));
+			} else {
+				genericErrorHandler(dispatch, res, getProjectListByOrgIdError);
+			}
+		})
+		.catch(err => {
+			if (err.name === 'AbortError') {
+				console.error('Fetch aborted');
+			} else {
+				console.error('Another error', err);
+			}
+		});
+};
+
+export const updateSelectedOrganization = (org) => (dispatch, getState) => {
+	dispatch(updateSelectedOrgSuccess(org));
+	dispatch(getProjectListByOrgId(org.org_id));
+};
+
+export const updateSelectedProject = (project) => (dispatch, getState) => {
+	dispatch(updateSelectedProjectSuccess(project));
 };

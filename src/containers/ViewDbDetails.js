@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Panel, Table, Button} from 'react-bootstrap';
 
+import { showProjectSwitchPage } from '../actions/appActions';
 import { getAllDBDetails } from '../actions/dbDetailsActions';
 
 class ViewDbDetails extends Component {
@@ -10,20 +11,16 @@ class ViewDbDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isOrganisationInitialised: false
+			refreshDBDetails: false
 		};
 	}	
 
 	static getDerivedStateFromProps = (nextProps, prevState) => {
-		if (!prevState.isOrganisationInitialised && 
-			nextProps.isOrganisationInitialised > 0) {
-			
-			const projectId = 1; //TODO:  remove hardcoded value after project switch is implemented
-			nextProps.getAllDBDetails(projectId);
+		if (nextProps.refreshDBDetails) {
+			nextProps.getAllDBDetails(nextProps.currentProject.project_id);
 		}
-		return ({
-			isOrganisationInitialised: nextProps.isOrganisationInitialised
-		});
+
+		return null;
 	}
 
 	handleInputChange = ({target}) => {
@@ -36,6 +33,10 @@ class ViewDbDetails extends Component {
 			formData
 		});
 	}
+
+	handleSwitchProject = () => {
+		this.props.showProjectSwitchPage(true);
+	};
 
 	renderDBDetailsList = (dbDetailsList) => {
 		return dbDetailsList.map((item, index) => {
@@ -52,10 +53,6 @@ class ViewDbDetails extends Component {
 							<label className="addDBDetails">Edit</label>
 						</Link>
 					</td>
-					
-					{/* <td>
-					 	<label>| Test</label>
-					</td> */}
 				</tr>	
 			);
 		});
@@ -66,6 +63,7 @@ class ViewDbDetails extends Component {
 			 
 			<div className="viewDbDetailsForm">
 				<div className='btnContainer'>
+					<div className='project-switch'><Button bsStyle="primary" onClick={ (e) => this.handleSwitchProject()}>Switch Project</Button> </div>
 					<Link to={`/add_db_details`}>
 						<Button className="addDbBtn" type="button" bsStyle="primary"> Add DB Details </Button>
 					</Link>
@@ -98,12 +96,14 @@ class ViewDbDetails extends Component {
 const mapStateToProps = (state) => {
 	return {
 		dbDetailsList: state.dbDetailsData.dbDetailsList?state.dbDetailsData.dbDetailsList: [],
-		isOrganisationInitialised: state.appData.isOrganisationInitialised
+		refreshDBDetails: state.dbDetailsData.refreshDBDetails,
+		currentProject: state.appData.currentProject
 	};
 };
 
 const mapDispatchToProps = dispatch => ({
-	getAllDBDetails: () => dispatch(getAllDBDetails())
+	getAllDBDetails: (data) => dispatch(getAllDBDetails(data)),
+	showProjectSwitchPage: (data) => dispatch(showProjectSwitchPage(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewDbDetails);

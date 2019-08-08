@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Panel, Button, Table, Tabs, Tab } from 'react-bootstrap';
-
+import { showProjectSwitchPage } from '../actions/appActions';
 import { 
 	onTestSuiteSheetSelect, 
 	testCaseSelectionChange, 
@@ -179,26 +179,36 @@ class TestSuiteUpload extends React.Component {
 			this.setState({ key });
 		};
 
-		return (
-			<Tabs activeKey={this.state.key} onSelect={handleSelect} id="controlled-tab-example" >
-				<Tab eventKey={TAB_UPLOAD_FILE} title="Upload Data Profiling">
-					<div className='testSuiteUploadOptions'>
-						<div className="hideElement">
-							<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
-								onChange={ (e) => handleChange(e)}/>
-						</div>
-						<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button> 
-					</div>
-				</Tab>
-			
-				<Tab eventKey={TAB_UPLOAD_SHEET} title="Select Sheet">
-					{ getSheetsList() }
-				</Tab>
+		const handleSwitchProject = () => {
+			this.props.showProjectSwitchPage(true);
+		};
 
-				<Tab eventKey={TAB_UPLOAD_CASES} title="Select Test Cases">
-					{ getTestCasesList() }
-				</Tab>
-		  </Tabs>
+		return (
+			<div id="suite-upload">
+				<div>
+					<h4 className='pageTitle'>Update Data Profiling</h4>
+					<div className='project-switch'><Button bsStyle="primary" onClick={ (e) => handleSwitchProject()}>Switch Project</Button> </div>
+				</div>
+				<Tabs activeKey={this.state.key} onSelect={handleSelect} id="controlled-tab-example" >
+					<Tab eventKey={TAB_UPLOAD_FILE} title="Upload Data Profiling">
+						<div className='testSuiteUploadOptions'>
+							<div className="hideElement">
+								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
+									onChange={ (e) => handleChange(e)}/>
+							</div>
+							<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button> 
+						</div>
+					</Tab>
+				
+					<Tab eventKey={TAB_UPLOAD_SHEET} title="Select Sheet">
+						{ getSheetsList() }
+					</Tab>
+
+					<Tab eventKey={TAB_UPLOAD_CASES} title="Select Test Cases">
+						{ getTestCasesList() }
+					</Tab>
+				</Tabs>
+			</div>
 		)
 	}
 }
@@ -219,7 +229,8 @@ const mapDispatchToProps = dispatch => ({
 	uploadTestCases: (data) => dispatch(uploadTestCases(data)),
 	testCaseSelectionChange: (data) => dispatch(testCaseSelectionChange(data)),
 	testCaseSelectAllToggle: () => dispatch(testCaseSelectAllToggle()),
-	resetTestSuiteUploadData: () => dispatch(resetTestSuiteUploadData())
+	resetTestSuiteUploadData: () => dispatch(resetTestSuiteUploadData()),
+	showProjectSwitchPage: (data) => dispatch(showProjectSwitchPage(data))
 });
 
 export default connect(

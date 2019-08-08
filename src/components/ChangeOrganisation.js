@@ -1,58 +1,96 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, FormGroup, ControlLabel, FormControl, Col } from 'react-bootstrap';
-import { showOrgChangePage } from '../actions/appActions';
+import { showOrgChangePage, updateSelectedOrganization } from '../actions/appActions';
 
-const handleShowOrg  = (isShow) => {
-	this.props.showOrgChangePage(isShow);
-};
+class ChangeOrganisation extends React.Component {
 
-const onChangeOrgSubmit = () => {
-	console.log('onChangeOrgSubmit ===>');
-};
+	constructor(props) {
+		super(props);
+		this.state = {
+			selectedOrgId: ''
+		};
+	}
 
-function ChangeOrganisation ({isOrgChangePageVisible}) {
+	componentDidMount() {
+		this.setState({selectedOrgId: this.props.currentOrg.org_id});
+	}
 
-	return (
-		<Modal id="orgChangeModal" show={isOrgChangePageVisible} 
-			onHide={(event) => { handleShowOrg(false);}} container={this}
-			aria-labelledby="contained-modal-title">
-			<Modal.Header closeButton>
-				<Modal.Title id="contained-modal-title">
-					Change Organisation
-				</Modal.Title>
-			</Modal.Header>
+	render () {
+		
+		const renderOrgListOptions = () => {
+			let options = null;
+			options = this.props.orgList.map((org) => {
+				return (<option value={org.org_id}>{org.org_name}</option>);
+			});
+			return options;
+		};
 
-			<Modal.Body>
-				<form onSubmit={onChangeOrgSubmit}> 
-					<FormGroup controlId="organisation">
-						<Col sm={6}><ControlLabel>Select the organisation to be changed</ControlLabel></Col>
-						<Col sm={6}>
-							<FormControl componentClass="select" placeholder="select">
-								<option value="select">select</option>
-								<option value="other">...</option>
-							</FormControl>
-						</Col>
-					</FormGroup >
-					<FormGroup controlId="submit" className="submitBtn">
-						<Button type="submit" bsStyle="primary">Sign-In</Button>
-					</FormGroup>
-				</form>
-			</Modal.Body>
-		</Modal>
-	);
+		const handleShowOrg  = (isShow) => {
+			this.props.showOrgChangePage(isShow);
+		};
+		
+		const handleOrgChange = (e) => {
+			this.setState({selectedOrgId: e.target.value});
+		};
+
+		const onChangeOrgSubmit = (e) => {
+			e.preventDefault();
+			// 
+			let selectedOrg = null;
+			for(let i = 0; i <  this.props.orgList.length; i += 1) {
+				if(Number(this.props.orgList[i]['org_id']) === Number(this.state.selectedOrgId)) {
+					selectedOrg = this.props.orgList[i];
+					break;
+				}
+			}
+			this.props.updateSelectedOrganization(selectedOrg);
+		};
+
+		return (
+			<Modal id="orgChangeModal" show={this.props.isOrgChangePageVisible} 
+				onHide={(event) => { handleShowOrg(false);}} container={this}
+				aria-labelledby="contained-modal-title">
+
+				<Modal.Header closeButton>
+					<Modal.Title id="contained-modal-title">
+						Change Organisation
+					</Modal.Title>
+				</Modal.Header>
+
+				<Modal.Body>
+					<form onSubmit={(e) => onChangeOrgSubmit(e)}> 
+						<FormGroup controlId="organisation">
+							<Col sm={6}><ControlLabel>Select the organisation to be changed</ControlLabel></Col>
+							<Col sm={6}>
+								<FormControl componentClass="select" placeholder="select" value={this.state.selectedOrgId} onChange = {(e) => handleOrgChange(e)}>
+									{ renderOrgListOptions() }
+								</FormControl>
+							</Col>
+						</FormGroup >
+						<FormGroup controlId="submit" className="submitBtn">
+							<Button type="submit" bsStyle="primary">Save</Button>
+						</FormGroup>
+					</form>
+				</Modal.Body>
+			</Modal>
+		);
+	}
 }
 
 const mapStateToProps = (state) => {
 	return {
-		isOrgChangePageVisible: state.appData.isOrgChangePageVisible
-	}
+		isOrgChangePageVisible: state.appData.isOrgChangePageVisible,
+		orgList: state.appData.organizationList,
+		currentOrg: state.appData.currentOrg
+	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		showOrgChangePage: (data) => dispatch(showOrgChangePage(data))
+		showOrgChangePage: (data) => dispatch(showOrgChangePage(data)),
+		updateSelectedOrganization: (data) => dispatch(updateSelectedOrganization(data)),
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChangeOrganisation);
+export default connect(mapStateToProps, mapDispatchToProps) (ChangeOrganisation);

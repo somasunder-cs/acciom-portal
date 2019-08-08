@@ -119,12 +119,12 @@ export const updateDBDetails = (formData) => dispatch => {
 		});
 };
 
-export const getAllDBDetails = () => dispatch => {
+export const getAllDBDetails = (projectId) => dispatch => {
 	// setTimeout(() => {
 	// 	dispatch(getAllDBDetailsSuccess(_db_details_list_success.data));
 	// }, TIMEOUT);
 
-	fetch(`${BASE_URL}/db-detail?project_id=1`, {
+	fetch(`${BASE_URL}/db-detail?project_id=${projectId}`, {
 		method: 'get',
 		headers
 	})

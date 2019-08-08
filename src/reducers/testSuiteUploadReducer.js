@@ -5,7 +5,8 @@ import {
 	UPLOAD_TESTCASES_SUCCESS,
 	TEST_CASE_SELECTION_CHANGE,
 	TEST_CASE_SELECT_ALL_TOGGLE,
-	RESET_TEST_SUITE_UPLOAD_DATA
+	RESET_TEST_SUITE_UPLOAD_DATA,
+	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -97,6 +98,11 @@ const testSuiteUploadData = (state = initialState, action) => {
 	
 	case RESET_TEST_SUITE_UPLOAD_DATA:
 		return initialState;
+	
+	// case GET_PROJECT_LIST_BY_ORG_ID_SUCCESS:
+	// 	return {
+	// 		...state,
+	// 	};
 
 	default:
 		return state;

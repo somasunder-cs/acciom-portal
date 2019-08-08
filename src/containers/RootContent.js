@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import ChangeOrganisation from '../components/ChangeOrganisation';
+import SwitchProject from '../components/SwitchProject';
 import { getOrganizationsList } from '../actions/appActions';
 import { checkAuthentication } from '../actions/loginActions';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,14 +35,25 @@ class RootContent extends Component {
 	render() {
 		return (<div>
 			<ToastContainer containerId='generic-toaste' autoClose={4000} />
-			<ChangeOrganisation />
+			
+			{ this.props.isOrgChangePageVisible ?
+				<ChangeOrganisation />
+				: null 
+			}
+
+			{ this.props.isProjectSwitchPageVisible ?
+				<SwitchProject />
+				: null 
+			}
 		</div>);
 	}
 }
 
 const mapStateToProps = (state) => {
 	return {
-		loginData: state.loginData
+		loginData: state.loginData,
+		isOrgChangePageVisible: state.appData.isOrgChangePageVisible,
+		isProjectSwitchPageVisible: state.appData.isProjectSwitchPageVisible
 	};
 };
 

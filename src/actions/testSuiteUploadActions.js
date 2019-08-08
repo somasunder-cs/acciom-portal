@@ -220,8 +220,8 @@ export const uploadTestCases = (executeValue) => (dispatch, getState) => {
 		// this.all_cases=[];    
 		// this.initialisecases();
 	//   });
-
-	const body = getPostFilePayloadData(testSuiteFile, selectedSheet, selectedTestCases, suiteName, executeValue);
+	const currentProject = getState().appData.currentProject;
+	const body = getPostFilePayloadData(testSuiteFile, selectedSheet, selectedTestCases, suiteName, executeValue, currentProject.project_id);
 	const _headers = new Headers({'Authorization': headers.Authorization});
 	_headers['Content-Type'] = 'multipart/form-data; boundary=--------------------------451144711431384317288556';
 
