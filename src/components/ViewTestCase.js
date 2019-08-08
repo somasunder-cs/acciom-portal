@@ -215,7 +215,7 @@ class TestCaseDetails extends React.Component {
 											<tr>
 												<td className="manageConnectionLabel"></td>
 												<td>
-													<Button className="btn btn-primary" onClick={e => this.handleTestCaseUpdate(e)}>
+													<Button className="btn btn-primary viewUpdateBtn" onClick={e => this.handleTestCaseUpdate(e)}>
 														Update
 													</Button>
 												</td>

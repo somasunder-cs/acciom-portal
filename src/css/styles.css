@@ -4124,8 +4124,15 @@ html
     padding: 10px 6px 6px 10px !important;
 }
 
-.ModalMargin {
-    margin-top: 80px !important;
+textarea {
+    padding: 0px !important;
+}
+.viewUpdateBtn {
+    margin-left: 85px;
+}
+
+.ModalMargin, .caseLogMargin {
+    margin-top: 60px !important;
 }
 
 .modal-body {
@@ -4163,6 +4170,15 @@ html
     flex-basis: 33.33%;
     flex-shrink: 0;
     font-weight: bold;
+}
+
+#viewLogDetails .executionLog td, th {
+    border: 1px solid #ddd;
+}
+
+.caseLogMargin .modal-content {
+    width: 750px;
+    overflow-x: scroll;
 }
 
 .executionLog {

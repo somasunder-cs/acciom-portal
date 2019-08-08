@@ -106,11 +106,11 @@ class CaseLogDetails extends React.Component {
 			if (name === COUNT_CHECK) {
 				message = 'Source and Target Records Count do not Match.';
 			} else if (name === DUPLICATE_CHECK) {
-				message = 'Duplicate rows found in Target Table.';
+				message = 'Duplicates Found.';
 			} else if (name === NULL_CHECK) {
-				message = 'Null values found in Target Table.';
+				message = 'Records found with Null value(s).';
 			} else if (name === DDL_CHECK || name === DATA_VALIDATION) {
-				message = 'Source and Target Schema do not Match.';
+				message = "Source and Target Schema didn't Match.";
 			}
 		}
 		return message;
@@ -186,39 +186,27 @@ class CaseLogDetails extends React.Component {
 								</tr>
 								<tr>
 									<td className="testCaseLogLabel">
-										<label className="testViewDataLabel">Result: </label>&nbsp;&nbsp;
-										<label className="resultLog">
-											{renderStatusLabel(this.props.TestCaseLogDetails.Execution_status)}
-										</label>&nbsp;&nbsp;
-										{ renderStatusIcon(this.props.TestCaseLogDetails.Execution_status) }
-									</td>
-								</tr>
-								<tr>
-									<td className="testCaseLogMessage">
-										
-											<label className="testViewDataLabel">
-												{ this.props.TestCaseLogDetails.Execution_log ?
-													<span className="red">{this.props.TestCaseLogDetails.Execution_log['Duplicate_count']}&nbsp;</span>
+										<label className="testViewDataLabel">Result: </label>
+										<label className="testViewDataLabel">
+											{ this.props.TestCaseLogDetails.Execution_log ?
+												<span className="red">{this.props.TestCaseLogDetails.Execution_log['Duplicate_count']}&nbsp;</span>
 													: null
-												}
-												{this.handleMessage(this.props.TestCaseLogDetails.Execution_status, this.props.testCaseName)} 
-											</label>
-											
+											}
+											{this.handleMessage(this.props.TestCaseLogDetails.Execution_status, this.props.testCaseName)} 
+										</label>
 									</td>
 								</tr>
 								{ this.props.TestCaseLogDetails.Execution_log && this.props.TestCaseLogDetails.Execution_log['dest_execution_log'].length > 0 ?
 								<tr>
-									<Table striped bordered hover size="sm" className="executionLog">
+									<Table className="executionLog">
 										{
 											this.props.TestCaseLogDetails.Execution_log['dest_execution_log'].map(log => (
 											<tr>
 												{log.map(details => (
-													<td className="testCaseLogLabel">
-														<label className="testViewDataLabel">{details}</label>
-													</td>
+													<td className="testCaseLogLabel">{details}</td>
 												))}
 											</tr>
-											))
+											))											
 										}
 									</Table>
 									</tr>
@@ -238,17 +226,8 @@ class CaseLogDetails extends React.Component {
 								<tr>
 									<td className="testCaseLogLabel">
 										<label className="testViewDataLabel">Result: </label>&nbsp;&nbsp;
-										<label className="resultLog">
-											{renderStatusLabel(this.props.TestCaseLogDetails.Execution_status)}
-										</label>&nbsp;&nbsp;
-										{ renderStatusIcon(this.props.TestCaseLogDetails.Execution_status) }
-									</td>
-								</tr>
-								<tr>
-									<td className="testCaseLogMessage">
-										<label className="testViewDataLabel">
-											{ this.props.TestCaseLogDetails.Execution_log ?
-												<span className="red">{this.props.TestCaseLogDetails.Execution_log['Null_count']} &nbsp;</span>
+										<label className="resultLog"> Total { this.props.TestCaseLogDetails.Execution_log ?
+												<span className="red">{this.props.TestCaseLogDetails.Execution_log['Null_count']}&nbsp;</span>
 											: null }
 											{this.handleMessage(this.props.TestCaseLogDetails.Execution_status, this.props.testCaseName)} 
 										</label>
@@ -260,7 +239,7 @@ class CaseLogDetails extends React.Component {
 									{this.props.TestCaseLogDetails.Execution_log['dest_log'].map(log => (
 										<tr>
 											{log.map(details => (
-												<td className="testCaseLogLabel">
+												<td className="testCaseLogLabel" nowrap>
 													<label className="testViewDataLabel">{details}</label>
 												</td>
 											))}	
@@ -346,22 +325,24 @@ class CaseLogDetails extends React.Component {
 										</label>
 									</td>
 								</tr>
-
-								<tr>
-									<td className="testCaseLogMessage">
-										<label className="testViewDataLabel">
-											Number of Mismatch Records found in Source : <span className="red">{this.props.TestCaseLogDetails.Execution_log['src_to_dest_count']}</span> 
-										</label>
-									</td>
-								</tr>
-
-								<tr>
-									<td className="testCaseLogMessage">
-										<label className="testViewDataLabel">
-											Number of Mismatch Records found in Target : <span className="red">{this.props.TestCaseLogDetails.Execution_log['dest_to_src_count']}</span> 
-										</label>
-									</td>
-								</tr>
+								{this.props.TestCaseLogDetails.Execution_log ?		
+									<tr>
+										<td className="testCaseLogMessage">
+											<label className="testViewDataLabel">
+												Number of Mismatch Records found in Source : <span className="red">{this.props.TestCaseLogDetails.Execution_log['src_to_dest_count']}</span> 
+											</label>
+										</td>
+									</tr>
+								 : null }
+								 {this.props.TestCaseLogDetails.Execution_log ?	
+									<tr>
+										<td className="testCaseLogMessage">
+											<label className="testViewDataLabel">
+												Number of Mismatch Records found in Target : <span className="red">{this.props.TestCaseLogDetails.Execution_log['dest_to_src_count']}</span> 
+											</label>
+										</td>
+									</tr>
+								: null }	
 							</tbody>
 						</Table> 
 						: 'No Logs Found!' }
