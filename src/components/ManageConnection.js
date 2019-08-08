@@ -12,7 +12,7 @@ class ManageConnection extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedConnectionType:null,
+			selectedConnectionType: 'source',
 			selectedConnection: '',
 			selectedCases: []
 		};
@@ -88,7 +88,7 @@ class ManageConnection extends React.Component {
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<ManageConnectionInputs onChange={this.handleConnectionTypeChange}></ManageConnectionInputs>
+					<ManageConnectionInputs selectedConnectionType={this.state.selectedConnectionType}  onChange={this.handleConnectionTypeChange}></ManageConnectionInputs>
 					<ManageConnectionSelect 
 						selectedConnection={this.state.selectedConnection} 
 						selectedCases={this.state.selectedCases}

@@ -105,7 +105,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseDetailBySuiteId, getTestCaseLogById, 
-	getTestCaseByTestCaseId, executeTestBySuiteId, executeTestByCaseId}) {
+	getTestCaseByTestCaseId, executeTestBySuiteId, executeTestByCaseId, showConnectionsDialog }) {
 
 	const classes = useStyles();
 	const [expanded, setExpanded] = React.useState(false);	
@@ -237,7 +237,11 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 					</ExpansionPanel>
 				)) : null
 			}
-			<ManageConnection></ManageConnection>
+			{ 
+				showConnectionsDialog ?
+					<ManageConnection></ManageConnection>
+				: null
+			}
 			<ViewTestCase></ViewTestCase>
 			<ViewLogs></ViewLogs>
 		</div>
@@ -246,7 +250,8 @@ function ControlledExpansionPanels({ testSuites, getAllConnections, getTestCaseD
 
 const mapStateToProps = (state) => {
 	return {
-		testSuites: state.testSuites.testSuiteList? state.testSuites.testSuiteList: []
+		testSuites: state.testSuites.testSuiteList? state.testSuites.testSuiteList: [],
+		showConnectionsDialog: state.testSuites.connectionsList.showConnectionsDialog
 	};
 };
 

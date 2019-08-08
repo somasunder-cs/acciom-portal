@@ -18,7 +18,7 @@ class CaseLogs extends React.Component {
 					size="lg"
 					aria-labelledby="contained-modal-title-vcenter"
 					onHide={this.handleCaseLogDialogBoxClose}
-					className="ModalMargin" >
+					className="caseLogMargin" >
 					<Modal.Header closeButton>
 						<Modal.Title id="contained-modal-title-vcenter">
 							<label className="manageConnectionHeading">Log Details:</label>
@@ -27,8 +27,6 @@ class CaseLogs extends React.Component {
 					<Modal.Body>
 						<ViewLogDetails></ViewLogDetails>
 					</Modal.Body>
-					<Modal.Footer>
-					</Modal.Footer>
 				</Modal>
 			</div>
 		);
