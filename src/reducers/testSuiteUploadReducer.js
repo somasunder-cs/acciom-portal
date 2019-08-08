@@ -6,18 +6,20 @@ import {
 	TEST_CASE_SELECTION_CHANGE,
 	TEST_CASE_SELECT_ALL_TOGGLE,
 	RESET_TEST_SUITE_UPLOAD_DATA,
-	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS
+	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
+	ON_SHEET_NAME_CHANGE
 } from '../constants/ActionTypes';
 
 const initialState = {
 	sheets:[],
+	file: '',
 	sheetData: null,
 	selectAll: false
 };
 
 const getSheetsDataOnLoad = (sheets) => {
 	return sheets.map((sheet) => {
-		return { name: sheet, selected: false };
+		return { name: sheet, selected: false, displayName: sheet };
 	});
 };
 
@@ -50,7 +52,8 @@ const testSuiteUploadData = (state = initialState, action) => {
 		sheets = getSheetsDataOnLoad(action.sheets);
 		return {
 			...state,
-			sheets
+			sheets,
+			file: action.file
 		};
 	
 	case TEST_SUITE_SHEET_SELECT:
@@ -104,6 +107,13 @@ const testSuiteUploadData = (state = initialState, action) => {
 	// 		...state,
 	// 	};
 
+	case ON_SHEET_NAME_CHANGE:
+		let sheets = [...state.sheets];
+		sheets[action.sheetIndex].displayName = action.displayName; 
+		return {
+			...state,
+			sheets
+		};
 	default:
 		return state;
 	}

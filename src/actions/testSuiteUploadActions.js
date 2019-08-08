@@ -9,7 +9,8 @@ import {
 	TEST_CASE_SELECT_ALL_TOGGLE,
 	UPLOAD_TESTCASES_SUCCESS,
 	UPLOAD_TESTCASES_ERROR,
-	RESET_TEST_SUITE_UPLOAD_DATA
+	RESET_TEST_SUITE_UPLOAD_DATA,
+	ON_SHEET_NAME_CHANGE
  } from '../constants/ActionTypes';
 import { BASE_URL, headers } from './appActions';
 
@@ -28,9 +29,10 @@ let temp_table_detail = [];
 let temp_column_detail = [];
 let all_cases = [];
 
-const testSuiteFileUploadSuccess = sheets => ({
+const testSuiteFileUploadSuccess = (sheets, file) => ({
 	type: TEST_SUITE_FILE_UPLOAD_SUCCESS,
-	sheets
+	sheets,
+	file
 });
 
 const testSuiteSheetloadSuccess = sheetData => ({
@@ -67,6 +69,12 @@ export const testCaseSelectionChange = (testCase) => ({
 
 export const testCaseSelectAllToggle = () => ({
 	type: TEST_CASE_SELECT_ALL_TOGGLE
+});	
+
+export const onSheetNameChange = ({sheetIndex, displayName}) => ({
+	type: ON_SHEET_NAME_CHANGE,
+	sheetIndex,
+	displayName
 });	
 
 const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue) => {
@@ -109,7 +117,7 @@ export const loadTestSuiteFile = (selectedFiles) => dispatch => {
 				pages.push(workbook.SheetNames[x]);
 			}
 		}
-		dispatch(testSuiteFileUploadSuccess(pages));
+		dispatch(testSuiteFileUploadSuccess(pages, selectedFiles[0].name));
 	};
 
 	testSuiteFile = file;
@@ -199,7 +207,12 @@ export const uploadTestCases = (executeValue) => (dispatch, getState) => {
 	// this.changessaved=true;
 
 	 // tmp Code. Will change after sheet rename file popup dialog
-	suiteName = selectedSheet;
+	 getState().testSuiteUploadData.sheets.map((item) => {
+		if (item.selected) {
+			suiteName = item.displayName;
+		}
+	});
+	// suiteName = selectedSheet;
 	 
 	// this.fileUploadService.postFile(testSuiteFile, selectedSheet, selectedTestCases, suitename, executevalue).subscribe(data => {
 		// this.name=data['message']

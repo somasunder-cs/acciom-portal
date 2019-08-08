@@ -9,7 +9,8 @@ import {
 	loadTestSuiteFile,
 	loadTestSuiteSheet,
 	uploadTestCases,
-	resetTestSuiteUploadData 
+	resetTestSuiteUploadData, 
+	onSheetNameChange
 } from '../actions/testSuiteUploadActions';
 
 const TAB_UPLOAD_FILE = 1;
@@ -21,7 +22,8 @@ class TestSuiteUpload extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			key: TAB_UPLOAD_FILE
+			key: TAB_UPLOAD_FILE,
+			sheets:[]
 		};
 	}
 
@@ -74,10 +76,24 @@ class TestSuiteUpload extends React.Component {
 			this.props.testCaseSelectAllToggle();
 		};
 
+		const handleInputChange = (e, index) => {
+			// let sheets = [...this.state.sheets];
+			// console.log('handleInputChange ', e.target);
+			// sheets[index] = e.target.value;
+			// this.setState({
+			// 	sheets
+			// });
+			this.props.onSheetNameChange({sheetIndex:index,  displayName: e.target.value});
+		}
+
 		const getSheetsList = () => {
 			let element;
+			let sheets = this.state.sheets;
 			if (this.props.pages.length > 0) {
 				const sheetList = this.props.pages.map((page, index) => {
+					sheets[index] = {
+						name: page.name
+					};
 					return (
 						<div key={index} className='sheetListItem'>
 							<label className="form-check-label">
@@ -87,28 +103,22 @@ class TestSuiteUpload extends React.Component {
 									checked={page.selected}
 									onChange={ (e) => handleSheetCheckChange(page)}
 								/>
-								{page.name}
 							</label>
+							<input type="textbox" className="form-sheet-input" onChange={e => handleInputChange(e, index)} value={page.displayName} />
 						</div>
 					);
 				});
 
 				element = (
-					// <Panel className='testSuiteSheetListPanel'>
-						// <Panel.Heading>Please select the sheet to be loaded</Panel.Heading>
-						// <Panel.Body>
 					<div>
-						<h5>Please select the sheet to be loaded</h5>
+						<h5 className="margin-title">Please select the sheet to be loaded</h5>
 						<div>{ sheetList } </div>
-						<div>
+						<div className="margin-button">
 							<Button bsStyle="primary" onClick={ (e) => onContinueClick()}>Load Test Cases</Button> 
 						</div>
 					</div>
-						// </Panel.Body>
-					// </Panel>
 				);
 			}
-
 			return element;
 		}
 
@@ -196,10 +206,11 @@ class TestSuiteUpload extends React.Component {
 								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
 									onChange={ (e) => handleChange(e)}/>
 							</div>
-							<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button> 
 						</div>
+						<input className="browse-button" type="textbox" placeholder="example.xlsx" value={this.props.file} disabled/>
+						<Button className="browse-button" bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button>
 					</Tab>
-				
+			
 					<Tab eventKey={TAB_UPLOAD_SHEET} title="Select Sheet">
 						{ getSheetsList() }
 					</Tab>
@@ -216,6 +227,7 @@ class TestSuiteUpload extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		pages: state.testSuiteUploadData? state.testSuiteUploadData.sheets : [],
+		file: state.testSuiteUploadData.file,
 		allCases: state.testSuiteUploadData && 
 			state.testSuiteUploadData.sheetData ? state.testSuiteUploadData.sheetData.allCases : [],
 		selectAll: state.testSuiteUploadData ? state.testSuiteUploadData.selectAll : false
@@ -230,7 +242,8 @@ const mapDispatchToProps = dispatch => ({
 	testCaseSelectionChange: (data) => dispatch(testCaseSelectionChange(data)),
 	testCaseSelectAllToggle: () => dispatch(testCaseSelectAllToggle()),
 	resetTestSuiteUploadData: () => dispatch(resetTestSuiteUploadData()),
-	showProjectSwitchPage: (data) => dispatch(showProjectSwitchPage(data))
+	showProjectSwitchPage: (data) => dispatch(showProjectSwitchPage(data)),
+	onSheetNameChange: (data) => dispatch(onSheetNameChange(data))
 });
 
 export default connect(
