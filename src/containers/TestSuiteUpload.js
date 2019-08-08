@@ -206,16 +206,14 @@ class TestSuiteUpload extends React.Component {
 								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
 									onChange={ (e) => handleChange(e)}/>
 							</div>
-							<Button bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button> 
 						</div>
 						<input className="browse-button" type="textbox" placeholder="example.xlsx" value={this.props.file} disabled/>
-						<Button className="browse-button" bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button> 
-					</div>
-				</Tab>
+						<Button className="browse-button" bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button>
+					</Tab>
 			
-				<Tab eventKey={TAB_UPLOAD_SHEET} title="Select Sheet">
-					{ getSheetsList() }
-				</Tab>
+					<Tab eventKey={TAB_UPLOAD_SHEET} title="Select Sheet">
+						{ getSheetsList() }
+					</Tab>
 
 					<Tab eventKey={TAB_UPLOAD_CASES} title="Select Test Cases">
 						{ getTestCasesList() }
