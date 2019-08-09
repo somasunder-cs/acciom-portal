@@ -4029,6 +4029,10 @@ html
     background-image: linear-gradient(to right, white, #e6e1e1);
 }
 
+.activityHeading {
+    display: inline-block;
+}
+
 .activityHeading, .chartHeading {
     font-size: 15px !important;
     font-weight: bold;
@@ -4476,7 +4480,7 @@ textarea {width:280px;}
 }
 
 .testSuiteList .page-header {
-    display: inline-block
+    /* display: inline-block */
 }
 
 .testSuiteList .project-switch {

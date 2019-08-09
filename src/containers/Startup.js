@@ -15,13 +15,21 @@ class Startup extends React.Component {
 		loadData(this.props);
 	}
 
+	static getDerivedStateFromProps = (nextProps, prevState) => {
+		if (nextProps.refreshTestSuites) {
+			nextProps.getAllTestSuites(nextProps.currentProject.project_id);
+		}
+
+		return null;
+	}
+
 	render() {
 		return (
 			<div className='testSuiteList'>
-				<div className='page-header'>
+				<div className='page-title'>
 					<h2 className="activityHeading">Data Profiling</h2>
 					<div className='project-switch'>
-						<Button bsStyle="primary" onClick={ (e) => this.props.handleSwitchProject(true)}>Switch Project</Button> 
+						<Button bsStyle="primary" onClick={ (e) => this.props.showProjectSwitchPage(true)}>Switch Project</Button> 
 					</div>
 				</div>
 				<TestSuiteList />
@@ -30,12 +38,16 @@ class Startup extends React.Component {
 	 }
 }
 
+const mapStateToProps = (state) => {
+	return {
+		currentProject: state.appData.currentProject,
+		refreshTestSuites: state.testSuites.refreshTestSuites
+	};
+};
+
 const mapDispatchToProps = dispatch => ({
-	getAllTestSuites: () => dispatch(getAllTestSuites()),
+	getAllTestSuites: (data) => dispatch(getAllTestSuites(data)),
 	showProjectSwitchPage: (data) => dispatch(showProjectSwitchPage(data))
 })
 
-export default connect(
-	null,
-	mapDispatchToProps
-) (Startup);
+export default connect(	mapStateToProps, mapDispatchToProps) (Startup);

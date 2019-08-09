@@ -169,13 +169,13 @@ export const saveManageConnectionDetails = data => ({
 	data
 });
 
-export const getAllTestSuites = () => (dispatch, getState)  => {
+export const getAllTestSuites = (projectId) => (dispatch, getState)  => {
 	// setTimeout(() => {
 	// 	console.log('getAllTestSuites ', getState());
 	// 	dispatch(getAllTestSuitesSuccess(_testSuitesData));
 	// }, TIMEOUT);
 
-	fetch(`${BASE_URL}/test-suite?project_id=1`, {
+	fetch(`${BASE_URL}/test-suite?project_id=${projectId}`, {
 		method: 'get',
 		headers
 	})
