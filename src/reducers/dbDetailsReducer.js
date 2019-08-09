@@ -4,35 +4,42 @@ import {
 	GET_ALL_DB_DETAILS_SUCCESS,
 	GET_DB_DETAILS_BY_ID_SUCCESS,
 	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
-	SWITCH_PROJECT_SUCCESS
+	SWITCH_PROJECT_SUCCESS,
+	REDIRECT_TO_VIEW_DB_PAGE_COMPLETE
 } from '../constants/ActionTypes';
 
 const initialState = {
 	dbDetailsList: [],
 	selectedDbDetails: null, 
-	refreshDBDetails: false
+	refreshDBDetails: false,
+	redirectToViewDBPage: false
 };
 
 const dbDetailsData = (state = initialState, action) => {
 	switch (action.type) {
-	case ADD_DB_DETAILS_SUCCESS:
-		return {
-			...state,
-		};
-	case UPDATE_DB_DETAILS_SUCCESS:
-		return {
-			...state,
-		};
 	case GET_ALL_DB_DETAILS_SUCCESS:
 		return {
 			...state,
 			dbDetailsList: action.dbDetails,
 			refreshDBDetails: false
 		};
+
 	case GET_DB_DETAILS_BY_ID_SUCCESS:
 		return {
 			...state,
 			selectedDbDetails: action.selectedDbDetails
+		};
+	
+	case ADD_DB_DETAILS_SUCCESS:
+		return {
+			...state,
+		};
+	
+	case UPDATE_DB_DETAILS_SUCCESS:
+		return {
+			...state,
+			redirectToViewDBPage:true,
+			refreshDBDetails: true
 		};
 	
 	case GET_PROJECT_LIST_BY_ORG_ID_SUCCESS:
@@ -41,7 +48,12 @@ const dbDetailsData = (state = initialState, action) => {
 			...state,
 			refreshDBDetails: true
 		};
-		
+	
+	case REDIRECT_TO_VIEW_DB_PAGE_COMPLETE:
+		return {
+			...state,
+			redirectToViewDBPage:false
+		};
 	default:
 		return state;
 	}

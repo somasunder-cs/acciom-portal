@@ -28,13 +28,13 @@ const getDQIprojectDetailsError = error => ({
 	error
 });
 
-export const getOrgDataQuality = () => dispatch => {
+export const getOrgDataQuality = (orgId) => dispatch => {
 	console.log('MW.getOrgDataQuality ');
 	// setTimeout(() => {
 	// 	dispatch(getOrgDataQualitySuccess(_orgDataQuality.data));
 	// }, 2000);
 
-	fetch(`${BASE_URL}/organization-data-quality-index?org_id=1`, {
+	fetch(`${BASE_URL}/organization-data-quality-index?org_id=${orgId}`, {
 		method: 'get',
 		headers
 	})

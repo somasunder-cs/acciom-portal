@@ -7,7 +7,8 @@ import {
 	SHOW_ORG_CHANGE_PAGE,
 	SHOW_PROJECT_SWITCH_PAGE,
 	SWITCH_ORG_SUCCESS,
-	SWITCH_PROJECT_SUCCESS
+	SWITCH_PROJECT_SUCCESS,
+	REDIRECT_TO_LOGIN_COMPLETE
 } from '../constants/ActionTypes';
 
 export const TIMEOUT = 100;
@@ -72,6 +73,10 @@ export const showProjectSwitchPage = show =>({
 
 export const authenticationExpired = () =>({
 	type: AUTHENTICATION_EXPIRED
+});
+
+export const redirectToLoginPageComplete = () =>({
+	type: REDIRECT_TO_LOGIN_COMPLETE
 });
 
 export const genericErrorHandler = (dispatch, error, acionCreatorFunc) => {

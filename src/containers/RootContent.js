@@ -3,12 +3,12 @@ import { compose } from 'redux';
 import { connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import ChangeOrganisation from '../components/ChangeOrganisation';
 import SwitchProject from '../components/SwitchProject';
-import { getOrganizationsList } from '../actions/appActions';
+import { getOrganizationsList, redirectToLoginPageComplete } from '../actions/appActions';
 import { checkAuthentication } from '../actions/loginActions';
-import 'react-toastify/dist/ReactToastify.css';
 
 class RootContent extends Component {
 
@@ -20,17 +20,19 @@ class RootContent extends Component {
 	}
 	
 	static getDerivedStateFromProps = (nextProps, prevState) => {
-		if (!prevState.authTokenExpired && nextProps.loginData.authTokenExpired) {
+		if (nextProps.redirectToLoginPage) {
+			nextProps.redirectToLoginPageComplete();
 			nextProps.history.push('./login');
-			return nextProps.loginData;
+		} else if (nextProps.reloadOrgList) {
+			nextProps.getOrganizationsList();
 		}
-		return prevState;
+		
+		return null;
 	};
 
 	componentDidMount() {
 		this.props.checkAuthentication();
-		this.props.getOrganizationsList();
-	}
+	};
 
 	render() {
 		return (<div>
@@ -46,20 +48,22 @@ class RootContent extends Component {
 				: null 
 			}
 		</div>);
-	}
+	};
 }
 
 const mapStateToProps = (state) => {
 	return {
-		loginData: state.loginData,
 		isOrgChangePageVisible: state.appData.isOrgChangePageVisible,
-		isProjectSwitchPageVisible: state.appData.isProjectSwitchPageVisible
+		isProjectSwitchPageVisible: state.appData.isProjectSwitchPageVisible,
+		redirectToLoginPage: state.appData.redirectToLoginPage,
+		reloadOrgList: state.appData.reloadOrgList
 	};
 };
 
 const mapDispatchToProps = dispatch => ({
 	checkAuthentication: () => dispatch(checkAuthentication()),
-	getOrganizationsList: (data) => dispatch(getOrganizationsList(data))
+	getOrganizationsList: (data) => dispatch(getOrganizationsList(data)),
+	redirectToLoginPageComplete: () => dispatch(redirectToLoginPageComplete())
 });
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter) (RootContent);

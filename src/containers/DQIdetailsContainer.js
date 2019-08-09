@@ -8,7 +8,6 @@ class DQIDetailsContainer extends Component {
 
 	componentDidMount() {
 		console.log('Dashboard.componentDidMount() ===>', this.props);
-		// this.props.getDQIprojectDetails(this.props.id);
 		this.props.getDQIprojectDetails(1);
 	}
 
@@ -32,22 +31,21 @@ class DQIDetailsContainer extends Component {
 		const getDPIdetailsChart = () => {
 			let chartList = [];
 			if (this.props.projectDataQuality && this.props.projectDataQuality.project_name) {
-					chartList =  this.props.projectDataQuality.project_dqi_detail.map(function(item, index){
-						return (<li key={ index }><GaugeChart name={item.name} class={'DQIprojectGaugeDetail'} percentage={item.value} width={250} color={colorsArray[index]}/></li>);
-					})
-					return chartList; 
+				chartList =  this.props.projectDataQuality.project_dqi_detail.map((item, index) => {
+					return (<li key={ index }><GaugeChart name={item.name} class={'DQIprojectGaugeDetail'} percentage={item.value} width={250} color={colorsArray[index]}/></li>);
+				})
+				return chartList; 
 			}
 		}
 
 		return (
-
 			<div className="donut DQIprojectChartContainer">
-					<div className="row detailsChart">
-						{getDPIdetailsChart()}
-					</div>
-					<div className="row">
-						<BarChart />
-					</div>
+				<div className="row detailsChart">
+					{getDPIdetailsChart()}
+				</div>
+				<div className="row">
+					<BarChart />
+				</div>
 			</div>
 		);
 	}

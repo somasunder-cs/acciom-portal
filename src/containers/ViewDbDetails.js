@@ -8,31 +8,17 @@ import { getAllDBDetails } from '../actions/dbDetailsActions';
 
 class ViewDbDetails extends Component {
 
-	constructor(props) {
+	constructor(props){
 		super(props);
-		this.state = {
-			refreshDBDetails: false
-		};
-	}	
+		this.state = {};
+	}
 
-	static getDerivedStateFromProps = (nextProps, prevState) => {
+	static getDerivedStateFromProps = (nextProps) => {
 		if (nextProps.refreshDBDetails) {
 			nextProps.getAllDBDetails(nextProps.currentProject.project_id);
 		}
-
 		return null;
-	}
-
-	handleInputChange = ({target}) => {
-		const { value, name } = target;
-
-		const { formData } = this.state;
-		formData[name] = value;
-
-		this.setState({
-			formData
-		});
-	}
+	};
 
 	handleSwitchProject = () => {
 		this.props.showProjectSwitchPage(true);

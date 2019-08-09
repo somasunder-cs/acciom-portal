@@ -6,7 +6,7 @@ import { getAllTestSuites } from '../actions/testSuiteListActions';
 import TestSuiteList from './TestSuiteList';
 
 const loadData = props => {
-	props.getAllTestSuites();
+	props.getAllTestSuites(props.currentProject.project_id);
 };
 
 class Startup extends React.Component {

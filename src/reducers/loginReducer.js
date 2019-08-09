@@ -14,8 +14,6 @@ const initialState = {
 };
 
 const loginData = (state = initialState, action) => {
-	
-	console.log('loginReducer ', action.type);
 	switch (action.type) {
 	case LOGIN_TO_PORTAL_SUCCESS:
 		return {
@@ -29,10 +27,12 @@ const loginData = (state = initialState, action) => {
 			...state
 		};
 	
+	case AUTHENTICATION_EXPIRED:
 	case LOGOUT_FROM_PORTAL_SUCCESS:
 		return {
 			...state,
-			token: '' 
+			token: '',
+			authTokenExpired: true 
 		};
 
 	case LOGOUT_FROM_PORTAL_ERROR:
@@ -40,11 +40,6 @@ const loginData = (state = initialState, action) => {
 			...state
 		};
 
-	case AUTHENTICATION_EXPIRED:
-		return {
-			...state,
-			authTokenExpired: true
-		};
 	case CHANGE_PASSWORD_SUCCESS:
 		return {
 			...state,
