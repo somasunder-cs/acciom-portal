@@ -4483,16 +4483,41 @@ textarea {width:280px;}
     float: right;
 }
 
-.form-sheet-input {
-    margin-left: 10px;
-    padding-left: 5px;
-    margin-bottom: 5px;
-    width: 230px;
+.form-check-input {
+    margin-right: 10px !important;;
 }
 
 .margin-title {
     margin-bottom: 20px;
     margin-top: 20px;
+}
+
+.suite-name-title {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 10px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.suite-test-name {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.suite-test-display-title {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 50px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.suite-test-input {
+    margin-left: 10px;
+    padding-left: 5px;
+    display: inline-block;
+    width: 250px;
 }
 
 .margin-button {

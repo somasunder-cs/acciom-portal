@@ -77,12 +77,6 @@ class TestSuiteUpload extends React.Component {
 		};
 
 		const handleInputChange = (e, index) => {
-			// let sheets = [...this.state.sheets];
-			// console.log('handleInputChange ', e.target);
-			// sheets[index] = e.target.value;
-			// this.setState({
-			// 	sheets
-			// });
 			this.props.onSheetNameChange({sheetIndex:index,  displayName: e.target.value});
 		}
 
@@ -99,12 +93,13 @@ class TestSuiteUpload extends React.Component {
 							<label className="form-check-label">
 								<input
 									type="radio"
+									className="form-check-input"
 									value={page.name}
 									checked={page.selected}
 									onChange={ (e) => handleSheetCheckChange(page)}
 								/>
+								{page.name}
 							</label>
-							<input type="textbox" className="form-sheet-input" onChange={e => handleInputChange(e, index)} value={page.displayName} />
 						</div>
 					);
 				});
@@ -185,6 +180,31 @@ class TestSuiteUpload extends React.Component {
 			}
 		};
 
+		const renderTestSuiteName = () => {
+			let selectedPage;
+			let i;
+			let pages = this.props.pages;
+			let element = null;
+			if(pages.length > 0) {
+				for(i=0; i<=pages.length; i++) {
+					let page = pages[i];
+					if(page && page.selected) {
+						selectedPage = page;
+						break;
+					}
+				}
+				element = (
+					<div className="row">
+						<h5 className="suite-name-title">Test Suite Name: </h5>
+						<div className="suite-test-name">{ selectedPage ? selectedPage.name : '' } </div>
+						<h5 className="suite-test-display-title">Test Suite Display Name: </h5>
+						<input type="textbox" className="suite-test-input" onChange={e => handleInputChange(e, i)} value={ selectedPage ? selectedPage.displayName : '' } />
+					</div>
+				);
+			}
+			return element;
+		}
+
 		const handleSelect = (key) => {
 			this.setState({ key });
 		};
@@ -216,6 +236,9 @@ class TestSuiteUpload extends React.Component {
 					</Tab>
 
 					<Tab eventKey={TAB_UPLOAD_CASES} title="Select Test Cases">
+						<div>
+							{ renderTestSuiteName() }
+						</div>
 						{ getTestCasesList() }
 					</Tab>
 				</Tabs>
