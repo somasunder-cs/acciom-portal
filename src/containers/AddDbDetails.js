@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { FormGroup, ControlLabel, FormControl, Button, Panel, Form, Col} from 'react-bootstrap';
 
-import { addDatabaseDetails, getDBDetailsById, updateDBDetails, checkDbConnection} from '../actions/dbDetailsActions';
+import { addDatabaseDetails, getDBDetailsById, updateDBDetails, checkDbConnection, redirectToViewDbPageComplete} from '../actions/dbDetailsActions';
 
 class AddDbDetails extends Component {
 
@@ -36,11 +36,9 @@ class AddDbDetails extends Component {
 				},
 				loading : false
 			};
-		} else if (!prevState.updatedDbDetails && nextProps.updatedDbDetails) {
+		} else if (nextProps.redirectToViewDBPage) {
+			nextProps.redirectToViewDbPageComplete();
 			nextProps.history.push('/view_db_details');
-			return {
-				...prevState
-			}
 		} 
 		return null;
 	}
@@ -163,7 +161,8 @@ class AddDbDetails extends Component {
 const mapStateToProps = (state) => {
 	return {
 		updatedDbDetails: state.dbDetailsData.updatedDbDetails,
-		selectedDbDetails: state.dbDetailsData.selectedDbDetails
+		selectedDbDetails: state.dbDetailsData.selectedDbDetails,
+		redirectToViewDBPage: state.dbDetailsData.redirectToViewDBPage,
 	};
 };
 
@@ -171,7 +170,8 @@ const mapDispatchToProps = dispatch => ({
 	addDatabaseDetails: (data) => dispatch(addDatabaseDetails(data)),
 	getDBDetailsById: (data) => dispatch(getDBDetailsById(data)),
 	updateDBDetails: (data) => dispatch(updateDBDetails(data)),
-	checkDbConnection: (data) => dispatch(checkDbConnection(data))	
+	checkDbConnection: (data) => dispatch(checkDbConnection(data)),
+	redirectToViewDbPageComplete: () => dispatch(redirectToViewDbPageComplete())	
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddDbDetails);

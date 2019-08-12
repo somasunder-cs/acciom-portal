@@ -4029,6 +4029,10 @@ html
     background-image: linear-gradient(to right, white, #e6e1e1);
 }
 
+.activityHeading {
+    display: inline-block;
+}
+
 .activityHeading, .chartHeading {
     font-size: 15px !important;
     font-weight: bold;
@@ -4476,7 +4480,7 @@ textarea {width:280px;}
 }
 
 .testSuiteList .page-header {
-    display: inline-block
+    /* display: inline-block */
 }
 
 .testSuiteList .project-switch {
@@ -4485,4 +4489,55 @@ textarea {width:280px;}
 
 .editUserRoles li {
     list-style: none;
+}
+
+.form-check-input {
+    margin-right: 10px !important;;
+}
+
+.margin-title {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.suite-name-title {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 10px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.suite-test-name {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.suite-test-display-title {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 50px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.suite-test-input {
+    margin-left: 10px;
+    padding-left: 5px;
+    display: inline-block;
+    width: 250px;
+}
+
+.margin-button {
+    margin-top: 20px;
+}
+
+.browse-button {
+    height: 35px;
+}
+
+.browse-txt {
+    height: 35px;
+    width: 300px;
+    margin-right: 10px;
 }

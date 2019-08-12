@@ -27,7 +27,7 @@ class Login extends Component {
 		if (!nextProps.loginData.authTokenExpired) {
 			nextProps.history.push('./');
 		}
-		return prevState;
+		return null;
 	}
 
 	handleInputChange = ({target}) => {

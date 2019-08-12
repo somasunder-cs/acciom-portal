@@ -5,7 +5,11 @@ import {
 	SHOW_ORG_CHANGE_PAGE,
 	SWITCH_ORG_SUCCESS,
 	SWITCH_PROJECT_SUCCESS,
-	SHOW_PROJECT_SWITCH_PAGE
+	SHOW_PROJECT_SWITCH_PAGE,
+	AUTHENTICATION_EXPIRED,
+	LOGOUT_FROM_PORTAL_SUCCESS,
+	REDIRECT_TO_LOGIN_COMPLETE,
+	LOGIN_TO_PORTAL_SUCCESS
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -15,17 +19,26 @@ const initialState = {
 	currentProject: null,
 	isOrgChangePageVisible: false,
 	isProjectSwitchPageVisible: false,
-	isOrganisationInitialised: false
+	isOrganisationInitialised: false,
+	redirectToLoginPage: false,
+	reloadOrgList: false
 };
 
 const appData = (state = initialState, action) => {
 	switch (action.type) {
+	case LOGIN_TO_PORTAL_SUCCESS:
+		return {
+			...state,
+			reloadOrgList: true
+		};
+
 	case GET_ORGANIZATION_LIST_SUCCESS:
 		return {
 			...state,
 			organizationList: action.data,
 			currentOrg: action.data[0],
-			isOrganisationInitialised: true	
+			isOrganisationInitialised: true,
+			reloadOrgList: false
 		 };
 	
 	case GET_ORGANIZATION_LIST_ERROR:
@@ -66,6 +79,20 @@ const appData = (state = initialState, action) => {
 			currentProject: action.data,
 			isProjectSwitchPageVisible:false
 		};
+	
+	case AUTHENTICATION_EXPIRED:
+	case LOGOUT_FROM_PORTAL_SUCCESS:		
+		return {
+			...state,
+			redirectToLoginPage: true,
+			reloadOrgList: false
+		};
+	
+	case REDIRECT_TO_LOGIN_COMPLETE:
+		return {
+			...state,
+			redirectToLoginPage: false
+		}
 	default:
 		return state;
 	}

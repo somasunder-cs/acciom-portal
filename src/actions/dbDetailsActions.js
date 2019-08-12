@@ -14,7 +14,8 @@ import {
 	GET_DB_DETAILS_BY_ID_SUCCESS,
 	GET_DB_DETAILS_BY_ID_ERROR,
 	CHECK_DB_CONNECTION_SUCCESS,
-	CHECK_DB_CONNECTION_ERROR
+	CHECK_DB_CONNECTION_ERROR,
+	REDIRECT_TO_VIEW_DB_PAGE_COMPLETE
 } from '../constants/ActionTypes'; 
 
 const addDatabaseDetailsSuccess = data =>{
@@ -75,6 +76,13 @@ const checkDbConnectionError = error => {
 	toast.error('Database connection is unsuccessfull!!');
 	return {
 		type: CHECK_DB_CONNECTION_ERROR,
+		error
+	}
+};
+
+export const redirectToViewDbPageComplete = error => {
+	return {
+		type: REDIRECT_TO_VIEW_DB_PAGE_COMPLETE,
 		error
 	}
 };

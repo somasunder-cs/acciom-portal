@@ -16,6 +16,8 @@ import {
 	SAVE_MANAGE_CONNECTION_DETAILS,
 	SHOW_TEST_CASE_VIEW_ENABLED,
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
+	SWITCH_PROJECT_SUCCESS,
+	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
 } from '../constants/ActionTypes';
 
 import { browserHistory } from 'react-router';
@@ -36,15 +38,17 @@ const initialState = {
 		showTestCaseDialog: false,
 		testCaseDetails:[]
 	},
-	showTestCaseEditEnabled: false
-}
+	showTestCaseEditEnabled: false,
+	refreshTestSuites: false	
+};
 
 const testSuites = (state = initialState, action) => {
 	switch (action.type) {
 	case GET_ALL_TEST_SUITES_SUCCESS:
 		return {
 			...state,
-			testSuiteList: action.testSuiteList.test_suite_details_list
+			testSuiteList: action.testSuiteList.test_suite_details_list,
+			refreshTestSuites: true			
 		};
 
 	case EXECUTE_TEST_BY_SUITE_ID_SUCCESS:
@@ -164,6 +168,13 @@ const testSuites = (state = initialState, action) => {
 		state.showTestCaseEditEnabled = false;
 		return {
 			...state
+		};
+
+	case GET_PROJECT_LIST_BY_ORG_ID_SUCCESS:
+	case SWITCH_PROJECT_SUCCESS:
+		return {
+			...state,
+			refreshTestSuites: true
 		};
 
 	default:

@@ -6,18 +6,27 @@ import {
 	TEST_CASE_SELECTION_CHANGE,
 	TEST_CASE_SELECT_ALL_TOGGLE,
 	RESET_TEST_SUITE_UPLOAD_DATA,
-	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS
+	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
+	ON_SHEET_NAME_CHANGE,
+	RESET_DATA_FOR_CASE_PAGE,
+	RESET_DATA_FOR_SHEET_PAGE
 } from '../constants/ActionTypes';
 
 const initialState = {
+	file: '',
 	sheets:[],
 	sheetData: null,
-	selectAll: false
+	selectAll: false,
+	isUpdateSuitePageDisabled: false,
+	isSheetListPageDisabled: true,
+	isCaseListPageDisabled: true,
+	moveToSelectSheetPage: false,
+	moveToSelectCasePage: false
 };
 
 const getSheetsDataOnLoad = (sheets) => {
 	return sheets.map((sheet) => {
-		return { name: sheet, selected: false };
+		return { name: sheet, selected: false, displayName: sheet };
 	});
 };
 
@@ -50,7 +59,12 @@ const testSuiteUploadData = (state = initialState, action) => {
 		sheets = getSheetsDataOnLoad(action.sheets);
 		return {
 			...state,
-			sheets
+			sheets,
+			sheetData: null,
+			file: action.file,
+			isSheetListPageDisabled: false,
+			isCaseListPageDisabled: true,
+			moveToSelectSheetPage: true
 		};
 	
 	case TEST_SUITE_SHEET_SELECT:
@@ -63,7 +77,9 @@ const testSuiteUploadData = (state = initialState, action) => {
 	case TEST_SUITE_SHEET_LOAD_SUCCESS:
 		return {
 			...state,
-			sheetData : action.sheetData
+			sheetData : action.sheetData,
+			isCaseListPageDisabled: false,
+			moveToSelectCasePage: true
 		};
 	
 	case TEST_CASE_SELECTION_CHANGE:
@@ -99,10 +115,25 @@ const testSuiteUploadData = (state = initialState, action) => {
 	case RESET_TEST_SUITE_UPLOAD_DATA:
 		return initialState;
 	
-	// case GET_PROJECT_LIST_BY_ORG_ID_SUCCESS:
-	// 	return {
-	// 		...state,
-	// 	};
+	case ON_SHEET_NAME_CHANGE:
+		let sheets = [...state.sheets];
+		sheets[action.sheetIndex].displayName = action.displayName; 
+		return {
+			...state,
+			sheets
+		};
+	
+	case RESET_DATA_FOR_SHEET_PAGE:
+		return {
+			...state,
+			moveToSelectSheetPage: false
+		};
+	
+	case RESET_DATA_FOR_CASE_PAGE:
+		return {
+			...state,
+			moveToSelectCasePage: false
+		};
 
 	default:
 		return state;
