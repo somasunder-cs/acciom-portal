@@ -1,7 +1,8 @@
 import {
 	GET_ORG_DATA_QUALITY_SUCCESS,
 	GET_DQI_PROJECT_DETAILS_SUCCESS,
-	GET_ORGANIZATION_LIST_SUCCESS
+	GET_ORGANIZATION_LIST_SUCCESS,
+	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -12,7 +13,8 @@ const initialState = {
 
 const dashboardData = (state = initialState, action) => {
 	switch (action.type) {
-	case GET_ORGANIZATION_LIST_SUCCESS:
+	// case GET_ORGANIZATION_LIST_SUCCESS:
+	case GET_PROJECT_LIST_BY_ORG_ID_SUCCESS:
 		return {
 			...state,
 			refreshDashBoard: true

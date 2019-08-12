@@ -6,10 +6,18 @@ import { getDQIprojectDetails } from '../actions/dashboardActions';
 
 class DQIDetailsContainer extends Component {
 
-	componentDidMount() {
-		console.log('Dashboard.componentDidMount() ===>', this.props);
-		this.props.getDQIprojectDetails(1);
-	}
+	// componentDidMount() {
+	// 	if (this.props.currentProject) {
+	// 		this.props.getDQIprojectDetails(this.props.currentProject.project_id);
+	// 	}
+	// }
+
+	// static getDerivedStateFromProps = (nextProps) => {
+	// 	if (nextProps.refreshDashBoard) {
+	// 		nextProps.getOrgDataQuality(nextProps.currentOrg.org_id);
+	// 	}
+	// 	return null;
+	// };
 
 	render() {
 		console.log("detailContainer", this.props.projectDataQuality);
@@ -54,7 +62,8 @@ class DQIDetailsContainer extends Component {
 const mapStateToProps = state => {
 	console.log("DQIDetailsContainer.state==>", state);
 	return {
-		projectDataQuality: state.dashboardData.projectDataQuality
+		projectDataQuality: state.dashboardData.projectDataQuality,
+		currentProject: state.appData.currentProject
 	};
 };
 

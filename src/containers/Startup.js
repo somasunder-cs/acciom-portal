@@ -5,14 +5,12 @@ import { showProjectSwitchPage } from '../actions/appActions';
 import { getAllTestSuites } from '../actions/testSuiteListActions';
 import TestSuiteList from './TestSuiteList';
 
-const loadData = props => {
-	props.getAllTestSuites(props.currentProject.project_id);
-};
-
 class Startup extends React.Component {
 
 	componentDidMount() {
-		loadData(this.props);
+		if (this.props.currentProject) {
+			this.props.getAllTestSuites(this.props.currentProject.project_id);
+		}
 	}
 
 	static getDerivedStateFromProps = (nextProps, prevState) => {

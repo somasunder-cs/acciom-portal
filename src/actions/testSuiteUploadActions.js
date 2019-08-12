@@ -10,7 +10,9 @@ import {
 	UPLOAD_TESTCASES_SUCCESS,
 	UPLOAD_TESTCASES_ERROR,
 	RESET_TEST_SUITE_UPLOAD_DATA,
-	ON_SHEET_NAME_CHANGE
+	ON_SHEET_NAME_CHANGE,
+	RESET_DATA_FOR_SHEET_PAGE,
+	RESET_DATA_FOR_CASE_PAGE
  } from '../constants/ActionTypes';
 import { BASE_URL, headers } from './appActions';
 
@@ -77,14 +79,22 @@ export const onSheetNameChange = ({sheetIndex, displayName}) => ({
 	displayName
 });	
 
-const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue) => {
+export const resetDataForSheetPage = () => ({
+	type: RESET_DATA_FOR_SHEET_PAGE
+});	
+
+export const resetDataForCasePage = () => ({
+	type: RESET_DATA_FOR_CASE_PAGE
+});	
+
+const getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue, projectId) => {
 	const payload = new FormData();
 	payload.append('inputFile',fileToUpload);
 	payload.append('sheet_name',selectedSheet);
 	payload.append('case_id_list',selectedCase);
 	payload.append('suite_name',suiteName);
 	payload.append('upload_and_execute',executeValue);
-	payload.append('project_id', 1);
+	payload.append('project_id', projectId);
 	return payload;
 };
 

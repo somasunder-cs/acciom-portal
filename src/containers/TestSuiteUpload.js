@@ -10,7 +10,9 @@ import {
 	loadTestSuiteSheet,
 	uploadTestCases,
 	resetTestSuiteUploadData, 
-	onSheetNameChange
+	onSheetNameChange,
+	resetDataForSheetPage,
+	resetDataForCasePage
 } from '../actions/testSuiteUploadActions';
 
 const TAB_UPLOAD_FILE = 1;
@@ -33,10 +35,13 @@ class TestSuiteUpload extends React.Component {
 
 	static getDerivedStateFromProps = (nextProps, prevState) => {
 		let newState = prevState;
-		if (prevState.key === TAB_UPLOAD_FILE && nextProps.pages.length > 0 ) {
+
+		if (nextProps.moveToSelectSheetPage) {
 			newState = { ...prevState, key: TAB_UPLOAD_SHEET };
-		} else if (prevState.key === TAB_UPLOAD_SHEET && nextProps.allCases.length > 0 ) {
-			newState = {...prevState, key: TAB_UPLOAD_CASES };
+			nextProps.resetDataForSheetPage();
+		} else if (nextProps.moveToSelectCasePage) {
+			newState = { ...prevState, key: TAB_UPLOAD_CASES };
+			nextProps.resetDataForCasePage();
 		}
 		return newState;
 	}
@@ -226,16 +231,16 @@ class TestSuiteUpload extends React.Component {
 								<input  id="testSuiteUploadFile" type="file" className="file" placeholder="Upload file" accept=".xlsx" 
 									onChange={ (e) => handleChange(e)}/>
 							</div>
+							<input className="browse-txt" type="textbox" placeholder="example.xlsx" value={this.props.file} disabled/>
+							<Button className="browse-button" bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button>							
 						</div>
-						<input className="browse-button" type="textbox" placeholder="example.xlsx" value={this.props.file} disabled/>
-						<Button className="browse-button" bsStyle="primary" onClick={ (e) => handleTestSuiteUploadClick()}>Browse Test Suite File (.xslx)</Button>
 					</Tab>
 			
-					<Tab eventKey={TAB_UPLOAD_SHEET} title="Select Sheet">
+					<Tab eventKey={TAB_UPLOAD_SHEET} title="Select Sheet" disabled={this.props.isSheetListPageDisabled}>
 						{ getSheetsList() }
 					</Tab>
 
-					<Tab eventKey={TAB_UPLOAD_CASES} title="Select Test Cases">
+					<Tab eventKey={TAB_UPLOAD_CASES} title="Select Test Cases" disabled={this.props.isCaseListPageDisabled}>
 						<div>
 							{ renderTestSuiteName() }
 						</div>
@@ -253,7 +258,12 @@ const mapStateToProps = (state) => {
 		file: state.testSuiteUploadData.file,
 		allCases: state.testSuiteUploadData && 
 			state.testSuiteUploadData.sheetData ? state.testSuiteUploadData.sheetData.allCases : [],
-		selectAll: state.testSuiteUploadData ? state.testSuiteUploadData.selectAll : false
+		selectAll: state.testSuiteUploadData ? state.testSuiteUploadData.selectAll : false,
+		isUpdateSuitePageDisabled: state.testSuiteUploadData.isUpdateSuitePageDisabled,
+		isSheetListPageDisabled: state.testSuiteUploadData.isSheetListPageDisabled,
+		isCaseListPageDisabled: state.testSuiteUploadData.isCaseListPageDisabled,
+		moveToSelectSheetPage: state.testSuiteUploadData.moveToSelectSheetPage,
+		moveToSelectCasePage: state.testSuiteUploadData.moveToSelectCasePage
 	};
 };
 
@@ -266,7 +276,9 @@ const mapDispatchToProps = dispatch => ({
 	testCaseSelectAllToggle: () => dispatch(testCaseSelectAllToggle()),
 	resetTestSuiteUploadData: () => dispatch(resetTestSuiteUploadData()),
 	showProjectSwitchPage: (data) => dispatch(showProjectSwitchPage(data)),
-	onSheetNameChange: (data) => dispatch(onSheetNameChange(data))
+	onSheetNameChange: (data) => dispatch(onSheetNameChange(data)),
+	resetDataForSheetPage: () => dispatch(resetDataForSheetPage()),
+	resetDataForCasePage: () => dispatch(resetDataForCasePage())
 });
 
 export default connect(

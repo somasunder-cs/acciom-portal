@@ -7,16 +7,19 @@ import Chart from 'react-apexcharts';
 class DonutChart extends Component {
 	constructor(props) {
 		super(props);
+	}
+
+	render() {
 		this.options = {
 			optionsRadial: {
 				fill: {
 					type: 'solid',
-					colors: props.colors
+					colors: this.props.colors
 				},
 				chart : {
 					events: {
 						click : (event, chartContext, config) => {
-							props.getDQIprojectDetails(props.chartData.project_id);
+							this.props.getDQIprojectDetails(this.props.chartData.project_id);
 						}
 					}
 				},
@@ -72,12 +75,8 @@ class DonutChart extends Component {
 				},
 				labels: ['']
 			},
-			seriesRadial: [props.chartData.project_dqi_percentage.toFixed(2)],
+			seriesRadial: [this.props.chartData.project_dqi_percentage.toFixed(2)],
 		}
-	}
-
-	render() {
-
 		return (
 			<div className="donut">
 				<Chart options={this.options.optionsRadial} series={this.options.seriesRadial} colors={this.options.optionsRadial.colors} type="radialBar" width="250" />

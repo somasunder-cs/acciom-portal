@@ -4530,5 +4530,10 @@ textarea {width:280px;}
 
 .browse-button {
     height: 35px;
+}
+
+.browse-txt {
+    height: 35px;
+    width: 300px;
     margin-right: 10px;
 }
