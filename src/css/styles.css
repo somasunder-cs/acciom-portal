@@ -4487,6 +4487,10 @@ textarea {width:280px;}
     float: right;
 }
 
+.editUserRoles li {
+    list-style: none;
+}
+
 .form-check-input {
     margin-right: 10px !important;;
 }

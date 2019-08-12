@@ -1,28 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Select from 'react-select';
 import { ListGroup, Button, Col } from 'react-bootstrap';
 import { getOrganizationUsersList, retriveUserRoleByUserId } from '../actions/userManagementActions';
+import  RoleListItemContainer  from './RoleListItemContainer';
 
-const projectData = [
-	{ value: 'chocolate', label: 'Chocolate' },
-	{ value: 'strawberry', label: '  Strawberry' },
-	{ value: 'vanilla', label: '  Vanilla' }
-];
 
-const roleData = [
-	{ value: 'chocolate', label: 'Chocolate' },
-	{ value: 'strawberry', label: 'Strawberry' },
-	{ value: 'vanilla', label: 'Vanilla', isDisabled: true }
-];
-
-const addRow = () => {
-	console.log('clicked');
-};
-
-const deleteRow = () => {
-	console.log('clicked');
-};
 
 class UserManagement extends Component {
 	
@@ -45,36 +28,30 @@ class UserManagement extends Component {
 			isOrganisationInitialised: nextProps.isOrganisationInitialised
 		});
 	}
-
-	handleProjectChange = selectedProjectData => {
-		this.setState({ selectedProjectData });
-	};
-
-	handleRoleChange = selectedRoleData => {
-		this.setState({ selectedRoleData });
-	};
-
 	showEditContent = (user) => {
 		this.setState({isEditable: true});
-		console.log(user);
+		// console.log(user);
 		let org_id = 1; //TODO: to be removed onced organization switch implementation is done
-		this.props.getSelectedUser(org_id, user.user_id);
+		// this.props.getSelectedUser(org_id, user.user_id);
+
 	}
 
 	getOrgUserList = () => {
 		let userList = '';
 		if (this.props.orgUserList.length > 0) {
-			userList = this.props.orgUserList.map((user) =>{
-				console.log('user here')
+			userList = this.props.orgUserList.map((user, index) =>{
+				console.log('user here', user)
 				return (
-					<li className="list-group-item" >
-						<Col sm={1}><i class="fas fa-user-circle"></i></Col>
+					<li key={index} className="list-group-item" >
+						<Col sm={1}><i className="fas fa-user-circle"></i></Col>
 						<Col sm={7}>
 							<span className="fName" >{user.first_name}</span>
 							<span className="email" >{user.email}</span>
 						</Col>
-						<Col sm={4} className="editBtn">	
-							<Button onClick={() => this.showEditContent(user)}>Edit</Button>
+						<Col sm={4} className="editBtn">
+							<Link to={`/edit_user_role/${user.user_id}`}>
+								<Button type="button" bsStyle="primary">Edit</Button>
+							</Link>	
 						</Col>
 					</li>
 				);
@@ -84,47 +61,13 @@ class UserManagement extends Component {
 		return userList;
 	};
 
-	renderDrowDownData = (selectedProjectData, selectedRoleData) => {
-		return (
-			<div>
-				<Select 
-						className='singleSelect'
-						value={selectedProjectData}
-						onChange={this.handleProjectChange}
-						options={projectData}
-					/>
-					<Select
-						className='multiSelect'
-						isMulti='true'
-						value={selectedRoleData}
-						onChange={this.handleRoleChange}
-						options={roleData}
-					/>
-					<i className='fas fa-plus-circle plusCircle' onClick={() => addRow()}></i>
-					<i className='fas fa-minus-circle minusCircle' onClick={() => deleteRow()}></i>
-			</div>
-		)
-	}
-
 	render() {
-		const { selectedProjectData } = this.state;
-		const { selectedRoleData } = this.state;
 		const { isEditable } = this.state;
 		return (
 			<div id="userManagement">
 				<ListGroup>
 					{ this.getOrgUserList() }
-				</ListGroup>;
-				<div>
-					
-				</div>
-
-				{(isEditable && this.props.selectedUserRole) ? (<div className='row'>
-					<h3 className="editableHeader">Manage Role</h3>
-					<div className = "DescriptionHeader">Email</div>
-					<input type="text" value={this.props.selectedUserRole.email_id} className="Description" readonly disabled/>
-					{this.renderDrowDownData(selectedProjectData, selectedRoleData)}
-				</div>) : null}
+				</ListGroup>
 			</div>
 		);
 	 }
@@ -135,14 +78,12 @@ const mapStateToProps = (state) => {
 	return {
 		orgUserList: state.userManagementData.orgUserList? state.userManagementData.orgUserList: [],
 		projectList: state.appData.projectList? state.appData.projectList: [],
-		isOrganisationInitialised: state.appData.isOrganisationInitialised,
-		selectedUserRole: state.userManagementData.selectedUserRole ? state.userManagementData.selectedUserRole : []
+		isOrganisationInitialised: state.appData.isOrganisationInitialised
 	};
 };
 
 const mapDispatchToProps = dispatch => ({
-	getOrganizationUsersList: (data) => dispatch(getOrganizationUsersList(data)),
-	getSelectedUser: (org_id, user_id) => dispatch(retriveUserRoleByUserId(org_id, user_id))
+	getOrganizationUsersList: (data) => dispatch(getOrganizationUsersList(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserManagement);
