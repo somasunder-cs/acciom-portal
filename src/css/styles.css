@@ -4482,3 +4482,7 @@ textarea {width:280px;}
 .testSuiteList .project-switch {
     float: right;
 }
+
+.editUserRoles li {
+    list-style: none;
+}
