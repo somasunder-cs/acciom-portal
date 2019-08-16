@@ -33,6 +33,8 @@ const dbDetailsData = (state = initialState, action) => {
 	case ADD_DB_DETAILS_SUCCESS:
 		return {
 			...state,
+			redirectToViewDBPage:true,
+			refreshDBDetails: true
 		};
 	
 	case UPDATE_DB_DETAILS_SUCCESS:

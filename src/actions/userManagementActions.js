@@ -11,7 +11,9 @@ import {
 	GET_ROLES_BY_PROJECT_ID_SUCCESS,
 	GET_ROLES_BY_PROJECT_ID_ERROR,
 	RETRIVE_USER_ROLE_SUCCESS,
-	RETRIVE_USER_ROLE_ERROR
+	RETRIVE_USER_ROLE_ERROR,
+	ADD_NEW_USER_ROLE,
+	DELETE_USER_ROLE
  } from "../constants/ActionTypes";
 
 const getOrganizationUserListSuccess = data => ({
@@ -24,9 +26,10 @@ const getOrganizationUserListError = error =>({
 	error
 });
 
-const getRolesByOrgIdSuccess = (data) => {
+const getRolesByOrgIdSuccess = (orgId, data) => {
 	return {
 		type: GET_ROLES_BY_ORG_ID_SUCCESS,
+		orgId,
 		roles: data.roles
 	};
 };
@@ -38,9 +41,10 @@ const getRolesByOrgIdError= (data) => {
 	};
 };
 
-const getRolesByProjectIdSuccess = data => {
+const getRolesByProjectIdSuccess = (projectId, data) => {
 	return {
 		type: GET_ROLES_BY_PROJECT_ID_SUCCESS,
+		projectId,
 		roles: data.roles
 	};
 };
@@ -82,6 +86,21 @@ const retriveUserRoleByUserIdError = data => {
 	
 };
 
+export const addNewUserRole = (userId) => {
+	return {
+		type: ADD_NEW_USER_ROLE,
+		userId
+	};
+};
+
+export const deleteUserRole = (roleType, index) => {
+	return {
+		type: DELETE_USER_ROLE,
+		roleType,
+		index
+	};
+};
+
 export const getOrganizationUsersList = (org_id) => (dispatch, getState) => {
 	// setTimeout(function() {
 	// 	console.log('MW.getOrganizationUserListSuccess()  inside timeout');
@@ -108,31 +127,31 @@ export const getOrganizationUsersList = (org_id) => (dispatch, getState) => {
 			}
 		});
 };	
-export const getRolesByOrgId = (org_id) => (dispatch, getState) => {
+export const getRolesByOrgId = (orgId) => (dispatch, getState) => {
 	
-	setTimeout(function() {
-		dispatch(getRolesByOrgIdSuccess(_rolesListData.data));
-	}, TIMEOUT);
+	// setTimeout(function() {
+	// 	dispatch(getRolesByOrgIdSuccess(_rolesListData.data));
+	// }, TIMEOUT);
 
-	// fetch(`${BASE_URL}/role?org_id=${org_id}`, {
-	// 	method: 'get',
-	// 	headers
-	// })
-	// 	.then(response => response.json())
-	// 	.then(res => { 
-	// 		if (res.status !== false && res && res.data) {
-	// 			dispatch(getRolesByOrgIdSuccess(res.data));
-	// 		} else {
-	// 			genericErrorHandler(dispatch, res, getRolesByOrgIdError);
-	// 		}
-	// 	})
-	// 	.catch(err => {
-	// 		if (err.name === 'AbortError') {
-	// 			console.error('Fetch aborted');
-	// 		} else {
-	// 			console.error('Another error', err);
-	// 		}
-	// 	});
+	fetch(`${BASE_URL}/role?org_id=${orgId}`, {
+		method: 'get',
+		headers
+	})
+		.then(response => response.json())
+		.then(res => { 
+			if (res.status !== false && res && res.data) {
+				dispatch(getRolesByOrgIdSuccess(orgId, res.data));
+			} else {
+				genericErrorHandler(dispatch, res, getRolesByOrgIdError);
+			}
+		})
+		.catch(err => {
+			if (err.name === 'AbortError') {
+				console.error('Fetch aborted');
+			} else {
+				console.error('Another error', err);
+			}
+		});
 };	
 
 export const getRolesByProjectId = (project_id) => (dispatch, getState) => {
@@ -148,7 +167,7 @@ export const getRolesByProjectId = (project_id) => (dispatch, getState) => {
 		.then(response => response.json())
 		.then(res => { 
 			if (res.status !== false && res && res.data) {
-				dispatch(getRolesByProjectIdSuccess(res.data));
+				dispatch(getRolesByProjectIdSuccess(project_id, res.data));
 			} else {
 				genericErrorHandler(dispatch, res, getRolesByProjectIdError);
 			}

@@ -5,8 +5,6 @@ import { ListGroup, Button, Col } from 'react-bootstrap';
 import { getOrganizationUsersList, retriveUserRoleByUserId } from '../actions/userManagementActions';
 import  RoleListItemContainer  from './RoleListItemContainer';
 
-
-
 class UserManagement extends Component {
 	
 	constructor(props) {
