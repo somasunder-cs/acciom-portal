@@ -14,7 +14,7 @@ import UserManagement from '../containers/UserManagement';
 import RootContent from '../containers/RootContent';
 import ForgotPassword from './ForgotPassword';
 import AuthToken from './AuthToken';
-import ChangePassword from './ChangePassword';
+import ChangePasswordComponent from './ChangePassword';
 import EditUserRoles from '../containers/EditUserRoles';
 
 const RootContainer = styled.div`
@@ -61,7 +61,7 @@ const App = (props) => (
 				<PrivateRoute path="/add_db_details/:id" authTokenExpired={props.authTokenExpired} component={AddDbDetails} />
 				<PrivateRoute path="/view_db_details" authTokenExpired={props.authTokenExpired} component={ViewDbDetails} />
 				<PrivateRoute path="/forgot_password" authTokenExpired={props.authTokenExpired} component={ForgotPassword} />
-				<PrivateRoute path="/change_password" authTokenExpired={props.authTokenExpired} component={ChangePassword} />
+				<PrivateRoute path="/change_password" authTokenExpired={props.authTokenExpired} component={ChangePasswordComponent} />
 				<PrivateRoute path="/access_token" authTokenExpired={props.authTokenExpired} component={AuthToken} />
 				<PrivateRoute path="/user_management" authTokenExpired={props.authTokenExpired} component={UserManagement} />
 				<PrivateRoute path="/edit_user_role/:id" authTokenExpired={props.authTokenExpired} component={EditUserRoles} />
