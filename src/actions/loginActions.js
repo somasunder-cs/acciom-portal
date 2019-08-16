@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { BASE_URL, headers, updateHeaders } from './appActions';
 import {
 	LOGIN_TO_PORTAL_SUCCESS,
@@ -27,10 +28,13 @@ const logoutFromPortalError = data =>({
 	data
 });
 
-const changePasswordSuccess = data =>({
-	type: CHANGE_PASSWORD_SUCCESS,
-	data
-});
+const changePasswordSuccess = data =>{
+	toast.success("Password was successfully changed");
+	return {
+		type: CHANGE_PASSWORD_SUCCESS,
+		data
+	}
+};
 
 const changePasswordError = data =>({
 	type: CHANGE_PASSWORD_ERROR,

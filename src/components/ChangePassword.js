@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect }from 'react-redux'
 import { Row, Button, FormGroup, FormControl, ControlLabel, HelpBlock, Panel } from 'react-bootstrap';
+import { changePassword } from '../actions/loginActions';
 
-class ChangePassword extends Component {
+class ChangePasswordComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -22,19 +24,19 @@ class ChangePassword extends Component {
 		return element;
 	}
 
-	login = (e) => {
-		e.preventDefault();
-		// const errors = this.validateLoginForm();
+	// login = (e) => {
+	// 	e.preventDefault();
+	// 	// const errors = this.validateLoginForm();
 
-		if (errors === true){
-			this.props.changePassword(this.state.formData);
-		} else {
-			this.setState({
-				errors,
-				formSubmitted: true
-			});
-		}
-	}
+	// 	if (errors === true){
+	// 		this.props.changePassword(this.state.formData);
+	// 	} else {
+	// 		this.setState({
+	// 			errors,
+	// 			formSubmitted: true
+	// 		});
+	// 	}
+	// }
 
 	handleInputChange = ({target}) => {
 		const { value, name } = target;
@@ -46,6 +48,16 @@ class ChangePassword extends Component {
 			formData
 		});
 	}
+
+	submitNewPassWord = (e) => {
+		e.preventDefault();
+		let formData = this.state.formData;
+		let formObj = {
+			'old_password': formData.old_password,
+			'new_password': formData.new_password
+		};
+		this.props.changePassword(JSON.stringify(formObj));
+	};
 
 	render() {
 		const { errors, formSubmitted } = this.state;
@@ -59,13 +71,13 @@ class ChangePassword extends Component {
 				<Panel>
 					<Panel.Heading>Change Password</Panel.Heading>
 					<Panel.Body>
-						<form onSubmit={this.login}>
+						<form onSubmit={this.submitNewPassWord}>
 							<FormGroup controlId="email" >
 								{/* <FormGroup controlId="email" validationState={ formSubmitted ? (errors.email ? 'error' : 'success') : null }> */}
 								{/* <ControlLabel>Email</ControlLabel> */}
 								<FormGroup controlId="password" validationState={ formSubmitted ? (errors.password ? 'error' : 'success') : null }>
 									{/* <ControlLabel>Old Password</ControlLabel> */}
-									<FormControl type="password" name="password" placeholder="Old Password" onChange={this.handleInputChange} />
+									<FormControl type="password" name="old_password"  placeholder="Old Password" onChange={this.handleInputChange} />
 									{ errors.password && 
 										<HelpBlock>{errors.password}</HelpBlock> 
 									}
@@ -96,15 +108,10 @@ class ChangePassword extends Component {
 		);
 	}
 }
-  
-const mapStateToProps = (state) => {
-	return {
-		passwordChanged: state.loginData.passwordChanged
-	};
-};
+
 
 const mapDispatchToProps = dispatch => ({
 	changePassword: (data) => dispatch(changePassword(data))
 })
-
-export default ChangePassword;
+  
+export default connect(null, mapDispatchToProps)(ChangePasswordComponent);
