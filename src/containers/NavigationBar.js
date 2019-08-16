@@ -153,11 +153,14 @@ const getLoginOptions = (props, classes) => {
 				<MenuItemBS eventKey="2">
 					<Link to="/change_password">Change Password</Link>
 				</MenuItemBS>
-				<MenuItemBS eventKey="2">
+				<MenuItemBS eventKey="3">
+					<Link to="/forgot_password">Forgot Password</Link>
+				</MenuItemBS>
+				<MenuItemBS eventKey="4">
 					{/* <Link to="/change_password">Change Password</Link> */}
 					<span id="change_organisation" onClick={(event) => { handleShowOrg(props, true);}}>Change Organisation</span>
 				</MenuItemBS>
-				<MenuItemBS eventKey="3">
+				<MenuItemBS eventKey="5">
 					{ getLoginElements() }
 				</MenuItemBS>
 			</DropdownButton>

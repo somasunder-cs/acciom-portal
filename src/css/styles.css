@@ -48,6 +48,58 @@ html
     top: 200px;
     height: 200px;
 }
+.tokenpanelHeading {
+    float: left;
+}
+.gentokenButton {
+    /* margin: 8px; */
+    align-items: center;
+    font-size: 0.8rem
+}
+.clipboardOnhover {
+    padding: 0px 16px;
+}
+.clipboardOnhover:hover {
+    color:  blue;
+    cursor: pointer 
+}
+.needToken {
+    width: 40%;
+    /* font-size: 1rem */
+    
+}
+.tokenField {
+    border: none;
+    width: 40%
+}
+.frgtpassfield{
+    width: 30%
+}
+.frgtpassbtn{
+    margin-left: 10px;
+    margin-top: 4px;
+    height: 1.8rem;
+    font-size: 0.8rem
+}
+.frgtpassheading{
+    font-size: 18px;
+    margin: 10px 10px
+}
+
+.tokenpanelBackground {
+    background-color: #dbe9ff;
+    font-size: 0.8rem
+}
+
+.forgotpassSendLink {
+    margin-top: 5px
+}
+/* .generateToken {
+    position: absolute;
+    top: 200px;
+    height: 200px;
+    margin-right: 100px;
+} */
 
 .loginForm .panel-heading, 
     #testSuiteUploadContainer .panel-heading, 
