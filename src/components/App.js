@@ -13,7 +13,7 @@ import AddDbDetails from '../containers/AddDbDetails';
 import UserManagement from '../containers/UserManagement';
 import RootContent from '../containers/RootContent';
 import ForgotPassword from './ForgotPassword';
-import Token from './token';
+import AuthToken from './AuthToken';
 import ChangePassword from './ChangePassword';
 import EditUserRoles from '../containers/EditUserRoles';
 
@@ -62,7 +62,7 @@ const App = (props) => (
 				<PrivateRoute path="/view_db_details" authTokenExpired={props.authTokenExpired} component={ViewDbDetails} />
 				<PrivateRoute path="/forgot_password" authTokenExpired={props.authTokenExpired} component={ForgotPassword} />
 				<PrivateRoute path="/change_password" authTokenExpired={props.authTokenExpired} component={ChangePassword} />
-				<PrivateRoute path="/access_token" authTokenExpired={props.authTokenExpired} component={Token} />
+				<PrivateRoute path="/access_token" authTokenExpired={props.authTokenExpired} component={AuthToken} />
 				<PrivateRoute path="/user_management" authTokenExpired={props.authTokenExpired} component={UserManagement} />
 				<PrivateRoute path="/edit_user_role/:id" authTokenExpired={props.authTokenExpired} component={EditUserRoles} />
 
