@@ -56,11 +56,6 @@ class ForgotPassword extends Component {
 			 return <div>Hello</div>
 		 }
 
-		const goBack = () => {
-			// alert('hit')
-			// return <Link to='/dashboard'></Link>
-			return <div>Hi there</div>
-		}
 		return(
 			<div className='forgotPassword'>
 				<div className='frgtpassheading'>Forgot Password</div>
@@ -71,46 +66,7 @@ class ForgotPassword extends Component {
 					</Panel.Body>
 				</Panel>
 			</div>
-			// <div className="loginForm">
-			// 	<Panel>
-			// 		<Panel.Heading>Reset Password</Panel.Heading>
-			// 		<Panel.Body>
-			// 			<form onSubmit={this.login}>
-			// 			<FormGroup controlId="email" >
-			// 				{/* <FormGroup controlId="email" validationState={ formSubmitted ? (errors.email ? 'error' : 'success') : null }> */}
-			// 					{/* <ControlLabel>Email</ControlLabel> */}
-			// 					<FormGroup controlId="password" validationState={ formSubmitted ? (errors.password ? 'error' : 'success') : null }>
-			// 						{/* <ControlLabel>Old Password</ControlLabel> */}
-			// 						<FormControl type="password" name="password" placeholder="Old Password" onChange={this.handleInputChange} />
-			// 						{ errors.password && 
-			// 							<HelpBlock>{errors.password}</HelpBlock> 
-			// 						}
-			// 					</FormGroup>
-
-
-			// 					<FormControl type="text" name="new_password" placeholder="New Password" onChange={this.handleInputChange} />
-			// 					{ errors.email && 
-			// 						<HelpBlock>{errors.email}</HelpBlock> 
-			// 					}
-			// 				</FormGroup >
-			// 				<FormGroup controlId="password">
-			// 				{/* <FormGroup controlId="password" validationState={ formSubmitted ? (errors.password ? 'error' : 'success') : null }> */}
-			// 					{/* <ControlLabel>Password</ControlLabel> */}
-			// 					<FormControl type="password" name="confirm_password" placeholder="Confirm Password" onChange={this.handleInputChange} />
-			// 					{ errors.password && 
-			// 						<HelpBlock>{errors.password}</HelpBlock> 
-			// 					}
-			// 				</FormGroup>
-			// 				<Button type="submit" bsStyle="primary"onClick={(event) => { event.preventDefault(); goBack() }}>Go Back</Button>
-			// 				<Button type="submit" bsStyle="primary">Submit</Button>
-			// 			</form>
-
-			// 			{/* {this.getConfirmtionMessage()} */}
-					
-			// 		</Panel.Body>
-			// 	</Panel>
-			// </div>
-		);
+		    );
 	}
 }
 
