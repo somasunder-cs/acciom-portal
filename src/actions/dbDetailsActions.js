@@ -15,6 +15,8 @@ import {
 	GET_DB_DETAILS_BY_ID_ERROR,
 	CHECK_DB_CONNECTION_SUCCESS,
 	CHECK_DB_CONNECTION_ERROR,
+	DELETE_DB_DETAILS_SUCCESS,
+	DELETE_DB_DETAILS_ERROR,
 	REDIRECT_TO_VIEW_DB_PAGE_COMPLETE
 } from '../constants/ActionTypes'; 
 
@@ -76,6 +78,22 @@ const checkDbConnectionError = error => {
 	toast.error('Database connection is unsuccessfull!!');
 	return {
 		type: CHECK_DB_CONNECTION_ERROR,
+		error
+	}
+};
+
+const deleteDBDetailsSuccess = data => {
+	toast.success('DB details successfully deleted');
+	return {
+		type: DELETE_DB_DETAILS_SUCCESS,
+		data
+	}
+};
+
+const deleteDBDetailsError = error => {
+	toast.error('DB details delete unsuccessfull!!');
+	return {
+		type: DELETE_DB_DETAILS_ERROR,
 		error
 	}
 };
@@ -182,5 +200,23 @@ export const checkDbConnection = (body) => dispatch => {
 		})
 		.catch(error => {
 			dispatch(checkDbConnectionError(error));
+		});
+};
+
+export const deleteDBDetails = (prjID) => dispatch => {
+	fetch(`${BASE_URL}/db-detail?project_id=${prjID}`, {
+		method: 'delete',
+		headers
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(deleteDBDetailsError(res.error));
+			} else {
+				dispatch(deleteDBDetailsSuccess(res.data));
+			}
+		})
+		.catch(error => {
+			dispatch(deleteDBDetailsError(error));
 		});
 };

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Panel, Table, Button} from 'react-bootstrap';
 
 import { showProjectSwitchPage } from '../actions/appActions';
-import { getAllDBDetails } from '../actions/dbDetailsActions';
+import { getAllDBDetails, deleteDBDetails } from '../actions/dbDetailsActions';
 
 class ViewDbDetails extends Component {
 
@@ -24,6 +24,10 @@ class ViewDbDetails extends Component {
 		this.props.showProjectSwitchPage(true);
 	};
 
+	deleteViewDBDetails = (prjID) => {
+		this.props.deleteDBDetails(prjID);
+	}
+
 	renderDBDetailsList = (dbDetailsList) => {
 		return dbDetailsList.map((item, index) => {
 			return (
@@ -38,6 +42,9 @@ class ViewDbDetails extends Component {
 						<Link to={`/add_db_details/${item.db_connection_id}`}>
 							<label className="addDBDetails">Edit</label>
 						</Link>
+					</td>
+					<td>
+						<label onClick={ (e) => {this.deleteViewDBDetails(item.project_id)}} className="deleteDBDetails">Delete</label>
 					</td>
 				</tr>	
 			);
@@ -89,7 +96,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
 	getAllDBDetails: (data) => dispatch(getAllDBDetails(data)),
-	showProjectSwitchPage: (data) => dispatch(showProjectSwitchPage(data))
+	showProjectSwitchPage: (data) => dispatch(showProjectSwitchPage(data)),
+	deleteDBDetails: (data) => dispatch(deleteDBDetails(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewDbDetails);
