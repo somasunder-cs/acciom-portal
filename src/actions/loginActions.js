@@ -56,14 +56,12 @@ const forgetPasswordSuccess = data => {
 const forgetPasswordError = data =>({
 	type: FORGET_PASSWORD_ERROR,
 	data
-};
+});
                                     
-const generateTokenSuccess = data =>{
-	return {
-		type: GENERATE_TOKEN_SUCCESS,
-		accessToken: data.personal_access_token
-	}
-};
+const generateTokenSuccess = data =>({
+	type: GENERATE_TOKEN_SUCCESS,
+	accessToken: data.personal_access_token
+});
 
 const generateTokenError = error =>({
 	type: GENERATE_TOKEN_ERROR,
@@ -150,8 +148,7 @@ export const changePassword = (body) => dispatch => {
 };
 
 export const forgetPassword = (body) => dispatch => {
-	fetch(`${BASE_URL}/forgot-password`, {
-  fetch(`${BASE_URL}/generate-token`, {
+	fetch(`${BASE_URL}/generate-token`, {
 		method: 'post',
 		headers,
 		body

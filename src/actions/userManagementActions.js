@@ -26,11 +26,12 @@ const getOrganizationUserListError = error =>({
 	error
 });
 
-const getRolesByOrgIdSuccess = (orgId, data) => {
+const getRolesByOrgIdSuccess = (data, orgId, key) => {
 	return {
 		type: GET_ROLES_BY_ORG_ID_SUCCESS,
 		orgId,
-		roles: data.roles
+		roles: data.roles,
+		key
 	};
 };
 
@@ -41,11 +42,12 @@ const getRolesByOrgIdError= (data) => {
 	};
 };
 
-const getRolesByProjectIdSuccess = (projectId, data) => {
+const getRolesByProjectIdSuccess = (data, projectId, key) => {
 	return {
 		type: GET_ROLES_BY_PROJECT_ID_SUCCESS,
 		projectId,
-		roles: data.roles
+		roles: data.roles,
+		key
 	};
 };
 
@@ -127,7 +129,7 @@ export const getOrganizationUsersList = (org_id) => (dispatch, getState) => {
 			}
 		});
 };	
-export const getRolesByOrgId = (orgId) => (dispatch, getState) => {
+export const getRolesByOrgId = (orgId, key) => (dispatch, getState) => {
 	
 	// setTimeout(function() {
 	// 	dispatch(getRolesByOrgIdSuccess(_rolesListData.data));
@@ -140,7 +142,7 @@ export const getRolesByOrgId = (orgId) => (dispatch, getState) => {
 		.then(response => response.json())
 		.then(res => { 
 			if (res.status !== false && res && res.data) {
-				dispatch(getRolesByOrgIdSuccess(orgId, res.data));
+				dispatch(getRolesByOrgIdSuccess(res.data, orgId, key ));
 			} else {
 				genericErrorHandler(dispatch, res, getRolesByOrgIdError);
 			}
@@ -154,7 +156,7 @@ export const getRolesByOrgId = (orgId) => (dispatch, getState) => {
 		});
 };	
 
-export const getRolesByProjectId = (project_id) => (dispatch, getState) => {
+export const getRolesByProjectId = (project_id, key) => (dispatch, getState) => {
 	
 	// setTimeout(function() {
 	// 	dispatch(getRolesByProjectIdSuccess(_rolesListData.data));
@@ -167,7 +169,7 @@ export const getRolesByProjectId = (project_id) => (dispatch, getState) => {
 		.then(response => response.json())
 		.then(res => { 
 			if (res.status !== false && res && res.data) {
-				dispatch(getRolesByProjectIdSuccess(project_id, res.data));
+				dispatch(getRolesByProjectIdSuccess(res.data, project_id, key));
 			} else {
 				genericErrorHandler(dispatch, res, getRolesByProjectIdError);
 			}

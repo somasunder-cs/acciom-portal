@@ -13,8 +13,8 @@ export const roleTypes = {
 
 const initialState = {
 	orgUserList: [],
-	orgRolesList: {},
-	projectRolesList: {},
+	// orgRolesList: {},
+	orgProjectRolesList: {},
 	userOrgRoleList: [],
 	userProjectRoleList: [],
 	userNewRoleList: [],
@@ -23,7 +23,7 @@ const initialState = {
 
 const addNewRolesToList = (rolesList) => {
 	const list = [...rolesList];
-	list.push({ project_id:null, allowed_role_list: [] });
+	list.push({ id:Math.floor(Math.random()*1000000), allowed_role_list: [], roleType: roleTypes.NEW });
 	return list;
 };
 
@@ -51,7 +51,11 @@ const userManagementData = (state = initialState, action) => {
 	case GET_ORGANIZATION_USER_LIST_SUCCESS:
 		return {
 			...state,
-			orgUserList: action.orgUserList
+			orgUserList: action.orgUserList,
+			userOrgRoleList: [],
+			userProjectRoleList: [],
+			userNewRoleList: [],
+			selectedUser: {}
 		};
 		
 	case ADD_NEW_USER_ROLE:
@@ -63,20 +67,21 @@ const userManagementData = (state = initialState, action) => {
 	case DELETE_USER_ROLE:
 		return deleteRolesFromList(state, action.roleType, action.index);
 
-	case GET_ROLES_BY_ORG_ID_SUCCESS:
-		let orgRolesList = { ...state.orgRolesList };
-		orgRolesList[action.orgId] = action.roles;
-		return {
-			...state,
-			orgRolesList 
-		};
+	// case GET_ROLES_BY_ORG_ID_SUCCESS:
+	// 	let orgRolesList = { ...state.orgRolesList };
+	// 	orgRolesList[action.key] = action.roles;
+	// 	return {
+	// 		...state,
+	// 		orgRolesList 
+	// 	};
 
+	case GET_ROLES_BY_ORG_ID_SUCCESS:
 	case GET_ROLES_BY_PROJECT_ID_SUCCESS:
-		let projectRolesList = { ...state.projectRolesList };
-		projectRolesList[action.projectId] = action.roles;
+		let orgProjectRolesList = { ...state.orgProjectRolesList };
+		orgProjectRolesList[action.key] = action.roles;
 		return {
 			...state,
-			projectRolesList
+			orgProjectRolesList
 		};
 
 	case RETRIVE_USER_ROLE_SUCCESS:

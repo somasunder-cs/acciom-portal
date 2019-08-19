@@ -25,7 +25,7 @@ import Icon from '@material-ui/core/Icon';
 import ChangeOrganisation from '../components/ChangeOrganisation'
 import { logoutFromPortal } from '../actions/loginActions';
 import { showOrgChangePage } from '../actions/appActions';
-import logo from '../assets/images/logo.jpeg';
+import logo from '../assets/images/logo.png';
 
 const drawerWidth = 240;
 

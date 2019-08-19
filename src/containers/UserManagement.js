@@ -15,23 +15,18 @@ class UserManagement extends Component {
 		};
 	}
 	
+	componentDidMount(){
+		console.log('UserManagement.componentDidMount() ===>');
+	}
+
 	static getDerivedStateFromProps = (nextProps, prevState) => {
 		if (!prevState.isOrganisationInitialised && 
 			nextProps.isOrganisationInitialised > 0) {
-			console.log('UserManagement.getDerivedStateFromProps() load org users');
-			let orgId = 1;//TODO: hard coded value. To be cleaned up after org switch
-			nextProps.getOrganizationUsersList(orgId);
+			nextProps.getOrganizationUsersList(nextProps.currentOrg.org_id);
 		}
 		return ({
 			isOrganisationInitialised: nextProps.isOrganisationInitialised
 		});
-	}
-	showEditContent = (user) => {
-		this.setState({isEditable: true});
-		// console.log(user);
-		let org_id = 1; //TODO: to be removed onced organization switch implementation is done
-		// this.props.getSelectedUser(org_id, user.user_id);
-
 	}
 
 	getOrgUserList = () => {
@@ -72,8 +67,8 @@ class UserManagement extends Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log('UserManagement.mapStateToProps() ', state);
 	return {
+		currentOrg: state.appData.currentOrg,
 		orgUserList: state.userManagementData.orgUserList? state.userManagementData.orgUserList: [],
 		projectList: state.appData.projectList? state.appData.projectList: [],
 		isOrganisationInitialised: state.appData.isOrganisationInitialised

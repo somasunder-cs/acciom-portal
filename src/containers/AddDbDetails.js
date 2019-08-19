@@ -7,14 +7,12 @@ import { addDatabaseDetails, getDBDetailsById, updateDBDetails, checkDbConnectio
 class AddDbDetails extends Component {
 
 	constructor(props) {
-		console.log('AddDbDetails constructor====>')
 		super(props);
 		this.initialiseFormState();
 	}
 
 	componentDidMount() {
 		const dbTypeId = this.state.formData['db_connection_id'];
-		console.log('componentDidMount ',dbTypeId);
 		if (dbTypeId)  {
 			this.setState({isEditMode:true});
 			this.props.getDBDetailsById(dbTypeId);
@@ -74,15 +72,6 @@ class AddDbDetails extends Component {
 			formData
 		});
 	}
-	
-	// getConfirmationMessage = () => {
-	// 	if (this.props.updatedDbDetails) {
-	// 		// toast("Database details added successfully.");
-	// 		return (<div>Database details added successfully.</div>);
-	// 	} else {
-	// 		return '';
-	// 	}
-	// }
 	
 	formSubmit = (e) => {
 		e.preventDefault();
@@ -151,7 +140,6 @@ class AddDbDetails extends Component {
 							</FormGroup>
 						</Form>
 					</Panel.Body>
-					{/* <Panel.Body>{ this.getConfirmationMessage() }</Panel.Body> */}
 				</Panel>
 			</div>
 		);
