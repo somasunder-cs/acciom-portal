@@ -137,33 +137,48 @@ const getLoginOptions = (props, classes) => {
 	
 	const getLoginElements = () => {
 		if (props.loginData && props.loginData.token) {
-			return (<Link id="logoutLink" className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</Link>);
+			return ( <div>
+				<DropdownButton  title="Account" bsStyle="primary" bsSize="small" id="dropdown-no-caret loginLink" pullRight noCaret
+					onClick={(event) => { event.preventDefault();}}>
+					<MenuItemBS eventKey="1" className={classes.width}>
+						<Link to="/access_token"  className={classes.width}>Access Token</Link>
+					</MenuItemBS>
+					<MenuItemBS eventKey="2">
+						<Link to="/change_password">Change Password</Link>
+					</MenuItemBS>
+					
+					<MenuItemBS eventKey="4">
+						{/* <Link to="/change_password">Change Password</Link> */}
+						<span id="change_organisation" onClick={(event) => { handleShowOrg(props, true);}}>Change Organisation</span>
+					</MenuItemBS>
+					<MenuItemBS eventKey="5">
+						<Link id="logoutLink" className={classes.loginbtn} onClick={(event) => { event.preventDefault(); props.logoutFromPortal() }}>Logout</Link>
+					</MenuItemBS>
+				</DropdownButton>
+			</div>
+				
+			);
 		} else {
-			return (<Link to='/login'>Login</Link>);
+			return ( 
+				<div>
+				<DropdownButton  title="Account" bsStyle="primary" bsSize="small" id="dropdown-no-caret loginLink" pullRight noCaret
+					onClick={(event) => { event.preventDefault();}}>
+					<MenuItemBS eventKey="3">
+						<Link to="/forgot_password">Forgot Password</Link>
+					</MenuItemBS>
+				 	<MenuItemBS eventKey="3">
+				 		<Link to='/login'>Login</Link>
+					</MenuItemBS>
+				</DropdownButton>
+			</div>
+				
+			);
 		}
 	};
 
 	options = 	(
 		<div className={classes.accountbtn}>
-			<DropdownButton  title="Account" bsStyle="primary" bsSize="small" id="dropdown-no-caret loginLink" pullRight noCaret
-				onClick={(event) => { event.preventDefault();}}>
-				<MenuItemBS eventKey="1" className={classes.width}>
-					<Link to="/access_token"  className={classes.width}>Access Token</Link>
-				</MenuItemBS>
-				<MenuItemBS eventKey="2">
-					<Link to="/change_password">Change Password</Link>
-				</MenuItemBS>
-				<MenuItemBS eventKey="3">
-					<Link to="/forgot_password">Forgot Password</Link>
-				</MenuItemBS>
-				<MenuItemBS eventKey="4">
-					{/* <Link to="/change_password">Change Password</Link> */}
-					<span id="change_organisation" onClick={(event) => { handleShowOrg(props, true);}}>Change Organisation</span>
-				</MenuItemBS>
-				<MenuItemBS eventKey="5">
-					{ getLoginElements() }
-				</MenuItemBS>
-			</DropdownButton>
+			{ getLoginElements() }
 		</div>
 	)
 

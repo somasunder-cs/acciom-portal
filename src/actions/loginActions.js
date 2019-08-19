@@ -7,6 +7,8 @@ import {
 	LOGOUT_FROM_PORTAL_ERROR,
 	CHANGE_PASSWORD_SUCCESS,
 	CHANGE_PASSWORD_ERROR,
+	FORGET_PASSWORD_SUCCESS,
+	FORGET_PASSWORD_ERROR,
 	GENERATE_TOKEN_SUCCESS,
 	GENERATE_TOKEN_ERROR
 } from '../constants/ActionTypes'; 
@@ -43,6 +45,19 @@ const changePasswordError = data =>({
 	data
 });
 
+const forgetPasswordSuccess = data => {
+	toast.success("Link has been send successfully");
+	return {
+		type: FORGET_PASSWORD_SUCCESS,
+		data
+	}
+};
+
+const forgetPasswordError = data =>({
+	type: FORGET_PASSWORD_ERROR,
+	data
+};
+                                    
 const generateTokenSuccess = data =>{
 	return {
 		type: GENERATE_TOKEN_SUCCESS,
@@ -134,6 +149,25 @@ export const changePassword = (body) => dispatch => {
 		});
 };
 
+export const forgetPassword = (body) => dispatch => {
+	fetch(`${BASE_URL}/forgot-password`, {
+  fetch(`${BASE_URL}/generate-token`, {
+		method: 'post',
+		headers,
+		body
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(forgetPasswordError(res.error));
+			}
+			dispatch(forgetPasswordSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(forgetPasswordError(error));
+		});
+};
+
 export const generateToken = (body) => dispatch => {
 	fetch(`${BASE_URL}/generate-token`, {
 		method: 'post',
@@ -151,4 +185,3 @@ export const generateToken = (body) => dispatch => {
 			dispatch(generateTokenError(error));
 		});
 };
-

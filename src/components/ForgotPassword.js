@@ -3,6 +3,7 @@ import{ connect } from 'react-redux';
 import { Row, Button, FormGroup, FormControl, ControlLabel, HelpBlock, Panel } from 'react-bootstrap';
 import { Route, Link } from 'react-router-dom';
 import Dashboard from '../containers/Dashboard';
+import { forgetPassword } from '../actions/loginActions';
 
 class ForgotPassword extends Component {
 	constructor(props) {
@@ -11,8 +12,10 @@ class ForgotPassword extends Component {
 		formData: {}, // Contains login form data
 		errors: {}, // Contains login field errors
 		formSubmitted: false, // Indicates submit status of login form 
-		loading: false // Indicates in progress state of login form
-	}
+		loading: false,
+		value:'' // Indicates in progress state of login form
+		};
+		this.updateInput = this.updateInput.bind(this);
 	}
 	
 	handleInputChange = ({target}) => {
@@ -40,15 +43,19 @@ class ForgotPassword extends Component {
 		}
 	}
 
-	getConfirmtionMessage() {
-     let element = null;
-     if (this.props.changePassword) {
-		element = (
-		   <div>Password Changed SuccessFully.</div>
-			) 
-	  }
-	  return element;
+	getConfirmtionMessage(e) {
+		e.preventDefault();
+		console.log(this.state.value);
+		let emailAdd = {
+			"email": this.state.value
+		};
+		this.props.forgetPassword(JSON.stringify(emailAdd));
 	}
+
+	updateInput(evt){
+		this.setState({value: evt.target.value})   
+	}
+	
 
 	render(){
 		const { errors, formSubmitted } = this.state;
@@ -61,8 +68,8 @@ class ForgotPassword extends Component {
 				<div className='frgtpassheading'>Forgot Password</div>
 				<Panel>
 					<Panel.Body>
-						<input type="text" className='frgtpassfield' placeholder="Enter Email Id"></input>
-						<Button className='frgtpassbtn' bsStyle="primary">Send Link</Button>
+						<input type="text" ref="emailAddrss" className='frgtpassfield' onChange={this.updateInput} placeholder="Enter Email Id"></input>
+						<Button className='frgtpassbtn' bsStyle="primary" onClick={(e) => {this.getConfirmtionMessage(e)}}>Send Link</Button>
 					</Panel.Body>
 				</Panel>
 			</div>
@@ -75,12 +82,12 @@ class ForgotPassword extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		passwordChanged: state.loginData.passwordChanged
+		forgetPasswordChanged: state.loginData.forgetPasswordChanged
 	};
 };
 
 const mapDispatchToProps = dispatch => ({
-	changePassword: (data) => dispatch(changePassword(data))
+	forgetPassword: (data) => dispatch(forgetPassword(data))
 })
   
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
