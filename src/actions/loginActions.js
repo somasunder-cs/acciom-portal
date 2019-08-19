@@ -8,7 +8,9 @@ import {
 	CHANGE_PASSWORD_SUCCESS,
 	CHANGE_PASSWORD_ERROR,
 	FORGET_PASSWORD_SUCCESS,
-	FORGET_PASSWORD_ERROR
+	FORGET_PASSWORD_ERROR,
+	GENERATE_TOKEN_SUCCESS,
+	GENERATE_TOKEN_ERROR
 } from '../constants/ActionTypes'; 
 
 const base64Encode = (email, password) => {
@@ -54,6 +56,18 @@ const forgetPasswordSuccess = data => {
 const forgetPasswordError = data =>({
 	type: FORGET_PASSWORD_ERROR,
 	data
+};
+                                    
+const generateTokenSuccess = data =>{
+	return {
+		type: GENERATE_TOKEN_SUCCESS,
+		accessToken: data.personal_access_token
+	}
+};
+
+const generateTokenError = error =>({
+	type: GENERATE_TOKEN_ERROR,
+	error
 });
 
 const storeUserData = ({token}) => {
@@ -137,6 +151,7 @@ export const changePassword = (body) => dispatch => {
 
 export const forgetPassword = (body) => dispatch => {
 	fetch(`${BASE_URL}/forgot-password`, {
+  fetch(`${BASE_URL}/generate-token`, {
 		method: 'post',
 		headers,
 		body
@@ -150,5 +165,23 @@ export const forgetPassword = (body) => dispatch => {
 		})
 		.catch(error => {
 			dispatch(forgetPasswordError(error));
+		});
+};
+
+export const generateToken = (body) => dispatch => {
+	fetch(`${BASE_URL}/generate-token`, {
+		method: 'post',
+		headers,
+		body
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(generateTokenError(res.error));
+			}
+			dispatch(generateTokenSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(generateTokenError(error));
 		});
 };
