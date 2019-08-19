@@ -6,7 +6,9 @@ import {
 	LOGOUT_FROM_PORTAL_SUCCESS,
 	LOGOUT_FROM_PORTAL_ERROR,
 	CHANGE_PASSWORD_SUCCESS,
-	CHANGE_PASSWORD_ERROR
+	CHANGE_PASSWORD_ERROR,
+	FORGET_PASSWORD_SUCCESS,
+	FORGET_PASSWORD_ERROR
 } from '../constants/ActionTypes'; 
 
 const base64Encode = (email, password) => {
@@ -38,6 +40,19 @@ const changePasswordSuccess = data =>{
 
 const changePasswordError = data =>({
 	type: CHANGE_PASSWORD_ERROR,
+	data
+});
+
+const forgetPasswordSuccess = data => {
+	toast.success("Link has been send successfully");
+	return {
+		type: FORGET_PASSWORD_SUCCESS,
+		data
+	}
+};
+
+const forgetPasswordError = data =>({
+	type: FORGET_PASSWORD_ERROR,
 	data
 });
 
@@ -117,5 +132,23 @@ export const changePassword = (body) => dispatch => {
 		})
 		.catch(error => {
 			dispatch(changePasswordError(error));
+		});
+};
+
+export const forgetPassword = (body) => dispatch => {
+	fetch(`${BASE_URL}/forgot-password`, {
+		method: 'post',
+		headers,
+		body
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(forgetPasswordError(res.error));
+			}
+			dispatch(forgetPasswordSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(forgetPasswordError(error));
 		});
 };

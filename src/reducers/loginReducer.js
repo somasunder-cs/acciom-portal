@@ -4,7 +4,8 @@ import {
 	LOGOUT_FROM_PORTAL_SUCCESS,
 	LOGOUT_FROM_PORTAL_ERROR,
 	CHANGE_PASSWORD_SUCCESS,
-	AUTHENTICATION_EXPIRED
+	AUTHENTICATION_EXPIRED,
+	FORGET_PASSWORD_SUCCESS
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -45,6 +46,11 @@ const loginData = (state = initialState, action) => {
 			...state,
 			passwordChanged: true
 		};
+	case FORGET_PASSWORD_SUCCESS:
+		return {
+			...state,
+			forgetPasswordChanged: true
+		}
 	default:
 		return state;
 	}
