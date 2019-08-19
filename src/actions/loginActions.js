@@ -6,7 +6,9 @@ import {
 	LOGOUT_FROM_PORTAL_SUCCESS,
 	LOGOUT_FROM_PORTAL_ERROR,
 	CHANGE_PASSWORD_SUCCESS,
-	CHANGE_PASSWORD_ERROR
+	CHANGE_PASSWORD_ERROR,
+	GENERATE_TOKEN_SUCCESS,
+	GENERATE_TOKEN_ERROR
 } from '../constants/ActionTypes'; 
 
 const base64Encode = (email, password) => {
@@ -39,6 +41,18 @@ const changePasswordSuccess = data =>{
 const changePasswordError = data =>({
 	type: CHANGE_PASSWORD_ERROR,
 	data
+});
+
+const generateTokenSuccess = data =>{
+	return {
+		type: GENERATE_TOKEN_SUCCESS,
+		accessToken: data.personal_access_token
+	}
+};
+
+const generateTokenError = error =>({
+	type: GENERATE_TOKEN_ERROR,
+	error
 });
 
 const storeUserData = ({token}) => {
@@ -119,3 +133,22 @@ export const changePassword = (body) => dispatch => {
 			dispatch(changePasswordError(error));
 		});
 };
+
+export const generateToken = (body) => dispatch => {
+	fetch(`${BASE_URL}/generate-token`, {
+		method: 'post',
+		headers,
+		body
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(generateTokenError(res.error));
+			}
+			dispatch(generateTokenSuccess(res.data));
+		})
+		.catch(error => {
+			dispatch(generateTokenError(error));
+		});
+};
+
