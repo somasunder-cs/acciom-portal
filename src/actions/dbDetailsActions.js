@@ -203,8 +203,8 @@ export const checkDbConnection = (body) => dispatch => {
 		});
 };
 
-export const deleteDBDetails = (prjID) => dispatch => {
-	fetch(`${BASE_URL}/db-detail?project_id=${prjID}`, {
+export const deleteDBDetails = (connectionID) => dispatch => {
+	fetch(`${BASE_URL}/db-detail?db_connection_id=${connectionID}`, {
 		method: 'delete',
 		headers
 	})

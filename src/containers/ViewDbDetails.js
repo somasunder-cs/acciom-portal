@@ -24,8 +24,8 @@ class ViewDbDetails extends Component {
 		this.props.showProjectSwitchPage(true);
 	};
 
-	deleteViewDBDetails = (prjID) => {
-		this.props.deleteDBDetails(prjID);
+	deleteViewDBDetails = (connectionID) => {
+		this.props.deleteDBDetails(connectionID);
 	}
 
 	renderDBDetailsList = (dbDetailsList) => {
@@ -44,7 +44,7 @@ class ViewDbDetails extends Component {
 						</Link>
 					</td>
 					<td>
-						<label onClick={ (e) => {this.deleteViewDBDetails(item.project_id)}} className="deleteDBDetails">Delete</label>
+						<label onClick={ (e) => {this.deleteViewDBDetails(item.db_connection_id)}} className="deleteDBDetails">Delete</label>
 					</td>
 				</tr>	
 			);
