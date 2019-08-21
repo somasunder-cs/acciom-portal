@@ -2,7 +2,8 @@ import {
 	GET_ORGANIZATION_USER_LIST_SUCCESS, GET_ROLES_BY_ORG_ID_SUCCESS, GET_ROLES_BY_PROJECT_ID_SUCCESS,
 	RETRIVE_USER_ROLE_SUCCESS,
 	ADD_NEW_USER_ROLE,
-	DELETE_USER_ROLE
+	DELETE_USER_ROLE,
+	UPDATE_USER_ROLES_SUCCESS
 } from '../constants/ActionTypes';
 
 export const roleTypes = {
@@ -13,37 +14,12 @@ export const roleTypes = {
 
 const initialState = {
 	orgUserList: [],
-	// orgRolesList: {},
 	orgProjectRolesList: {},
 	userOrgRoleList: [],
 	userProjectRoleList: [],
 	userNewRoleList: [],
-	selectedUser: {}
-};
-
-const addNewRolesToList = (rolesList) => {
-	const list = [...rolesList];
-	list.push({ id:Math.floor(Math.random()*1000000), allowed_role_list: [], roleType: roleTypes.NEW });
-	return list;
-};
-
-const deleteRolesFromList = (state, roleType, index) => {
-	let currentState = { ...state };
-	let roleList = null; 
-	if (roleType === roleTypes.ORGANIZATION) {
-		roleList = [ ...state.userOrgRoleList ];
-		roleList.splice(index, 1);
-		currentState = { ...state, userOrgRoleList: roleList };
-	} else if (roleType === roleTypes.PROJECT) {
-		roleList = [ ...state.userProjectRoleList ];
-		roleList.splice(index, 1);
-		currentState = { ...state, userProjectRoleList: roleList };
-	} else if (roleType === roleTypes.NEW) {
-		roleList = [...state.userNewRoleList ];
-		roleList.splice(index, 1);
-		currentState = { ...state, userNewRoleList: roleList };
-	} 
-	return currentState;
+	selectedUser: null,
+	redirectToUserMgmtHome: false
 };
 
 const userManagementData = (state = initialState, action) => {
@@ -55,26 +31,10 @@ const userManagementData = (state = initialState, action) => {
 			userOrgRoleList: [],
 			userProjectRoleList: [],
 			userNewRoleList: [],
-			selectedUser: {}
+			selectedUser: null,
+			redirectToUserMgmtHome: false
 		};
 		
-	case ADD_NEW_USER_ROLE:
-		return {
-			...state,
-			userNewRoleList: addNewRolesToList(state.userNewRoleList)
-		};
-
-	case DELETE_USER_ROLE:
-		return deleteRolesFromList(state, action.roleType, action.index);
-
-	// case GET_ROLES_BY_ORG_ID_SUCCESS:
-	// 	let orgRolesList = { ...state.orgRolesList };
-	// 	orgRolesList[action.key] = action.roles;
-	// 	return {
-	// 		...state,
-	// 		orgRolesList 
-	// 	};
-
 	case GET_ROLES_BY_ORG_ID_SUCCESS:
 	case GET_ROLES_BY_PROJECT_ID_SUCCESS:
 		let orgProjectRolesList = { ...state.orgProjectRolesList };
@@ -92,7 +52,13 @@ const userManagementData = (state = initialState, action) => {
 			userNewRoleList: [],
 			selectedUser: action.data ? action.data: {}
 		};
-	
+		
+	case UPDATE_USER_ROLES_SUCCESS:
+		return {
+			...state,
+			redirectToUserMgmtHome: true
+		};
+		
 	default:
 		return state;
 	}

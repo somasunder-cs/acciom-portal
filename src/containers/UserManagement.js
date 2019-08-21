@@ -14,10 +14,6 @@ class UserManagement extends Component {
 			isEditable : false
 		};
 	}
-	
-	componentDidMount(){
-		console.log('UserManagement.componentDidMount() ===>');
-	}
 
 	static getDerivedStateFromProps = (nextProps, prevState) => {
 		if (!prevState.isOrganisationInitialised && 

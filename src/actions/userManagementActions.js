@@ -11,10 +11,8 @@ import {
 	GET_ROLES_BY_PROJECT_ID_SUCCESS,
 	GET_ROLES_BY_PROJECT_ID_ERROR,
 	RETRIVE_USER_ROLE_SUCCESS,
-	RETRIVE_USER_ROLE_ERROR,
-	ADD_NEW_USER_ROLE,
-	DELETE_USER_ROLE
- } from "../constants/ActionTypes";
+	RETRIVE_USER_ROLE_ERROR
+} from "../constants/ActionTypes";
 
 const getOrganizationUserListSuccess = data => ({
 	type: GET_ORGANIZATION_USER_LIST_SUCCESS,
@@ -80,27 +78,12 @@ const retriveUserRoleByUserIdSuccess = data => {
 	
 };
 
-const retriveUserRoleByUserIdError = data => {
+const retriveUserRoleByUserIdError = error => {
 	return {
 		type: RETRIVE_USER_ROLE_ERROR,
 		error
 	};
 	
-};
-
-export const addNewUserRole = (userId) => {
-	return {
-		type: ADD_NEW_USER_ROLE,
-		userId
-	};
-};
-
-export const deleteUserRole = (roleType, index) => {
-	return {
-		type: DELETE_USER_ROLE,
-		roleType,
-		index
-	};
 };
 
 export const getOrganizationUsersList = (org_id) => (dispatch, getState) => {
@@ -183,30 +166,6 @@ export const getRolesByProjectId = (project_id, key) => (dispatch, getState) => 
 		});
 };	
 
-export const updateUserRoles = (org_id) => (dispatch, getState) => {
-	const token = localStorage.getItem('auth_token') ;
-	updateHeaders(token);
-	fetch(`${BASE_URL}/user-managemnt?org_id=${org_id}`, {
-		method: 'get',
-		headers
-	})
-		.then(response => response.json())
-		.then(res => { 
-			if (res.status !== false && res && res.data) {
-				dispatch(updateUserRolesSuccess(res.data));
-			} else {
-				genericErrorHandler(dispatch, res, updateUserRolesError);
-			}
-		})
-		.catch(err => {
-			if (err.name === 'AbortError') {
-				console.error('Fetch aborted')
-			} else {
-				console.error('Another error', err)
-			}
-		});
-};
-
 export const retriveUserRoleByUserId = (org_id, user_id) => (dispatch, getState) => {
 	const token = localStorage.getItem('auth_token') ;
 	updateHeaders(token);
@@ -227,6 +186,31 @@ export const retriveUserRoleByUserId = (org_id, user_id) => (dispatch, getState)
 				console.error('Fetch aborted')
 			} else {
 				console.error('Another error', err)
+			}
+		});
+};
+
+export const updateUserRoles = (body) => (dispatch, getState) => {
+	const token = localStorage.getItem('auth_token') ;
+	updateHeaders(token);
+	fetch(`${BASE_URL}/user-role`, {
+		method: 'post',
+		headers,
+		body
+	})
+		.then(response => response.json())
+		.then(res => { 
+			if (res.status !== false && res && res.data) {
+				dispatch(updateUserRolesSuccess(res.data));
+			} else {
+				genericErrorHandler(dispatch, res, updateUserRolesError);
+			}
+		})
+		.catch(err => {
+			if (err.name === 'AbortError') {
+				console.error('Fetch aborted');
+			} else {
+				console.error('Another error', err);
 			}
 		});
 };

@@ -4550,8 +4550,13 @@ textarea {width:280px;}
     float: right;
 }
 
-.editUserRoles li {
+#editUserRoles li {
     list-style: none;
+    margin-bottom: 10px;
+}
+
+#editUserRoles .footer {
+    margin: 16px;
 }
 
 .form-check-input {

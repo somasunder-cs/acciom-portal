@@ -4,15 +4,6 @@ import { connect } from 'react-redux';
 import { getRolesByProjectId, getRolesByOrgId } from '../actions/userManagementActions';
 import { roleTypes } from '../reducers/userManagementReducer';
 
-const getObjFromList = (list, key, value)=> list.find(v => v[key] === value);
-
-const formatProjectListData = (listData) => {
-	const formatedList = listData.map((item) => {
-		return { value: `p_${item.project_id}`, label: item.project_name, roleType: roleTypes.PROJECT, uid: item.project_id} ;
-	});
-	return formatedList;
-};
-
 const formatRoleListData = (rolesList) => {
 	let formatedList = [];
 	if (rolesList) {
@@ -24,7 +15,7 @@ const formatRoleListData = (rolesList) => {
 };
 
 const getSelectedRoleItems = (rolesList, selectedRoles) => {
-	let selectedItems = rolesList.filter(role => {
+	const selectedItems = rolesList.filter(role => {
 		return selectedRoles.includes(role.value);
 	});
 	return selectedItems;
@@ -34,40 +25,21 @@ class RoleListItemContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			orgNProjectList: [],
-			selectedOrgProject: null,
 			rolesList:[],
 			selectedRoles:[]
 		};
 	}
 
 	componentDidMount() {
-		const orgList = [{
-			value: `o_${this.props.currentOrg.org_id}`, 
-			label: this.props.currentOrg.org_name, 
-			roleType: roleTypes.ORGANIZATION,
-			uid: this.props.currentOrg.org_id
-		}];
-		const projectList =  formatProjectListData(this.props.projectList);
-		const orgNProjectList = [...orgList, ...projectList];
-	
-		let selectedOrgProject  = null;
-		if (this.props.roleType === roleTypes.ORGANIZATION) {
-			selectedOrgProject = getObjFromList(orgList, 'value', this.props.id);
-		} else if (this.props.roleType === roleTypes.PROJECT) {
-			selectedOrgProject = getObjFromList(projectList, 'value', this.props.id);
+		if (this.props.selectedOrgProject) {
+			this.getRolesByOrgRProject(this.props.selectedOrgProject);
 		}
-		
-		if (selectedOrgProject) {
-			this.getRolesByOrgRProject(selectedOrgProject);
-		}
-		this.setState({orgNProjectList, selectedOrgProject});
 	}
 
 	static getDerivedStateFromProps = (nextProps, prevState) => {
-		if (prevState.selectedOrgProject && prevState.rolesList.length === 0) {
-			if (nextProps.orgProjectRolesList.hasOwnProperty(prevState.selectedOrgProject.value)) {
-				const rolesList = formatRoleListData(nextProps.orgProjectRolesList[prevState.selectedOrgProject.value]);
+		if (nextProps.selectedOrgProject) {	
+			if (nextProps.orgProjectRolesList.hasOwnProperty(nextProps.selectedOrgProject.value)) {
+				const rolesList = formatRoleListData(nextProps.orgProjectRolesList[nextProps.selectedOrgProject.value]);
 				const selectedRoles = getSelectedRoleItems(rolesList, nextProps.selectedRoles);
 				return {
 					...prevState,
@@ -76,12 +48,12 @@ class RoleListItemContainer extends Component {
 				};
 			}
 		}
-		
 		return prevState;
 	}
 
 	getRolesByOrgRProject = (selectedOrgProject) => {
 		if (this.props.orgProjectRolesList.hasOwnProperty(selectedOrgProject.value)) return;
+
 		if (selectedOrgProject.roleType ===  roleTypes.ORGANIZATION ) {
 			this.props.getRolesByOrgId(selectedOrgProject.uid, selectedOrgProject.value);
 		} else if (selectedOrgProject.roleType ===  roleTypes.PROJECT ) {
@@ -90,15 +62,14 @@ class RoleListItemContainer extends Component {
 	}
 
 	handleOrgProjectChange = selectedOrgProject => {
-		if (selectedOrgProject === this.state.selectedOrgProject) {
+		if (selectedOrgProject === this.props.selectedOrgProject) {
 			return;
 		};
-		this.setState({selectedOrgProject, rolesList:[]});
-		this.getRolesByOrgRProject(selectedOrgProject);
+		this.props.onOrgProjectChange(this.props.index, selectedOrgProject);
 	};
 
-	handleRoleChange = (item) => {
-		this.setState({selectedRoles: item});
+	handleRoleChange = (roles) => {
+		this.props.onRoleChange(this.props.index, roles);
 	};
 
 	addRow = () => {
@@ -114,9 +85,9 @@ class RoleListItemContainer extends Component {
 			<div>
 				<Select 
 					className='singleSelect'
-					value={this.state.selectedOrgProject}
+					value={this.props.selectedOrgProject}
 					onChange={ (item) => this.handleOrgProjectChange(item) }
-					options= { this.state.orgNProjectList }
+					options= { this.props.orgProjectList }
 				/>
 
 				<Select
@@ -143,8 +114,6 @@ class RoleListItemContainer extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		currentOrg: state.appData.currentOrg,
-		projectList: state.appData.projectList,
 		orgProjectRolesList: state.userManagementData.orgProjectRolesList,
 	};
 };
@@ -154,4 +123,4 @@ const mapDispatchToProps = dispatch => ({
 	getRolesByProjectId: (projectId, key) => dispatch(getRolesByProjectId(projectId, key))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoleListItemContainer);
+export default connect(mapStateToProps, mapDispatchToProps) (RoleListItemContainer);
