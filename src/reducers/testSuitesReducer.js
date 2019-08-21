@@ -18,6 +18,7 @@ import {
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 	SWITCH_PROJECT_SUCCESS,
 	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
+	GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS
 } from '../constants/ActionTypes';
 
 import { browserHistory } from 'react-router';
@@ -85,9 +86,15 @@ const testSuites = (state = initialState, action) => {
 			connectionsList : { 
 				...state.connectionsList,
 				allCases: action.allCases,
-				showConnectionsDialog: true
+				showConnectionsDialog: action.showDialog
 			}
 		};
+
+	case GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS:
+		return {
+			...state,
+			eachTestCaseDetails : action.eachTestCaseDetails
+		};	
 
 	case GET_TESTCASE_LOG_BY_ID_SUCCESS:
 		//  action.testCaseLog.showCaseLogDialog = true;

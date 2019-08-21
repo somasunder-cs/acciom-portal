@@ -34,7 +34,9 @@ import {
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_ERROR,
 	UPDATE_TEST_CASE_SUCCESS,
-	UPDATE_TEST_CASE_ERROR
+	UPDATE_TEST_CASE_ERROR,
+	GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS,
+	GET_EACH_TEST_CASE_BY_CASE_ID_ERROR
 } from "../constants/ActionTypes"; 
 
 const getAllTestSuitesSuccess = data => ({
@@ -89,9 +91,10 @@ const getAllConnectionsError = error => ({
 	error
 });
 
-const getTestCaseDetailBySuiteIdSuccess = data => ({
+const getTestCaseDetailBySuiteIdSuccess = (data, showDialog) => ({
 	type: GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
-	allCases: data.all_cases
+	allCases: data.all_cases,
+	showDialog
 });
 
 const getTestCaseDetailBySuiteIdError = error => ({
@@ -127,6 +130,16 @@ const getTestCaseByTestCaseIdSuccess = testCase => ({
 const getTestCaseByTestCaseIdError = testCase => ({
 	type: GET_TEST_CASE_BY_TEST_CASE_ID_ERROR,
 	testCase
+});
+
+const getEachTestCaseDetailsByCaseIdSuccess = eachTestCaseDetails => ({
+	type: GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS,
+	eachTestCaseDetails
+});
+
+const getEachTestCaseDetailsByCaseIdError = eachTestCaseDetails => ({
+	type: GET_EACH_TEST_CASE_BY_CASE_ID_ERROR,
+	eachTestCaseDetails
 });
 
 const updateTestCaseSuccess = data => ({
@@ -204,10 +217,7 @@ export const executeTestBySuiteId = (suiteID) => dispatch => {
 				dispatch(executeTestBySuiteIdError(res.error));
 			}
 			dispatch(executeTestBySuiteIdSuccess(res.data));
-		// 	setTimeout(() => {
-	    //      console.log('getAllTestSuites ', getState());
-	    //      dispatch(getAllTestSuitesSuccess(_testSuitesData));
-	    //    }, TIMEOUT);
+			dispatch(getTestCaseDetailBySuiteId(suiteID));
 		})
 		.catch(error => {
 			dispatch(executeTestBySuiteIdError(error));
@@ -226,6 +236,7 @@ export const executeTestByCaseId = (caseID) => dispatch => {
 				dispatch(executeTestByCaseIdSuccess(res.error));
 			}
 			dispatch(executeTestByCaseIdSuccess(res.data));
+			dispatch(getEachTestCaseDetailByCaseID(caseID));
 		})
 		.catch(error => {
 			dispatch(executeTestByCaseIdError(error));
@@ -253,7 +264,7 @@ export const getAllConnections = (project_id) => dispatch => {
 		});
 };
 
-export const getTestCaseDetailBySuiteId = (suite_id) => dispatch => {
+export const getTestCaseDetailBySuiteId = (suite_id, showDialog) => dispatch => {
 	// setTimeout(function() {
 	// 	console.log('MW.getTestCaseDetailBySuiteId()  inside timeout');
 	// 	dispatch(getTestCaseDetailBySuiteIdSuccess(test_case_detail_by_suit_id.data));
@@ -267,7 +278,7 @@ export const getTestCaseDetailBySuiteId = (suite_id) => dispatch => {
 			if(res.error) {
 				dispatch(getTestCaseDetailBySuiteIdError(res.error));
 			}
-			dispatch(getTestCaseDetailBySuiteIdSuccess(res.data));
+			dispatch(getTestCaseDetailBySuiteIdSuccess(res.data, showDialog));
 		})
 		.catch(error => {
 			dispatch(getTestCaseDetailBySuiteIdError(error));
@@ -293,6 +304,23 @@ export const getTestCaseByTestCaseId = (caseID) => dispatch => {
 		})
 		.catch(error => {
 			dispatch(getTestCaseByTestCaseIdError(error));
+		});
+};
+
+export const getEachTestCaseDetailByCaseID = (caseID) => dispatch => {
+	fetch(`${BASE_URL}/each-case-detail?test_case_id=${caseID}`, {
+		method: 'get',
+		headers
+	})
+		.then(res => res.json())
+		.then(res => {
+			if(res.error) {
+				dispatch(getEachTestCaseDetailsByCaseIdError(res.error));
+			}
+			dispatch(getEachTestCaseDetailsByCaseIdSuccess(res.test_case_log_list));
+		})
+		.catch(error => {
+			dispatch(getEachTestCaseDetailsByCaseIdError(error));
 		});
 };
 
