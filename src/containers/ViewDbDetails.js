@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Panel, Table, Button} from 'react-bootstrap';
+import { Panel, Table, Button, Modal} from 'react-bootstrap';
 
 import { showProjectSwitchPage } from '../actions/appActions';
 import { getAllDBDetails, deleteDBDetails } from '../actions/dbDetailsActions';
@@ -10,24 +10,59 @@ class ViewDbDetails extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {};
+		this.state = {
+			showDeleteConfirmationDialog: false,
+			deleteConnectionID: null
+		};
 	}
 
-	static getDerivedStateFromProps = (nextProps) => {
+	static getDerivedStateFromProps = (nextProps, prevState) => {
 		if (nextProps.refreshDBDetails) {
 			nextProps.getAllDBDetails(nextProps.currentProject.project_id);
 		}
-		return null;
+		return prevState;
 	};
 
 	handleSwitchProject = () => {
 		this.props.showProjectSwitchPage(true);
 	};
 
-	deleteViewDBDetails = (connectionID) => {
-		this.props.deleteDBDetails(connectionID);
+	deleteViewDBDetails = (deleteConnectionID) => {
+		this.setState({showDeleteConfirmationDialog: true, deleteConnectionID}); 
 	}
 
+	onNoBtnClickHandler = () => {
+		this.hideConfirmationopup();
+	}
+
+	onYesBtnClickHandler = () => {
+		this.hideConfirmationopup();
+		this.props.deleteDBDetails(this.state.deleteConnectionID);
+	}
+
+	hideConfirmationopup = () => {
+		this.setState({showDeleteConfirmationDialog: false, deleteConnectionID: null})
+	}
+
+	renderDeleteConfirmationPopup = () => {
+		return (
+			<Modal show={true} className="deleteconfirmpopup">
+				<Modal.Header>
+					<Modal.Title>Confirmation</Modal.Title>
+				</Modal.Header>
+
+				<Modal.Body >
+					<div className="deleteconfirmpopupfield">Do You Want to Delete this DB ?</div>
+				</Modal.Body>
+
+				<Modal.Footer>
+					<Button className="onDeleteDbYesBtnClick" bsStyle="primary" onClick={ (e) => {this.onYesBtnClickHandler()}}>Yes</Button>
+					<Button className="onDeleteDbNoBtnClick" bsStyle="primary" onClick={ (e) => {this.onNoBtnClickHandler()}}>No</Button>
+				</Modal.Footer>
+			</Modal>
+		)
+		// this.props.deleteDBDetails(connectionID);
+	}
 	renderDBDetailsList = (dbDetailsList) => {
 		return dbDetailsList.map((item, index) => {
 			return (
@@ -53,7 +88,6 @@ class ViewDbDetails extends Component {
 
 	render() {
  		return (
-			 
 			<div className="viewDbDetailsForm">
 				<div className='btnContainer'>
 					<div className='project-switch'><Button bsStyle="primary" onClick={ (e) => this.handleSwitchProject()}>Switch Project</Button> </div>
@@ -81,6 +115,12 @@ class ViewDbDetails extends Component {
 						</Table>
 					</Panel.Body>
 				</Panel>
+
+				{ 
+					this.state.showDeleteConfirmationDialog ?
+						this.renderDeleteConfirmationPopup()
+					: null
+				}
 			</div>
 		);
 	}

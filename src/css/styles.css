@@ -4604,3 +4604,17 @@ textarea {width:280px;}
     width: 300px;
     margin-right: 10px;
 }
+
+.deleteconfirmpopup{
+    margin: 200px
+}
+.deleteconfirmpopupfield{
+    margin: 10px 2px
+}
+
+.onDeleteDbYesBtnClick {
+    width: 100px
+}
+.onDeleteDbNoBtnClick{
+    width: 100px
+}
