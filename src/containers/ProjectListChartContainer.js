@@ -21,18 +21,18 @@ class ProjectChartList extends Component {
 	
 	render() {
 
-		this.colorsArray = [
-			['#99cc00', '#cc9900'],
-			['#ffcc00', '#ffddff'],
-			['#009999', '#ff00dd'],
-			['#0000ff', '#ff00aa'],
-		];
+		// this.colorsArray = [
+		// 	['#E74B56', '#cc9900'],
+		// 	['#E74B56', '#ffddff'],
+		// 	['#E74B56', '#ff00dd'],
+		// 	['#E74B56', '#ff00aa'],
+		// ];
 
 		this.getDonutCharts = () => {
 			let elements = '';
 
 			const chartList = this.props.projects.map((item, index) => {
-				return (<DonutChart key={ index } chartindex={index} chartData={item} colors={this.colorsArray[index]}/>);
+				return (<DonutChart key={ index } chartindex={index} chartData={item} />);
 			});
 			
 			if (this.props.projects.length > 4 ) {
