@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, FormGroup, ControlLabel, FormControl, Col } from 'react-bootstrap';
 import { showProjectSwitchPage, updateSelectedProject } from '../actions/appActions';
-import { throwStatement } from '@babel/types';
 
 class SwitchProject extends React.Component {
 

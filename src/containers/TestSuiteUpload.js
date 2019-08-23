@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import XLSX from 'xlsx';
 import { Panel, Button, Table, Tabs, Tab } from 'react-bootstrap';
 import { showProjectSwitchPage } from '../actions/appActions';
 import { 
 	onTestSuiteSheetSelect, 
 	testCaseSelectionChange, 
 	testCaseSelectAllToggle,
-	loadTestSuiteFile,
-	loadTestSuiteSheet,
+	testSuiteFileUploadSuccess,
+	testSuiteSheetloadSuccess,
 	uploadTestCases,
 	resetTestSuiteUploadData, 
 	onSheetNameChange,
@@ -27,6 +28,10 @@ class TestSuiteUpload extends React.Component {
 			key: TAB_UPLOAD_FILE,
 			sheets:[]
 		};
+		this.testSuiteFile = null;
+		this.selectedSheet = null;
+		this.workbook = {};
+		this.pages = [];
 	}
 
 	componentDidMount() {
@@ -42,9 +47,99 @@ class TestSuiteUpload extends React.Component {
 		} else if (nextProps.moveToSelectCasePage) {
 			newState = { ...prevState, key: TAB_UPLOAD_CASES };
 			nextProps.resetDataForCasePage();
+		} else if (nextProps.redirectToSuiteList) {
+			nextProps.history.push('/startup');
 		}
 		return newState;
 	}
+
+	loadTestSuiteFile = (selectedFiles) => {
+		const file = selectedFiles[0];
+		const fileReader = new FileReader();
+	
+		fileReader.onload = (evt) => {
+			const arrayBuffer = fileReader.result;
+			const data = new Uint8Array(arrayBuffer);
+			const arr = [];
+	
+			for (let i = 0; i !== data.length; ++i) {
+				arr[i] = String.fromCharCode(data[i]);
+			}
+			
+			const bstr = arr.join("");
+			this.workbook = XLSX.read(bstr, {type:"binary"});
+	
+			if (typeof this.pages !== 'undefined' && this.pages.length > 0) {
+				this.pages = [];
+			}
+	
+			for ( let x=0; x!==data.length; x++) {
+				if (!this.workbook.SheetNames[x]) {
+					break;
+				} else {
+					this.pages.push(this.workbook.SheetNames[x]);
+				}
+			}
+			this.props.testSuiteFileUploadSuccess(this.pages, selectedFiles[0].name);
+		};
+	
+		this.testSuiteFile = file;
+		fileReader.readAsArrayBuffer(file);
+	};
+
+	loadTestSuiteSheet = (page) => {
+		this.selectedSheet = page;
+		const index = this.pages.findIndex(page_p=>page_p===page);
+		const sheetName = this.workbook.SheetNames[index];
+		const sheet = this.workbook.Sheets[sheetName];
+		const resfinal = (XLSX.utils.sheet_to_json(sheet, {raw:true}));
+		
+		const dbDetailsList = [];
+		const allCases = [];
+	
+		for (let i=0; i<resfinal.length; i++)
+		{
+			dbDetailsList.push(resfinal[i]['DB Details']); //TO DO:HARD CODED.['Test Class']
+			allCases.push({'id':i,'name':resfinal[i]['Test Class'],'selected':false, 'description':resfinal[i]['Description']});
+			// temp_table_detail.push(resfinal[i]['Source Table:Target Table']);
+			// temp_column_detail.push(resfinal[i]['Columns']);
+		}
+	
+		this.props.testSuiteSheetloadSuccess({ dbDetailsList, allCases });
+	};
+
+	getPostFilePayloadData = (fileToUpload, selectedSheet, selectedCase, suiteName, executeValue, projectId) => {
+		const payload = new FormData();
+		payload.append('inputFile',fileToUpload);
+		payload.append('sheet_name',selectedSheet);
+		payload.append('case_id_list',selectedCase);
+		payload.append('suite_name',suiteName);
+		payload.append('upload_and_execute',executeValue);
+		payload.append('project_id', projectId);
+		return payload;
+	};
+
+	onUploadBtnClick = (mode) => {
+		let suiteName = '';
+		const selectedTestCases = [];
+
+		this.props.allCases.forEach((item) => {
+			if (item.selected) {
+				selectedTestCases.push(item.id);
+			}
+		});
+
+		this.props.pages.forEach((item) => {
+			if (item.selected) {
+				suiteName = item.displayName;
+			}
+		});
+
+		const projectId = this.props.currentProject.project_id;
+		const body = this.getPostFilePayloadData(this.testSuiteFile, this.selectedSheet, selectedTestCases, suiteName, mode, projectId);
+		
+		this.props.uploadTestCases(body);
+	};
 
 	render() {
 		const MODE_UPLOAD = 0;
@@ -57,7 +152,7 @@ class TestSuiteUpload extends React.Component {
 		const handleChange = (event) => {
 			const selectedFiles = event.target.files;
 			if (selectedFiles) {
-				this.props.loadTestSuiteFile(selectedFiles);	
+				this.loadTestSuiteFile(selectedFiles);	
 			}
 		};
 
@@ -68,10 +163,10 @@ class TestSuiteUpload extends React.Component {
 		const onContinueClick = (event) => {
 			this.props.pages.forEach(page => {
 				if (page.selected) {
-					this.props.loadTestSuiteSheet(page.name);
+					this.loadTestSuiteSheet(page.name);
 				}
 			});
-		}
+		};
 
 		const handleTestCaseCheckChange = (testCase) => {
 			this.props.testCaseSelectionChange(testCase);
@@ -83,7 +178,7 @@ class TestSuiteUpload extends React.Component {
 
 		const handleInputChange = (e, index) => {
 			this.props.onSheetNameChange({sheetIndex:index,  displayName: e.target.value});
-		}
+		};
 
 		const getSheetsList = () => {
 			let element;
@@ -120,10 +215,6 @@ class TestSuiteUpload extends React.Component {
 				);
 			}
 			return element;
-		}
-
-		const onUploadBtnClick = (mode) => {
-			this.props.uploadTestCases(mode);
 		};
 
 		const getTestCasesList = () => {
@@ -147,7 +238,7 @@ class TestSuiteUpload extends React.Component {
 							</td>
 						</tr>	
 					)
-				});			
+				});
 				
 				return (
 					<div className='testCaseListContainer'>
@@ -175,8 +266,8 @@ class TestSuiteUpload extends React.Component {
 									</tbody>
 								</Table>
 								<div>
-									<Button bsStyle="primary" onClick={ (e) => onUploadBtnClick(MODE_UPLOAD_AND_EXECUTE)}>Upload and Execute</Button>								
-									<Button bsStyle="primary" onClick={ (e) => onUploadBtnClick(MODE_UPLOAD)}>Upload</Button> 
+									<Button bsStyle="primary" onClick={ (e) => this.onUploadBtnClick(MODE_UPLOAD_AND_EXECUTE)}>Upload and Execute</Button>								
+									<Button bsStyle="primary" onClick={ (e) => this.onUploadBtnClick(MODE_UPLOAD)}>Upload</Button> 
 								</div>
 							</Panel.Body>
 						</Panel>
@@ -254,6 +345,7 @@ class TestSuiteUpload extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
+		currentProject: state.appData.currentProject,
 		pages: state.testSuiteUploadData? state.testSuiteUploadData.sheets : [],
 		file: state.testSuiteUploadData.file,
 		allCases: state.testSuiteUploadData && 
@@ -263,14 +355,15 @@ const mapStateToProps = (state) => {
 		isSheetListPageDisabled: state.testSuiteUploadData.isSheetListPageDisabled,
 		isCaseListPageDisabled: state.testSuiteUploadData.isCaseListPageDisabled,
 		moveToSelectSheetPage: state.testSuiteUploadData.moveToSelectSheetPage,
-		moveToSelectCasePage: state.testSuiteUploadData.moveToSelectCasePage
+		moveToSelectCasePage: state.testSuiteUploadData.moveToSelectCasePage,
+		redirectToSuiteList: state.testSuiteUploadData.redirectToSuiteList
 	};
 };
 
 const mapDispatchToProps = dispatch => ({
-	loadTestSuiteFile: (data) => dispatch(loadTestSuiteFile(data)),
+	testSuiteFileUploadSuccess: (data) => dispatch(testSuiteFileUploadSuccess(data)),
+	testSuiteSheetloadSuccess: (data) => dispatch(testSuiteSheetloadSuccess(data)),
 	onSheetSelect: (data) => dispatch(onTestSuiteSheetSelect(data)),
-	loadTestSuiteSheet: (data) => dispatch(loadTestSuiteSheet(data)),
 	uploadTestCases: (data) => dispatch(uploadTestCases(data)),
 	testCaseSelectionChange: (data) => dispatch(testCaseSelectionChange(data)),
 	testCaseSelectAllToggle: () => dispatch(testCaseSelectAllToggle()),

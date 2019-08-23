@@ -48,15 +48,15 @@ const testSuites = (state = initialState, action) => {
 	case GET_ALL_TEST_SUITES_SUCCESS:
 		return {
 			...state,
-			testSuiteList: action.testSuiteList.test_suite_details_list,
-			refreshTestSuites: true			
+			testSuiteList: action.response.data.suites.test_suite_details_list,
+			refreshTestSuites: true
 		};
 
 	case EXECUTE_TEST_BY_SUITE_ID_SUCCESS:
 		return {
 			...state,
 			testExecutionResult:{
-				success: action.data.success,
+				success: action.response.success,
 			}
 		};
 	
@@ -64,19 +64,19 @@ const testSuites = (state = initialState, action) => {
 		return {
 			...state,
 			testExecutionResult:{
-				success: action.data.success,
+				success: action.response.success,
 			}
 		};	
 
 	case GET_ALL_CONNECTIONS_SUCCESS:
-		action.connectionsList.all_connections.map(connection => (
-			connection.checked = false
-		));
+		action.response.data.all_connections.forEach(connection => {
+			connection.checked = false;
+		});
 		return {
 			...state,
 			connectionsList : { 
 				...state.connectionsList,
-				allConnections: action.connectionsList.all_connections
+				allConnections: action.response.data.all_connections
 			}
 		};
 
@@ -85,26 +85,24 @@ const testSuites = (state = initialState, action) => {
 			...state,
 			connectionsList : { 
 				...state.connectionsList,
-				allCases: action.allCases,
-				showConnectionsDialog: action.showDialog
+				allCases: action.response.data.all_cases,
+				showConnectionsDialog: action.args.showDialog
 			}
 		};
 
 	case GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS:
 		return {
 			...state,
-			eachTestCaseDetails : action.eachTestCaseDetails
+			eachTestCaseDetails : action.response.test_case_log_list
 		};	
 
 	case GET_TESTCASE_LOG_BY_ID_SUCCESS:
-		//  action.testCaseLog.showCaseLogDialog = true;
-		//  action.testCaseLog.caseName  = action.testCaseName;
 		return {
 			...state,
 			testCaseLog : {
 				...state.testCaseLog,
-				logData : action.testCaseLog.log_data,
-				testCaseName: action.testCaseName,
+				logData : action.response.data.testCaseLog.log_data,
+				testCaseName: action.args.testCaseName, 
 				showCaseLogDialog: true
 			}
 		};
@@ -116,18 +114,18 @@ const testSuites = (state = initialState, action) => {
 		};
 
 	case GET_TEST_CASE_BY_TEST_CASE_ID_SUCCESS:
-		action.testCase.showTestCaseDialog = true;
+		action.response.data.showTestCaseDialog = true;
 		return {
 			...state,
-			testCase : action.testCase
+			testCase : action.response.data
 		};
 	
 	case UPDATE_TEST_CASE_SUCCESS:
-		state.showTestCaseEditEnabled = false;
 		return {
 			...state,
+			showTestCaseEditEnabled: false,
 			testCase : {
-				message: action.message,
+				message: action.response.data.message,
 				testCaseDetails: [],
 				showTestCaseDialog: false
 			}

@@ -21,14 +21,14 @@ const dbDetailsData = (state = initialState, action) => {
 	case GET_ALL_DB_DETAILS_SUCCESS:
 		return {
 			...state,
-			dbDetailsList: action.dbDetails,
+			dbDetailsList: action.response.data.db_details,
 			refreshDBDetails: false
 		};
 
 	case GET_DB_DETAILS_BY_ID_SUCCESS:
 		return {
 			...state,
-			selectedDbDetails: action.selectedDbDetails
+			selectedDbDetails: action.response.data
 		};
 	
 	case ADD_DB_DETAILS_SUCCESS:

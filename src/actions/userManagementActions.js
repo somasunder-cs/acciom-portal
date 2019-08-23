@@ -1,6 +1,6 @@
 import _orgUserList from '../json/org_user_list.json';
 import _rolesListData from '../json/roles_by_org_or_proj_id.json';
-import { TIMEOUT, BASE_URL, headers, updateHeaders, genericErrorHandler } from './appActions';
+import { TIMEOUT, BASE_URL, headers} from './appActions';
 import {
 	GET_ORGANIZATION_USER_LIST_SUCCESS,
 	GET_ORGANIZATION_USER_LIST_ERROR,
@@ -14,203 +14,74 @@ import {
 	RETRIVE_USER_ROLE_ERROR
 } from "../constants/ActionTypes";
 
-const getOrganizationUserListSuccess = data => ({
-	type: GET_ORGANIZATION_USER_LIST_SUCCESS,
-	orgUserList: data.users
-});
-
-const getOrganizationUserListError = error =>({
-	type: GET_ORGANIZATION_USER_LIST_ERROR,
-	error
-});
-
-const getRolesByOrgIdSuccess = (data, orgId, key) => {
+export const getOrganizationUsersList = (orgId) => {
 	return {
-		type: GET_ROLES_BY_ORG_ID_SUCCESS,
-		orgId,
-		roles: data.roles,
-		key
-	};
-};
-
-const getRolesByOrgIdError= (data) => {
-	return {
-		type: GET_ROLES_BY_ORG_ID_ERROR,
-		data
-	};
-};
-
-const getRolesByProjectIdSuccess = (data, projectId, key) => {
-	return {
-		type: GET_ROLES_BY_PROJECT_ID_SUCCESS,
-		projectId,
-		roles: data.roles,
-		key
-	};
-};
-
-const getRolesByProjectIdError= (error) => {
-	return {
-		type: GET_ROLES_BY_PROJECT_ID_ERROR,
-		error
-	};
-};
-
-const updateUserRolesSuccess = (data) => {
-	return {
-		type: UPDATE_USER_ROLES_SUCCESS,
-		data
-	};
-};
-
-const updateUserRolesError = (error) => {
-	return {
-		type: UPDATE_USER_ROLES_ERROR,
-		error
-	};
-};
-
-const retriveUserRoleByUserIdSuccess = data => {
-	return {
-		type: RETRIVE_USER_ROLE_SUCCESS,
-		data
-	};
-	
-};
-
-const retriveUserRoleByUserIdError = error => {
-	return {
-		type: RETRIVE_USER_ROLE_ERROR,
-		error
-	};
-	
-};
-
-export const getOrganizationUsersList = (org_id) => (dispatch, getState) => {
-	// setTimeout(function() {
-	// 	console.log('MW.getOrganizationUserListSuccess()  inside timeout');
-	// 	dispatch(getOrganizationUserListSuccess(_orgUserList.data));
-	// }, TIMEOUT);
-
-	fetch(`${BASE_URL}/user?org_id=${org_id}`, {
-		method: 'get',
-		headers
-	})
-		.then(response => response.json())
-		.then(res => { 
-			if (res.status !== false && res && res.data) {
-				dispatch(getOrganizationUserListSuccess(res.data));
-			} else {
-				genericErrorHandler(dispatch, res, getOrganizationUserListError);
-			}
+		types: [
+			'',
+			GET_ORGANIZATION_USER_LIST_SUCCESS,
+			GET_ORGANIZATION_USER_LIST_ERROR
+		],
+		callAPI: () => fetch(`${BASE_URL}/user?org_id=${orgId}`, {
+			method: 'get',
+			headers
 		})
-		.catch(err => {
-			if (err.name === 'AbortError') {
-				console.error('Fetch aborted');
-			} else {
-				console.error('Another error', err);
-			}
-		});
+	};	
 };	
-export const getRolesByOrgId = (orgId, key) => (dispatch, getState) => {
-	
-	// setTimeout(function() {
-	// 	dispatch(getRolesByOrgIdSuccess(_rolesListData.data));
-	// }, TIMEOUT);
-
-	fetch(`${BASE_URL}/role?org_id=${orgId}`, {
-		method: 'get',
-		headers
-	})
-		.then(response => response.json())
-		.then(res => { 
-			if (res.status !== false && res && res.data) {
-				dispatch(getRolesByOrgIdSuccess(res.data, orgId, key ));
-			} else {
-				genericErrorHandler(dispatch, res, getRolesByOrgIdError);
-			}
-		})
-		.catch(err => {
-			if (err.name === 'AbortError') {
-				console.error('Fetch aborted');
-			} else {
-				console.error('Another error', err);
-			}
-		});
+export const getRolesByOrgId = (orgId, key) => {
+	return {
+		types: [
+			'',
+			GET_ROLES_BY_ORG_ID_SUCCESS,
+			GET_ROLES_BY_ORG_ID_ERROR
+		],
+		callAPI: () => fetch(`${BASE_URL}/role?org_id=${orgId}`, {
+			method: 'get',
+			headers
+		}),
+		args: { key }
+	};	
 };	
 
-export const getRolesByProjectId = (project_id, key) => (dispatch, getState) => {
-	
-	// setTimeout(function() {
-	// 	dispatch(getRolesByProjectIdSuccess(_rolesListData.data));
-	// }, TIMEOUT);
-
-	fetch(`${BASE_URL}/role?project_id=${project_id}`, {
-		method: 'get',
-		headers
-	})
-		.then(response => response.json())
-		.then(res => { 
-			if (res.status !== false && res && res.data) {
-				dispatch(getRolesByProjectIdSuccess(res.data, project_id, key));
-			} else {
-				genericErrorHandler(dispatch, res, getRolesByProjectIdError);
-			}
-		})
-		.catch(err => {
-			if (err.name === 'AbortError') {
-				console.error('Fetch aborted');
-			} else {
-				console.error('Another error', err);
-			}
-		});
+export const getRolesByProjectId = (projectId, key) => {
+	return {
+		types: [
+			'',
+			GET_ROLES_BY_PROJECT_ID_SUCCESS,
+			GET_ROLES_BY_PROJECT_ID_ERROR
+		],
+		callAPI: () => fetch(`${BASE_URL}/role?project_id=${projectId}`, {
+			method: 'get',
+			headers
+		}),
+		args: { key }
+	};		
 };	
 
-export const retriveUserRoleByUserId = (org_id, user_id) => (dispatch, getState) => {
-	const token = localStorage.getItem('auth_token') ;
-	updateHeaders(token);
-	fetch(`${BASE_URL}/user-role?org_id=${org_id}&user_id=${user_id}`, {
-		method: 'get',
-		headers
-	})
-		.then(response => response.json())
-		.then(res => { 
-			if (res.status !== false && res && res.data) {
-				dispatch(retriveUserRoleByUserIdSuccess(res.data));
-			} else {
-				genericErrorHandler(dispatch, res, retriveUserRoleByUserIdError);
-			}
+export const retriveUserRoleByUserId = (orgId, userId) => {
+	return {
+		types: [
+			'',
+			RETRIVE_USER_ROLE_SUCCESS,
+			RETRIVE_USER_ROLE_ERROR
+		],
+		callAPI: () => fetch(`${BASE_URL}/user-role?org_id=${orgId}&user_id=${userId}`, {
+			method: 'get',
+			headers
 		})
-		.catch(err => {
-			if (err.name === 'AbortError') {
-				console.error('Fetch aborted')
-			} else {
-				console.error('Another error', err)
-			}
-		});
+	};	
 };
 
-export const updateUserRoles = (body) => (dispatch, getState) => {
-	const token = localStorage.getItem('auth_token') ;
-	updateHeaders(token);
-	fetch(`${BASE_URL}/user-role`, {
-		method: 'post',
-		headers,
-		body
-	})
-		.then(response => response.json())
-		.then(res => { 
-			if (res.status !== false && res && res.data) {
-				dispatch(updateUserRolesSuccess(res.data));
-			} else {
-				genericErrorHandler(dispatch, res, updateUserRolesError);
-			}
+export const updateUserRoles = (body) => {
+	return {
+		types: [
+			'',
+			UPDATE_USER_ROLES_SUCCESS,
+			UPDATE_USER_ROLES_ERROR
+		],
+		callAPI: () => fetch(`${BASE_URL}/user-role`, {
+			method: 'post',
+			headers,
+			body
 		})
-		.catch(err => {
-			if (err.name === 'AbortError') {
-				console.error('Fetch aborted');
-			} else {
-				console.error('Another error', err);
-			}
-		});
+	};		
 };

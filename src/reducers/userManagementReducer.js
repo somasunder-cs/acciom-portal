@@ -1,8 +1,6 @@
 import { 
 	GET_ORGANIZATION_USER_LIST_SUCCESS, GET_ROLES_BY_ORG_ID_SUCCESS, GET_ROLES_BY_PROJECT_ID_SUCCESS,
 	RETRIVE_USER_ROLE_SUCCESS,
-	ADD_NEW_USER_ROLE,
-	DELETE_USER_ROLE,
 	UPDATE_USER_ROLES_SUCCESS
 } from '../constants/ActionTypes';
 
@@ -27,7 +25,7 @@ const userManagementData = (state = initialState, action) => {
 	case GET_ORGANIZATION_USER_LIST_SUCCESS:
 		return {
 			...state,
-			orgUserList: action.orgUserList,
+			orgUserList: action.response.data.users,
 			userOrgRoleList: [],
 			userProjectRoleList: [],
 			userNewRoleList: [],
@@ -38,7 +36,7 @@ const userManagementData = (state = initialState, action) => {
 	case GET_ROLES_BY_ORG_ID_SUCCESS:
 	case GET_ROLES_BY_PROJECT_ID_SUCCESS:
 		let orgProjectRolesList = { ...state.orgProjectRolesList };
-		orgProjectRolesList[action.key] = action.roles;
+		orgProjectRolesList[action.args.key] = action.response.data.roles;
 		return {
 			...state,
 			orgProjectRolesList
@@ -47,10 +45,10 @@ const userManagementData = (state = initialState, action) => {
 	case RETRIVE_USER_ROLE_SUCCESS:
 		return {
 			...state,
-			userOrgRoleList: action.data.org_allowed_role_list ? action.data.org_allowed_role_list: [],
-			userProjectRoleList: action.data.project_role_list ? action.data.project_role_list: [],
+			userOrgRoleList: action.response.data.org_allowed_role_list ? action.response.data.org_allowed_role_list: [],
+			userProjectRoleList: action.response.data.project_role_list ? action.response.data.project_role_list: [],
 			userNewRoleList: [],
-			selectedUser: action.data ? action.data: {}
+			selectedUser: action.response.data ? action.response.data: {}
 		};
 		
 	case UPDATE_USER_ROLES_SUCCESS:

@@ -10,6 +10,8 @@ import {
 	GENERATE_TOKEN_ERROR
 } from '../constants/ActionTypes';
 
+import { updateHeaders } from '../actions/appActions';
+
 const initialState = {
 	token: null,
 	authTokenExpired: false,
@@ -17,12 +19,18 @@ const initialState = {
 	accessToken:''
 };
 
+const storeUserData = ({token}) => {
+	localStorage.setItem('auth_token', token);
+	updateHeaders(token);
+};
+
 const loginData = (state = initialState, action) => {
 	switch (action.type) {
 	case LOGIN_TO_PORTAL_SUCCESS:
+		storeUserData(action.response.data);
 		return {
 			...state,
-			token : action.data.token,
+			token : action.response.data.token,
 			authTokenExpired: false
 		};
 
@@ -59,7 +67,7 @@ const loginData = (state = initialState, action) => {
 	case GENERATE_TOKEN_SUCCESS:
 		return {
 			...state,
-			accessToken:action.accessToken
+			accessToken:action.response.data.personal_access_token
 		};
 
 	default:

@@ -55,7 +55,7 @@ class AddDbDetails extends Component {
 	}
 	
 	getInitialFormData = (dbConnectionId) => {
-		const formDataObj = {'project_id': 1};
+		const formDataObj = {'project_id': this.props.currentProject.project_id};
 		if (dbConnectionId) {
 			formDataObj['db_connection_id'] = dbConnectionId;
 		}
@@ -151,6 +151,7 @@ const mapStateToProps = (state) => {
 		updatedDbDetails: state.dbDetailsData.updatedDbDetails,
 		selectedDbDetails: state.dbDetailsData.selectedDbDetails,
 		redirectToViewDBPage: state.dbDetailsData.redirectToViewDBPage,
+		currentProject: state.appData.currentProject
 	};
 };
 

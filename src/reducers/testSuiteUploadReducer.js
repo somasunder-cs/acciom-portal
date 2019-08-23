@@ -9,7 +9,8 @@ import {
 	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
 	ON_SHEET_NAME_CHANGE,
 	RESET_DATA_FOR_CASE_PAGE,
-	RESET_DATA_FOR_SHEET_PAGE
+	RESET_DATA_FOR_SHEET_PAGE,
+	GET_ALL_TEST_SUITES_SUCCESS
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -21,7 +22,8 @@ const initialState = {
 	isSheetListPageDisabled: true,
 	isCaseListPageDisabled: true,
 	moveToSelectSheetPage: false,
-	moveToSelectCasePage: false
+	moveToSelectCasePage: false,
+	redirectToSuiteList: false
 };
 
 const getSheetsDataOnLoad = (sheets) => {
@@ -53,8 +55,14 @@ const testSuiteUploadData = (state = initialState, action) => {
 	let sheets = [];
 	let testCases = [];
 	let index = -1;
+
 	switch (action.type) {
-	
+	case GET_ALL_TEST_SUITES_SUCCESS:
+		return {
+			...state,
+			redirectToSuiteList: false
+		};
+		
 	case TEST_SUITE_FILE_UPLOAD_SUCCESS:
 		sheets = getSheetsDataOnLoad(action.sheets);
 		return {
@@ -110,6 +118,7 @@ const testSuiteUploadData = (state = initialState, action) => {
 	case UPLOAD_TESTCASES_SUCCESS:
 		return {
 			...state,
+			redirectToSuiteList: true
 		};
 	
 	case RESET_TEST_SUITE_UPLOAD_DATA:

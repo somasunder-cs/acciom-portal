@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, FormGroup, ControlLabel, FormControl, Col } from 'react-bootstrap';
-import { showOrgChangePage, updateSelectedOrganization } from '../actions/appActions';
+import { showOrgChangePage, updateSelectedOrganization, getProjectListByOrgId } from '../actions/appActions';
 
 class ChangeOrganisation extends React.Component {
 
@@ -45,6 +45,7 @@ class ChangeOrganisation extends React.Component {
 				}
 			}
 			this.props.updateSelectedOrganization(selectedOrg);
+			this.props.getProjectListByOrgId(selectedOrg.org_id);
 		};
 
 		return (
@@ -90,6 +91,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		showOrgChangePage: (data) => dispatch(showOrgChangePage(data)),
 		updateSelectedOrganization: (data) => dispatch(updateSelectedOrganization(data)),
+		getProjectListByOrgId: (data) => dispatch(getProjectListByOrgId(data))
 	}
 };
 

@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import ChangeOrganisation from '../components/ChangeOrganisation';
 import SwitchProject from '../components/SwitchProject';
-import { getOrganizationsList, redirectToLoginPageComplete } from '../actions/appActions';
+import { getOrganizationsList, getProjectListByOrgId, redirectToLoginPageComplete } from '../actions/appActions';
 import { checkAuthentication } from '../actions/loginActions';
 
 class RootContent extends Component {
@@ -25,6 +25,8 @@ class RootContent extends Component {
 			nextProps.history.push('./login');
 		} else if (nextProps.reloadOrgList) {
 			nextProps.getOrganizationsList();
+		} else if (nextProps.fetchProjectDetails) {
+			nextProps.getProjectListByOrgId(nextProps.currentOrg.org_id);
 		}
 		
 		return null;
@@ -54,15 +56,19 @@ class RootContent extends Component {
 const mapStateToProps = (state) => {
 	return {
 		isOrgChangePageVisible: state.appData.isOrgChangePageVisible,
+		fetchProjectDetails: state.appData.fetchProjectDetails,
 		isProjectSwitchPageVisible: state.appData.isProjectSwitchPageVisible,
 		redirectToLoginPage: state.appData.redirectToLoginPage,
-		reloadOrgList: state.appData.reloadOrgList
+		reloadOrgList: state.appData.reloadOrgList,
+		isOrganisationInitialised: state.appData.isOrganisationInitialised,
+		currentOrg:  state.appData.currentOrg
 	};
 };
 
 const mapDispatchToProps = dispatch => ({
 	checkAuthentication: () => dispatch(checkAuthentication()),
 	getOrganizationsList: (data) => dispatch(getOrganizationsList(data)),
+	getProjectListByOrgId: (data) => dispatch(getProjectListByOrgId(data)),
 	redirectToLoginPageComplete: () => dispatch(redirectToLoginPageComplete())
 });
 
