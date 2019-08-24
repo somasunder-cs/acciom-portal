@@ -16,17 +16,15 @@ import {
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 	SWITCH_PROJECT_SUCCESS,
 	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
-	GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS,
-	GET_TESTCASE_DETAIL_BY_SUITE_ID_REQUEST,
-	GET_EACH_TEST_CASE_BY_CASE_ID_REQUEST
+	GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS
 } from '../constants/ActionTypes';
 
 const initialState = {
 	testSuiteList: [],
 	connectionsList:{
 	   showConnectionsDialog: false,
-	   allCases:[],
-	   allConnections:[]
+	   allCases: {},
+	   allConnections: []
 	},
 	testCaseLog: {
 		showCaseLogDialog: false,
@@ -37,7 +35,7 @@ const initialState = {
 		showTestCaseDialog: false,
 		testCaseDetails:[]
 	},
-	eachTestCaseDetails:[],	
+	eachTestCaseDetails: {},
 	showTestCaseEditEnabled: false,
 	refreshTestSuites: false,
 };
@@ -79,36 +77,24 @@ const testSuites = (state = initialState, action) => {
 			}
 		};
 
-	case GET_TESTCASE_DETAIL_BY_SUITE_ID_REQUEST:
-		return {
-			...state,
-			connectionsList : { 
-				...state.connectionsList,
-				allCases:[]
-			}
-		};
-
 	case GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS:
+		const allCases = { ...state.connectionsList.allCases };
+		allCases[action.args.suiteId] = action.response.data.all_cases;
 		return {
 			...state,
 			connectionsList : { 
 				...state.connectionsList,
-				allCases: action.response.data.all_cases,
+				allCases,
 				showConnectionsDialog: action.args.showDialog
 			}
 		};
 
-	case GET_EACH_TEST_CASE_BY_CASE_ID_REQUEST:
-		return {
-			...state,
-			eachTestCaseDetails : [],
-			testExecutionResult: {}
-		};
-
 	case GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS:
+		const eachTestCaseDetails = { ...state.eachTestCaseDetails };
+		eachTestCaseDetails[action.args.caseID] = action.response.test_case_log_list;
 		return {
 			...state,
-			eachTestCaseDetails : action.response.test_case_log_list
+			eachTestCaseDetails
 		};	
 
 	case GET_TESTCASE_LOG_BY_ID_SUCCESS:

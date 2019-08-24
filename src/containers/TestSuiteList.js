@@ -111,6 +111,7 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 	const classes = useStyles();
 	const [expanded, setExpanded] = React.useState(false);
 	const [testCaseExpanded, setTestCaseExpanded] = React.useState(false);
+	const [testSuiteIdForManageConnections, setTestSuiteIdForManageConnections] = React.useState(null);
 
 	useEffect(() => {
 		const projectId = 1; // remove this hardcoded assignment
@@ -132,6 +133,7 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 	};
 
 	const handleManageConnection = (e, suiteID) => {
+		setTestSuiteIdForManageConnections(suiteID);
 		getTestCaseDetailBySuiteId(suiteID, true);
 		e.stopPropagation();
 	};
@@ -187,6 +189,66 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 		e.currentTarget.style.color = '';
 	};
 
+	const renderTestCasesPanels = (testSuite) => {
+		if (!allCases[testSuite.test_suite_id]) return null;
+
+		return allCases[testSuite.test_suite_id].map(testCaseList => (
+			<ExpansionPanel key={testCaseList.case_id} expanded={testCaseExpanded === testCaseList.case_id} onChange={handleTestCaseChange(testCaseList.case_id)}>
+				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+					<Typography className={classes.subHeading}>{testCaseList.case_name}</Typography>
+					<Typography className={classes.viewConnection}><span  onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={e => viewTestCase(e, testCaseList.case_id)}>View</span></Typography>
+					<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderStatusIcon(testCaseList.test_status)}</Typography>
+					<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
+					<Typography><i className="far fa-play-circle statusPlayIcon" onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={(e) => runTestCase(e, testCaseList.case_id)} aria-hidden="true"></i></Typography>
+				</ExpansionPanelSummary>
+
+				<ExpansionPanelDetails>
+					<div>
+						{ renderTestCaseLogDetails(testCaseList, testCaseList.case_id) }
+					</div>
+				</ExpansionPanelDetails>
+
+			</ExpansionPanel>
+		));
+	};
+
+	const renderTestCaseLogDetails = (testCaseList, caseID) => {
+		if (!eachTestCaseDetails[caseID]) {
+			return (
+				<span className="red">Loading test case log...</span>
+			); 
+		} else if (eachTestCaseDetails[caseID].length === 0) {
+			return (
+				<span className="red">No Logs found.</span>
+			);
+		} else if (eachTestCaseDetails[caseID].length > 0) {
+			return (
+				<Table striped bordered hover size="sm" id="RoundedTable">
+					<thead>
+						<tr>
+							<th className="testLogHeading">Execution Status</th>
+							<th className="testLogHeading">Execution At</th>
+							<th className="testLogHeading">Logs</th>	
+						</tr>
+					</thead>
+					<tbody>
+						{ eachTestCaseDetails[caseID] && eachTestCaseDetails[caseID].map(testCaseLog => (
+							<tr key={testCaseLog.test_case_log_id}>
+								<td className="testLogData">{renderStatusLabel(testCaseLog.test_execution_status)}</td>
+								<td className="testLogData">{testCaseLog.executed_at}</td>
+								{ (testCaseLog.test_execution_status != NEW_ID && testCaseLog.test_execution_status != INPROGRESS_ID) ?
+									<td className={classes.caseLog} onClick={e => viewTestCaseLogs(testCaseLog.test_case_log_id, testCaseList.test_class_name)}>
+										<i className="far fa-sticky-note logsIcon"></i>
+									</td>
+									: <td>---</td> }
+							</tr>
+						))}
+					</tbody>
+				</Table>
+			);
+		}
+	};
+	
 	return (
 		<div className={classes.root}>
 			{ 
@@ -206,47 +268,9 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 
 						<ExpansionPanelDetails>
 							<div className={classes.innerPanelWidth}>
-								{ allCases.map(testCaseList => (
-									<ExpansionPanel key={testCaseList.case_id} expanded={testCaseExpanded === testCaseList.case_id} onChange={handleTestCaseChange(testCaseList.case_id)}>
-										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-											<Typography className={classes.subHeading}>{testCaseList.case_name}</Typography>
-											<Typography className={classes.viewConnection}><span  onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={e => viewTestCase(e, testCaseList.case_id)}>View</span></Typography>
-											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderStatusIcon(testCaseList.test_status)}</Typography>
-											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
-											<Typography><i className="far fa-play-circle statusPlayIcon" onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={(e) => runTestCase(e, testCaseList.case_id)} aria-hidden="true"></i></Typography>
-										</ExpansionPanelSummary>
 
-										<ExpansionPanelDetails>
-											<div>
-												{ eachTestCaseDetails && eachTestCaseDetails.length > 0 ?
-													<Table striped bordered hover size="sm" id="RoundedTable">
-														<thead>
-															<tr>
-																<th className="testLogHeading">Execution Status</th>
-																<th className="testLogHeading">Execution At</th>
-																<th className="testLogHeading">Logs</th>	
-															</tr>
-														</thead>
-														<tbody>
-															{ eachTestCaseDetails && eachTestCaseDetails.map(testCaseLog => (
-																<tr key={testCaseLog.test_case_log_id}>
-																	<td className="testLogData">{renderStatusLabel(testCaseLog.test_execution_status)}</td>
-																	<td className="testLogData">{testCaseLog.executed_at}</td>
-																	{ (testCaseLog.test_execution_status != NEW_ID && testCaseLog.test_execution_status != INPROGRESS_ID) ?
-																	  <td className={classes.caseLog} onClick={e => viewTestCaseLogs(testCaseLog.test_case_log_id, testCaseList.test_class_name)}>
-																		 <i className="far fa-sticky-note logsIcon"></i>
-																	 </td>
-																		: <td>---</td> }
-																</tr>
-															))}
-														</tbody>
-													</Table>
-													: <span className="red">No Logs found.</span> }
-											</div>
-										</ExpansionPanelDetails>
-
-									</ExpansionPanel>
-								)) }
+								{ renderTestCasesPanels(testSuite) }
+							
 							</div>
 						</ExpansionPanelDetails>
 
@@ -255,7 +279,7 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 			}
 			{ 
 				showConnectionsDialog ?
-					<ManageConnection></ManageConnection>
+					<ManageConnection testSuiteId={testSuiteIdForManageConnections}></ManageConnection>
 					: null
 			}
 			<ViewTestCase></ViewTestCase>
@@ -268,7 +292,7 @@ const mapStateToProps = (state) => {
 	return {
 		testSuites: state.testSuites.testSuiteList? state.testSuites.testSuiteList: [],
 		showConnectionsDialog: state.testSuites.connectionsList.showConnectionsDialog,
-		allCases: state.testSuites.connectionsList? state.testSuites.connectionsList.allCases: [],
+		allCases: state.testSuites.connectionsList? state.testSuites.connectionsList.allCases: {},
 		eachTestCaseDetails: state.testSuites.eachTestCaseDetails? state.testSuites.eachTestCaseDetails: [],
 	};
 };

@@ -93,7 +93,8 @@ class ManageConnection extends React.Component {
 						selectedConnection={this.state.selectedConnection} 
 						selectedCases={this.state.selectedCases}
 						onConnectionChange={this.handleConnectionChange}
-						onCaseSelectionChange={this.handleCasesChange} >	
+						onCaseSelectionChange={this.handleCasesChange}
+						testSuiteId={this.props.testSuiteId}>
 					</ManageConnectionSelect>
 				</Modal.Body>
 				<Modal.Footer>

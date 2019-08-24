@@ -133,7 +133,7 @@ export const getAllConnections = (projectId) => {
 export const getTestCaseDetailBySuiteId = (suiteId, showDialog) => {
 	return {
 		types: [
-			GET_TESTCASE_DETAIL_BY_SUITE_ID_REQUEST,
+			'',// GET_TESTCASE_DETAIL_BY_SUITE_ID_REQUEST,
 			GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 			GET_TESTCASE_DETAIL_BY_SUITE_ID_ERROR
 		],
@@ -141,7 +141,7 @@ export const getTestCaseDetailBySuiteId = (suiteId, showDialog) => {
 			method: 'get',
 			headers
 		}),
-		args: { showDialog }
+		args: { suiteId, showDialog }
 	};	
 };
 
@@ -162,14 +162,15 @@ export const getTestCaseByTestCaseId = (caseID) => {
 export const getEachTestCaseDetailByCaseID = (caseID) => {
 	return {
 		types: [
-			GET_EACH_TEST_CASE_BY_CASE_ID_REQUEST,
+			'',//GET_EACH_TEST_CASE_BY_CASE_ID_REQUEST,
 			GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS,
 			GET_EACH_TEST_CASE_BY_CASE_ID_ERROR
 		],
 		callAPI: () => fetch(`${BASE_URL}/each-case-detail?test_case_id=${caseID}`, {
 			method: 'get',
 			headers
-		})
+		}), 
+		args: { caseID }
 	};
 };
 

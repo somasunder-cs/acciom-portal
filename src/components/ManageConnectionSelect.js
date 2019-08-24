@@ -83,7 +83,7 @@ function ManageConnectionSelect(props) {
 						</td>
 						<td>
 							{
-								props.allCases.map(testCase => (
+								props.allCases[props.testSuiteId].map(testCase => (
 									<div key={testCase.case_id} className="manageconnectionTestCase">
 										<label className="form-check-label">
 											<input
