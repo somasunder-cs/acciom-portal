@@ -109,7 +109,8 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 	eachTestCaseDetails }) {
 
 	const classes = useStyles();
-	const [expanded, setExpanded] = React.useState(false);	
+	const [expanded, setExpanded] = React.useState(false);
+	const [testCaseExpanded, setTestCaseExpanded] = React.useState(false);
 
 	useEffect(() => {
 		const projectId = 1; // remove this hardcoded assignment
@@ -122,10 +123,12 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 			getTestCaseDetailBySuiteId(panel);
 		}
 	};
-
-	const handleEachTestCaseDetails = (e, caseID) => {
-		getEachTestCaseDetailByCaseID(caseID);
-		e.stopPropagation();		
+	const handleTestCaseChange = caseID => (e, isExpanded) => {
+		setTestCaseExpanded(isExpanded ? caseID : false);
+		if (isExpanded) {
+			getEachTestCaseDetailByCaseID(caseID);
+		}
+		e.stopPropagation();
 	};
 
 	const handleManageConnection = (e, suiteID) => {
@@ -167,12 +170,14 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 	const runTestSuite = (e, suiteID) => {
 		e.stopPropagation();
 		executeTestBySuiteId(suiteID);
+		getTestCaseDetailBySuiteId(suiteID);
 	};
 
 	const runTestCase = (e, caseID) => {
 		e.stopPropagation();
 		executeTestByCaseId([caseID]);
-	}
+		getEachTestCaseDetailByCaseID(caseID);
+	};
 
 	const onHover = (e) => {
 		e.currentTarget.style.color = '#337ab7';
@@ -193,7 +198,7 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 							aria-controls="panel1bh-content"
 							id="panel1bh-header">
 							<Typography className={classes.heading}>{testSuite.test_suite_name}</Typography>
-							<Typography className={classes.manageConnection} onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={e => handleManageConnection(e, testSuite.test_suite_id)}>Manage Connections</Typography>
+							<Typography className={classes.manageConnection}><span onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={e => handleManageConnection(e, testSuite.test_suite_id)}>Manage Connections</span></Typography>
 							<Typography className={classes.suiteID}>SuiteID: {testSuite.test_suite_id}</Typography>
 							<Typography className={classes.secondaryHeading}>Uploaded at:  {testSuite.created_at}</Typography>
 							<i className="far fa-play-circle statusPlayIcon" onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={(e) => runTestSuite(e, testSuite.test_suite_id)} aria-hidden="true"></i>
@@ -202,14 +207,15 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 						<ExpansionPanelDetails>
 							<div className={classes.innerPanelWidth}>
 								{ allCases.map(testCaseList => (
-									<ExpansionPanel key={testCaseList.case_id} onClick={(e) => handleEachTestCaseDetails(e, testCaseList.case_id)}>
+									<ExpansionPanel key={testCaseList.case_id} expanded={testCaseExpanded === testCaseList.case_id} onChange={handleTestCaseChange(testCaseList.case_id)}>
 										<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 											<Typography className={classes.subHeading}>{testCaseList.case_name}</Typography>
-											<Typography className={classes.viewConnection} onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={e => viewTestCase(e, testCaseList.case_id)}>View</Typography>
+											<Typography className={classes.viewConnection}><span  onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={e => viewTestCase(e, testCaseList.case_id)}>View</span></Typography>
 											<Typography className={classes.status}>Status&nbsp;&nbsp;&nbsp;{renderStatusIcon(testCaseList.test_status)}</Typography>
 											<Typography className={renderTestName(testCaseList.test_status)}>{testCaseList.test_class_name}</Typography>
 											<Typography><i className="far fa-play-circle statusPlayIcon" onMouseOver={e => onHover(e)} onMouseOut={e => onHout(e)} onClick={(e) => runTestCase(e, testCaseList.case_id)} aria-hidden="true"></i></Typography>
-										</ExpansionPanelSummary>										
+										</ExpansionPanelSummary>
+
 										<ExpansionPanelDetails>
 											<div>
 												{ eachTestCaseDetails && eachTestCaseDetails.length > 0 ?
@@ -238,6 +244,7 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 													: <span className="red">No Logs found.</span> }
 											</div>
 										</ExpansionPanelDetails>
+
 									</ExpansionPanel>
 								)) }
 							</div>

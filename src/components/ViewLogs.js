@@ -25,7 +25,7 @@ class CaseLogs extends React.Component {
 						</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<ViewLogDetails></ViewLogDetails>
+						<ViewLogDetails />
 					</Modal.Body>
 				</Modal>
 			</div>

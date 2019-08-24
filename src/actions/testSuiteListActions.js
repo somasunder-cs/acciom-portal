@@ -37,7 +37,9 @@ import {
 	UPDATE_TEST_CASE_ERROR,
 	GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS,
 	GET_EACH_TEST_CASE_BY_CASE_ID_ERROR,
-	GET_TESTCASE_LOG_BY_ID_ERROR
+	GET_TESTCASE_LOG_BY_ID_ERROR,
+	GET_TESTCASE_DETAIL_BY_SUITE_ID_REQUEST,
+	GET_EACH_TEST_CASE_BY_CASE_ID_REQUEST
 } from "../constants/ActionTypes"; 
 
 export const hideManageConnectionsDialog = () => ({
@@ -99,7 +101,7 @@ export const executeTestBySuiteId = (suiteID) => {
 	};	
 };
 
-export const executeTestByCaseId = (caseID) => {
+export const executeTestByCaseId = (caseIdList) => {
 	return {
 		types: [
 			'',
@@ -109,9 +111,9 @@ export const executeTestByCaseId = (caseID) => {
 		callAPI: () => fetch(`${BASE_URL}/test-case-job/`, {
 			method: 'post',
 			headers,
-			body: JSON.stringify({'case_id_list': caseID})
+			body: JSON.stringify({'case_id_list': caseIdList})
 		})
-	};		
+	};
 };
 
 export const getAllConnections = (projectId) => {
@@ -131,7 +133,7 @@ export const getAllConnections = (projectId) => {
 export const getTestCaseDetailBySuiteId = (suiteId, showDialog) => {
 	return {
 		types: [
-			'',
+			GET_TESTCASE_DETAIL_BY_SUITE_ID_REQUEST,
 			GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 			GET_TESTCASE_DETAIL_BY_SUITE_ID_ERROR
 		],
@@ -160,7 +162,7 @@ export const getTestCaseByTestCaseId = (caseID) => {
 export const getEachTestCaseDetailByCaseID = (caseID) => {
 	return {
 		types: [
-			'',
+			GET_EACH_TEST_CASE_BY_CASE_ID_REQUEST,
 			GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS,
 			GET_EACH_TEST_CASE_BY_CASE_ID_ERROR
 		],
