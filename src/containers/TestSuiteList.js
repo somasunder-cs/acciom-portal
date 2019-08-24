@@ -24,7 +24,6 @@ import {
 } from '../actions/testSuiteListActions';
 
 import icon_new from '../assets/images/icon_new.jpg';
-// import { ICON_STATUS_ERROR, ICON_STATUS_FAIL, ICON_STATUS_SUCCESS } from '../constants/icons';
 import { NEW, PASS, FAIL, ERROR, INPROGRESS, INPROGRESS_ID, PASS_ID, FAIL_ID, ERROR_ID, NEW_ID } from '../constants/common';
 
 const useStyles = makeStyles(theme => ({
@@ -231,12 +230,12 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 																	  <td className={classes.caseLog} onClick={e => viewTestCaseLogs(testCaseLog.test_case_log_id, testCaseList.test_class_name)}>
 																		 <i className="far fa-sticky-note logsIcon"></i>
 																	 </td>
-																	: <td>---</td> }
+																		: <td>---</td> }
 																</tr>
 															))}
 														</tbody>
 													</Table>
-												: <span className="red">No Logs found.</span> }		
+													: <span className="red">No Logs found.</span> }
 											</div>
 										</ExpansionPanelDetails>
 									</ExpansionPanel>
@@ -250,7 +249,7 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 			{ 
 				showConnectionsDialog ?
 					<ManageConnection></ManageConnection>
-				: null
+					: null
 			}
 			<ViewTestCase></ViewTestCase>
 			<ViewLogs></ViewLogs>

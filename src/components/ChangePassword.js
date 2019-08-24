@@ -24,20 +24,6 @@ class ChangePasswordComponent extends Component {
 		return element;
 	}
 
-	// login = (e) => {
-	// 	e.preventDefault();
-	// 	// const errors = this.validateLoginForm();
-
-	// 	if (errors === true){
-	// 		this.props.changePassword(this.state.formData);
-	// 	} else {
-	// 		this.setState({
-	// 			errors,
-	// 			formSubmitted: true
-	// 		});
-	// 	}
-	// }
-
 	handleInputChange = ({target}) => {
 		const { value, name } = target;
 
@@ -73,10 +59,7 @@ class ChangePasswordComponent extends Component {
 					<Panel.Body>
 						<form onSubmit={this.submitNewPassWord}>
 							<FormGroup controlId="email" >
-								{/* <FormGroup controlId="email" validationState={ formSubmitted ? (errors.email ? 'error' : 'success') : null }> */}
-								{/* <ControlLabel>Email</ControlLabel> */}
 								<FormGroup controlId="password" validationState={ formSubmitted ? (errors.password ? 'error' : 'success') : null }>
-									{/* <ControlLabel>Old Password</ControlLabel> */}
 									<FormControl type="password" name="old_password"  placeholder="Old Password" onChange={this.handleInputChange} />
 									{ errors.password && 
 										<HelpBlock>{errors.password}</HelpBlock> 
@@ -89,19 +72,13 @@ class ChangePasswordComponent extends Component {
 								}
 							</FormGroup >
 							<FormGroup controlId="password">
-								{/* <FormGroup controlId="password" validationState={ formSubmitted ? (errors.password ? 'error' : 'success') : null }> */}
-								{/* <ControlLabel>Password</ControlLabel> */}
 								<FormControl type="password" name="confirm_password" placeholder="Confirm Password" onChange={this.handleInputChange} />
 								{ errors.password && 
 									<HelpBlock>{errors.password}</HelpBlock> 
 								}
 							</FormGroup>
-							{/* <Button type="submit" bsStyle="primary"onClick={(event) => { event.preventDefault(); goBack() }}>Go Back</Button> */}
 							<Button type="submit" bsStyle="primary">Submit</Button>
 						</form>
-
-						{/* {this.getConfirmtionMessage()} */}
-					
 					</Panel.Body>
 				</Panel>
 			</div>

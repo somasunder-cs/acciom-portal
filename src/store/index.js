@@ -77,7 +77,7 @@ function callAPIMiddleware({ dispatch, getState }) {
 						}
 
 					} else {
-						if (Object.keys(response.data).length === 0 && response.message) {
+						if (response.data && Object.keys(response.data).length === 0 && response.message) {
 							if (response.success) {
 								toast.success(response.message);
 							} else {

@@ -7,9 +7,6 @@ import styled from 'styled-components';
 
 import { loginToPortal } from '../actions/loginActions';
 
-// const FormContainer = styled.div`
-// `;
-
 class Login extends Component {
 
 	constructor(props) {

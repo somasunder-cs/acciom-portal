@@ -7,21 +7,17 @@ import {
 	GET_TESTCASE_LOG_BY_ID_SUCCESS,
 	MANAGE_CONNECTIONS_CASE_UPDATE,
 	HIDE_MANAGE_CONNECTIONS_DIALOG,
-	VIEW_TEST_CASE_LOG,
 	HIDE_CASE_LOG_DIALOG,
 	GET_TEST_CASE_BY_TEST_CASE_ID_SUCCESS,
 	UPDATE_TEST_CASE_SUCCESS,
 	HIDE_TEST_CASE_DIALOG,
 	SHOW_TEST_CASE_EDIT_ENABLED,
-	SAVE_MANAGE_CONNECTION_DETAILS,
 	SHOW_TEST_CASE_VIEW_ENABLED,
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 	SWITCH_PROJECT_SUCCESS,
 	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
 	GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS
 } from '../constants/ActionTypes';
-
-import { browserHistory } from 'react-router';
 
 const initialState = {
 	testSuiteList: [],
@@ -101,7 +97,7 @@ const testSuites = (state = initialState, action) => {
 			...state,
 			testCaseLog : {
 				...state.testCaseLog,
-				logData : action.response.data.testCaseLog.log_data,
+				logData : action.response.data.test_case_log.log_data,
 				testCaseName: action.args.testCaseName, 
 				showCaseLogDialog: true
 			}

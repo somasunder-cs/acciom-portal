@@ -17,7 +17,6 @@ class Startup extends React.Component {
 		if (nextProps.refreshTestSuites) {
 			nextProps.getAllTestSuites(nextProps.currentProject.project_id);
 		}
-
 		return null;
 	}
 

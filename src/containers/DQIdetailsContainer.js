@@ -6,21 +6,7 @@ import { getDQIprojectDetails } from '../actions/dashboardActions';
 
 class DQIDetailsContainer extends Component {
 
-	// componentDidMount() {
-	// 	if (this.props.currentProject) {
-	// 		this.props.getDQIprojectDetails(this.props.currentProject.project_id);
-	// 	}
-	// }
-
-	// static getDerivedStateFromProps = (nextProps) => {
-	// 	if (nextProps.refreshDashBoard) {
-	// 		nextProps.getOrgDataQuality(nextProps.currentOrg.org_id);
-	// 	}
-	// 	return null;
-	// };
-
 	render() {
-		console.log("detailContainer", this.props.projectDataQuality);
 
 		const colorsArray = [
 			['#99cc00'],
@@ -31,11 +17,11 @@ class DQIDetailsContainer extends Component {
 		];
 
 		const getGaugeChart = () => {
-			console.log("getGaugeChart", this.props);
 			if (this.props.projectDataQuality && this.props.projectDataQuality.project_name) {
 				return (<GaugeChart class={'DQIprojectGauge'} name={"DQI"} percentage={this.props.projectDataQuality.project_dqi_percentage} />) 
 			}
 		};
+
 		const getDPIdetailsChart = () => {
 			let chartList = [];
 			if (this.props.projectDataQuality && this.props.projectDataQuality.project_name) {
@@ -60,7 +46,6 @@ class DQIDetailsContainer extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log("DQIDetailsContainer.state==>", state);
 	return {
 		projectDataQuality: state.dashboardData.projectDataQuality,
 		currentProject: state.appData.currentProject

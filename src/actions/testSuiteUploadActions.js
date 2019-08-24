@@ -59,7 +59,7 @@ export const resetDataForCasePage = () => ({
 
 export const uploadTestCases = (body) => {
 	const newHeader = new Headers({'Authorization': headers.Authorization});
-	newHeader['Content-Type'] = 'multipart/form-data; boundary=--------------------------451144711431384317288556';
+	newHeader['Content-Type'] = 'multipart/form-data';
 
 	return {
 		types: [

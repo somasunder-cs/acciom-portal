@@ -5,10 +5,6 @@ import { getDQIprojectDetails } from '../actions/dashboardActions';
 import Chart from 'react-apexcharts';
 
 class DonutChart extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		this.options = {
 			chart: {
@@ -20,21 +16,21 @@ class DonutChart extends Component {
 			colors: ['#E74B56'],
 			plotOptions: {
 				radialBar: {
-				  dataLabels: {
-					showOn: "always",
-					name: {
-					  offsetY: -5,
-					  show: true,
-					  color: "#888",
-					  fontSize: "20px",
-					},
-					value: {
-					  color: "#111",
-					  fontSize: "20px",
-					  show: true,
-					  offsetY: 5
+					dataLabels: {
+						showOn: "always",
+						name: {
+							offsetY: -5,
+							show: true,
+							color: "#888",
+							fontSize: "20px",
+						},
+						value: {
+							color: "#111",
+							fontSize: "20px",
+							show: true,
+							offsetY: 5
+						}
 					}
-				  }
 				}
 			}
 		}

@@ -5,57 +5,48 @@ import { Row, Button, FormGroup, FormControl, ControlLabel, HelpBlock, Panel } f
 import { generateToken } from '../actions/loginActions';
 
 class AuthToken extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            isToken: false,
-            value: '',
-            copied: false,
-        }
-        // this.generateToken = this.generateToken.bind(this);
-    }
+	constructor(props){
+		super(props);
+		this.state = {
+			isToken: false,
+			value: '',
+			copied: false,
+		}
+	}
 
-    onGenerateButtonClick = (e) => {
-        e.preventDefault();
-        let accessTokenObj = {
-            'message': 'this is for test'
-        }
-        this.setState({isToken : true});
-        this.props.generateToken(JSON.stringify(accessTokenObj));
-    }
+	onGenerateButtonClick = (e) => {
+		e.preventDefault();
+		let accessTokenObj = {
+			'message': 'this is for test'
+		}
+		this.setState({isToken : true});
+		this.props.generateToken(JSON.stringify(accessTokenObj));
+	}
 
-    // var buttonStyle = {}
-
-    render(){
-        var buttonStyle = {
-            color: 'blue',
-            right: '100px'
-          };
-
-        return(
-            <div className=''>
-                <Panel>
-                    <Panel.Heading>
-                        <h5>Message:</h5>
-                        <input className= "needToken" placeholder="Why you need this Token ?"></input>
-                    </Panel.Heading>
-                    <Panel.Body><h5>Personal Access Token</h5>
-                    <Button bsStyle="primary" className="gentokenButton" onClick={(e) => {this.onGenerateButtonClick(e)}}>Generate Token</Button>                  
-                    </Panel.Body>
-                    {this.state.isToken ? (<Panel.Body className="tokenpanelBackground">
-                                                <div>Make sure to copy your new personal access token now. You won’t be able to see it again!</div><br></br>
-                                                    <input className="tokenField" value={this.props.accessToken} onChange={({target: {value}}) => this.setState({value, copied: false})} />
-                                                    <CopyToClipboard text={this.props.accessToken} onCopy={() =>this.setState({copied: true})}>
-                                                        <i class="fas fa-copy fa-lg clipboardOnhover"></i>
-                                                    </CopyToClipboard>
-                                            </Panel.Body>) : null}
-                    
-                </Panel>
-
-            </div>
-            
-        )
-    }
+	render(){
+		return(
+			<div className=''>
+				<Panel>
+					<Panel.Heading>
+						<h5>Message:</h5>
+						<input className= "needToken" placeholder="Why you need this Token ?"></input>
+					</Panel.Heading>
+					<Panel.Body><h5>Personal Access Token</h5>
+						<Button bsStyle="primary" className="gentokenButton" onClick={(e) => {this.onGenerateButtonClick(e)}}>Generate Token</Button>                  
+					</Panel.Body>
+					{this.state.isToken ? (
+						<Panel.Body className="tokenpanelBackground">
+							<div>Make sure to copy your new personal access token now. You won’t be able to see it again!</div><br></br>
+							<input className="tokenField" value={this.props.accessToken} onChange={({target: {value}}) => this.setState({value, copied: false})} />
+							<CopyToClipboard text={this.props.accessToken} onCopy={() =>this.setState({copied: true})}>
+								<i class="fas fa-copy fa-lg clipboardOnhover"></i>
+							</CopyToClipboard>
+						</Panel.Body>
+					) : null}
+				</Panel>
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = (state) => {

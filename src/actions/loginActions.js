@@ -28,7 +28,6 @@ export const clearUserData = () => {
 export const checkAuthentication = () => {
 	let token = localStorage.getItem('auth_token') ;
 	token = (token === 'undefined' || token === 'null') ? '' : token;
-	// storeUserData({token});
 	return {
 		type: LOGIN_TO_PORTAL_SUCCESS,
 		response: { data: { token } }

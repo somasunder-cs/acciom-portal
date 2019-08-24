@@ -25,31 +25,25 @@ class ProjectManagement extends Component {
 		return ({
 			isOrganisationInitialised: nextProps.isOrganisationInitialised
 		});
-	}
+	};
+	
 	showEditContent = (user) => {
 		this.setState({isEditable: true});
-		// console.log(user);
-		let org_id = 1; //TODO: to be removed onced organization switch implementation is done
-		// this.props.getSelectedUser(org_id, user.user_id);
-
-	}
+	};
 
 	getOrgProjectList = () => {
 		return (
 			<li  className="list-group-item" >
-			<Col sm={1}><i className="fas fa-user-circle"></i></Col>
-			<Col sm={7}>
-				<span className="fName" >Project1</span>
-				<span className="email" >Project2</span>
-			</Col>
-			<Col sm={4} className="editBtn">
-				
+				<Col sm={1}><i className="fas fa-user-circle"></i></Col>
+				<Col sm={7}>
+					<span className="fName" >Project1</span>
+					<span className="email" >Project2</span>
+				</Col>
+				<Col sm={4} className="editBtn">
 					<Button type="button" bsStyle="primary">Edit</Button>
-				
-			</Col>
+				</Col>
 			</li>
-	)
-			
+		);
 	}
 		
 	render() {

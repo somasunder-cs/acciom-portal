@@ -101,8 +101,6 @@ class TestSuiteUpload extends React.Component {
 		{
 			dbDetailsList.push(resfinal[i]['DB Details']); //TO DO:HARD CODED.['Test Class']
 			allCases.push({'id':i,'name':resfinal[i]['Test Class'],'selected':false, 'description':resfinal[i]['Description']});
-			// temp_table_detail.push(resfinal[i]['Source Table:Target Table']);
-			// temp_column_detail.push(resfinal[i]['Columns']);
 		}
 	
 		this.props.testSuiteSheetloadSuccess({ dbDetailsList, allCases });

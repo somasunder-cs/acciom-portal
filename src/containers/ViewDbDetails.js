@@ -63,6 +63,7 @@ class ViewDbDetails extends Component {
 		)
 		// this.props.deleteDBDetails(connectionID);
 	}
+
 	renderDBDetailsList = (dbDetailsList) => {
 		return dbDetailsList.map((item, index) => {
 			return (
@@ -119,7 +120,7 @@ class ViewDbDetails extends Component {
 				{ 
 					this.state.showDeleteConfirmationDialog ?
 						this.renderDeleteConfirmationPopup()
-					: null
+						: null
 				}
 			</div>
 		);

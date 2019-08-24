@@ -1,14 +1,12 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
-import { Table, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import { Table, FormGroup, FormControl} from 'react-bootstrap';
 
 import { 
 	hideTestCaseDialog, 
 	showTestCaseEditEnabled, 
 	showTestCaseViewEnabled, 
-	viewTestCase ,
 	updateTestCase
 } from '../actions/testSuiteListActions';
 
@@ -74,7 +72,7 @@ class TestCaseDetails extends React.Component {
 				...this.state,
 				formData: {
 					...this.state.formData,
-					testCaseId:this.props.viewTestCase.test_case_id,
+					testCaseId: this.props.viewTestCase.test_case_id,
 
 					// check the below 2 props
 					sourceConnection: this.props.viewTestCase.src_db_id,
@@ -82,9 +80,9 @@ class TestCaseDetails extends React.Component {
 
 					sourceTable: this.props.viewTestCase.src_table,
 					targetTable: this.props.viewTestCase.target_table,
-					column: this.props.viewTestCase.column,
-					sourceQuery: this.props.viewTestCase.src_qry,
-					targetQuery: this.props.viewTestCase.des_qry
+					column: JSON.stringify(this.props.viewTestCase.column),
+					sourceQuery: this.props.viewTestCase.sourceqry,
+					targetQuery: this.props.viewTestCase.targetqry
 				}
 			})
 			return this.props.viewTestCase.showTestCaseDialog;
@@ -100,7 +98,6 @@ class TestCaseDetails extends React.Component {
 	}
 
 	handleTestCaseUpdate = () => {
-		console.log('handleTestCaseUpdate state=', this.state);
 		const payload = {
 			test_case_id: this.state.formData.testCaseId,
 			src_table: this.state.formData.sourceTable,
@@ -109,7 +106,7 @@ class TestCaseDetails extends React.Component {
 			target_db_id: this.state.formData.targetConnection,
 			src_qry: this.state.formData.sourceQuery,
 			target_qry: this.state.formData.targetQuery,
-			column: this.state.formData.column
+			column: JSON.parse(this.state.formData.column)
 		}
 		this.props.updateTestCase(payload);
 	};
@@ -244,15 +241,15 @@ class TestCaseDetails extends React.Component {
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Column:</label></td>
-											<td>{this.props.viewTestCase.column}</td>
+											<td>{JSON.stringify(this.props.viewTestCase.column)}</td>
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Source Query:</label></td>
-											<td>{this.props.viewTestCase.src_qry}</td>
+											<td>{this.props.viewTestCase.sourceqry}</td>
 										</tr>
 										<tr>
 											<td className="manageConnectionLabel"><label className="testViewDataLabel">Target Query:</label></td>
-											<td>{this.props.viewTestCase.des_qry}</td>
+											<td>{this.props.viewTestCase.targetqry}</td>
 										</tr>
 									</tbody>
 								</Table>

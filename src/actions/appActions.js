@@ -23,16 +23,6 @@ export const updateHeaders = (authToken) => {
 	headers.Authorization = `Bearer ${authToken}`;
 };
 
-// const updateSelectedOrgSuccess = data => ({
-// 	type: SWITCH_ORG_SUCCESS,
-// 	data
-// });
-
-// const updateSelectedProjectSuccess = data => ({
-// 	type: SWITCH_PROJECT_SUCCESS,
-// 	data
-// });
-
 export const showOrgChangePage = show =>({
 	type: SHOW_ORG_CHANGE_PAGE,
 	show
@@ -80,17 +70,13 @@ export const getProjectListByOrgId = (org_id) => {
 };
 
 export const updateSelectedOrganization = (org) => {
-	// dispatch(updateSelectedOrgSuccess(org));
 	return {
 		type: SWITCH_ORG_SUCCESS,
 		org
 	};
-
-	// dispatch(getProjectListByOrgId(org.org_id));
 };
 
 export const updateSelectedProject = (project) => {
-	// dispatch(updateSelectedProjectSuccess(project));
 	return {
 		type: SWITCH_PROJECT_SUCCESS,
 		project
