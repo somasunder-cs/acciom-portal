@@ -16,7 +16,8 @@ import {
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_SUCCESS,
 	SWITCH_PROJECT_SUCCESS,
 	GET_PROJECT_LIST_BY_ORG_ID_SUCCESS,
-	GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS
+	GET_EACH_TEST_CASE_BY_CASE_ID_SUCCESS,
+	GET_ALL_TEST_SUITES_REQUEST
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -42,6 +43,22 @@ const initialState = {
 
 const testSuites = (state = initialState, action) => {
 	switch (action.type) {
+	case GET_ALL_TEST_SUITES_REQUEST:
+		return {
+			...state,
+			connectionsList:{
+				...state.connectionsList,
+				showConnectionsDialog: false
+			 },
+			testCaseLog: {
+				...state.testCaseLog,
+				showCaseLogDialog: false
+			},
+			testCase: {
+				...state.testCase,
+				showTestCaseDialog: false,
+			}
+		};
 	case GET_ALL_TEST_SUITES_SUCCESS:
 		return {
 			...state,

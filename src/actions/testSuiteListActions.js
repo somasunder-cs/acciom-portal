@@ -39,7 +39,8 @@ import {
 	GET_EACH_TEST_CASE_BY_CASE_ID_ERROR,
 	GET_TESTCASE_LOG_BY_ID_ERROR,
 	GET_TESTCASE_DETAIL_BY_SUITE_ID_REQUEST,
-	GET_EACH_TEST_CASE_BY_CASE_ID_REQUEST
+	GET_EACH_TEST_CASE_BY_CASE_ID_REQUEST,
+	GET_ALL_TEST_SUITES_REQUEST
 } from "../constants/ActionTypes"; 
 
 export const hideManageConnectionsDialog = () => ({
@@ -75,7 +76,7 @@ export const saveManageConnectionDetails = data => ({
 export const getAllTestSuites = (projectId) => {
 	return {
 		types: [
-			'',
+			GET_ALL_TEST_SUITES_REQUEST,
 			GET_ALL_TEST_SUITES_SUCCESS,
 			GET_ALL_TEST_SUITES_ERROR
 		],

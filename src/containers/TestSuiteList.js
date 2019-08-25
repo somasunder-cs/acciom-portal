@@ -278,7 +278,7 @@ function ControlledExpansionPanels({ testSuites, allCases, getAllConnections, ge
 				)) : null
 			}
 			{ 
-				showConnectionsDialog ?
+				showConnectionsDialog && testSuiteIdForManageConnections ?
 					<ManageConnection testSuiteId={testSuiteIdForManageConnections}></ManageConnection>
 					: null
 			}

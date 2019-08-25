@@ -52,8 +52,27 @@ const useStyles = makeStyles(theme => ({
 	MuiSelect: {minWidth:'160px'},
 }));
 
+
 function ManageConnectionSelect(props) {
 	const classes = useStyles();
+
+	const renderTestCases = (allCases) => {
+		if (allCases) {
+			return allCases.map(testCase => (
+				<div key={testCase.case_id} className="manageconnectionTestCase">
+					<label className="form-check-label">
+						<input
+							type="checkbox"
+							value={testCase.case_id}
+							name={testCase.case_name}
+							onChange={(e) => props.onCaseSelectionChange(e.target)}
+						/>
+					</label> {testCase.case_name}
+				</div>
+			));
+		}
+	    return null;
+	};
 	return (
 		<form className={classes.root} autoComplete="off">
 			<Table className="manageSelectConnection">
@@ -83,18 +102,7 @@ function ManageConnectionSelect(props) {
 						</td>
 						<td>
 							{
-								props.allCases[props.testSuiteId].map(testCase => (
-									<div key={testCase.case_id} className="manageconnectionTestCase">
-										<label className="form-check-label">
-											<input
-												type="checkbox"
-												value={testCase.case_id}
-												name={testCase.case_name}
-												onChange={(e) => props.onCaseSelectionChange(e.target)}
-											/>
-										</label> {testCase.case_name}
-									</div>
-								))
+							    renderTestCases(props.allCases[props.testSuiteId])
 							}
 						</td>
 					</tr>

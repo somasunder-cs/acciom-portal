@@ -7,11 +7,14 @@ import TestSuiteList from './TestSuiteList';
 
 class Startup extends React.Component {
 
-	componentDidMount() {
+	constructor(props) {
+		super(props);
 		if (this.props.currentProject) {
 			this.props.getAllTestSuites(this.props.currentProject.project_id);
 		}
 	}
+	// componentDidMount() {
+	// }
 
 	static getDerivedStateFromProps = (nextProps, prevState) => {
 		if (nextProps.refreshTestSuites) {
