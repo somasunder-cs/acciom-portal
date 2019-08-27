@@ -99,7 +99,8 @@ export const executeTestBySuiteId = (suiteID) => {
 			headers,
 			body: JSON.stringify({'suite_id': suiteID})
 		})
-	};	
+	};
+	getTestCaseDetailBySuiteId(suiteID);
 };
 
 export const executeTestByCaseId = (caseIdList) => {
@@ -115,6 +116,7 @@ export const executeTestByCaseId = (caseIdList) => {
 			body: JSON.stringify({'case_id_list': caseIdList})
 		})
 	};
+     getEachTestCaseDetailByCaseID(caseIdList);
 };
 
 export const getAllConnections = (projectId) => {
